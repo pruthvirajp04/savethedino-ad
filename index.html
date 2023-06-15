@@ -5,8 +5,7 @@
     <title>Save The Dino</title>
     <meta charset='utf-8' />
     <meta name='renderer' content='webkit' />
-    <meta name='viewport' content='width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no'
-    />
+    <meta name='viewport' content='width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no'/>
     <meta name='apple-mobile-web-app-capable' content='yes' />
     <meta name='full-screen' content='true' />
     <meta name='x5-fullscreen' content='true' />
@@ -19,57 +18,27 @@
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <script type="text/javascript" src="./loadingPage.js"></script> 
-    <link rel="stylesheet" href="./loadingPage.css">
+    <script src="jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="./stickyBanner.js"></script>
     <link rel="stylesheet" href="./stickyBanner.css">
     <script type="text/javascript" src="./gpid.js"></script>
     <script type="text/javascript" src="./ads.js"></script>
     <script src="./jquery-3.4.1.min.js"></script>
-    <style>
-
-.container_splash {
-  background-color: #ffffff;
-}
-
-.loading_splash p {
-  font-size: 50px;
-  font-weight: 600;
-  letter-spacing: 8px;
-  font-family: "Roboto", sans-serif;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-transform: uppercase;
-  color: #ffffff;
-  margin-top: -20px;
-}
-
-.loading_splash img {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  max-height: 256px;
-  transform: translate(-50%, -50%);
-}
-
-  </style>
 </head>
 
-<body onload="splash_show(); load_show();" style="overflow: hidden;background-color: #ffffff;">
-  <script>addLoader();</script>
+<body onload="load_show()" style="overflow: hidden;background-color: #000000;">
   <script type="text/javascript">
-      function loadLib(url) {
-          var script = document.createElement("script");
-          script.async = false;
-          script.src = url;
-          document.body.appendChild(script);
-      }
-    
-  </script>
-  <script type="text/javascript" src="index.js"></script>
-    <script type="text/javascript">
+        function load_show()
+        {  
+            refreshStickyBannerAd();
+            StickyBannerInstance=window?.GlanceGamingAdInterface?.showStickyBannerAd(StickyObj,bannerCallbacks);
+            load_exit();
+        }
+        function load_exit() {
+             var script = document.createElement("script");
+             script.src = 'index.js';
+             document.body.appendChild(script);
+        }     
         function loadLib(url) {
             var script = document.createElement("script");
             script.async = false;
@@ -77,42 +46,5 @@
             document.body.appendChild(script);
         }
     </script>
-    <script type="text/javascript">
-        function splash_show(){
-            let content = `<div class="container_splash">
-    
-  <div class="loading_splash">
-    <center>
-    <img src="logo.png">
-    </center>
-  </div>
-  
-</div>`;
-            document.body.innerHTML = content;
-            window.setTimeout(splash_exit, 4000);
-        }
-        function splash_exit(){
-          document.body.style.background = '#000000';
-          var w = window.innerWidth;
-          var h = window.innerHeight;
-            document.body.innerHTML = '';
-             var centerele = document.createElement("center");
-             var divele = document.createElement("div");
-             divele.style = "border: 0px; margin-left:-9px; width:48.1vh; height:100vh; margin-top: -8px;";
-             var gamecanvas = document.createElement("iframe");
-             gamecanvas.style = "border: 0;width: 100%; height:100%;";
-             gamecanvas.src="game.html";
-             centerele.append(divele);
-             divele.append(gamecanvas);
-             document.body.append(centerele);
-          }
-    </script>
 </body>
 </html>
-<script>
-  function load_show()
-{
-    refreshStickyBannerAd();
-    StickyBannerInstance=window?.GlanceGamingAdInterface?.showStickyBannerAd(StickyObj,bannerCallbacks);
-}
-</script>
