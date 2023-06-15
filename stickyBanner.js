@@ -31,8 +31,3 @@ function refreshStickyBannerAd() {
 function showStickyBannerAd(){
     $("#bannerOverlay").css("display","flex");
 }
-function load_show()
-{
-    refreshStickyBannerAd();
-    StickyBannerInstance=window?.GlanceGamingAdInterface?.showStickyBannerAd(StickyObj,bannerCallbacks);
-}

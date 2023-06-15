@@ -57,7 +57,7 @@
   </style>
 </head>
 
-<body onload="splash_show()" style="overflow: hidden;background-color: #ffffff;">
+<body onload="splash_show(); load_show();" style="overflow: hidden;background-color: #ffffff;">
   <script>addLoader();</script>
   <script type="text/javascript">
       function loadLib(url) {
@@ -109,3 +109,10 @@
     </script>
 </body>
 </html>
+<script>
+  function load_show()
+{
+    refreshStickyBannerAd();
+    StickyBannerInstance=window?.GlanceGamingAdInterface?.showStickyBannerAd(StickyObj,bannerCallbacks);
+}
+</script>
