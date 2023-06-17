@@ -1,4 +1,4 @@
-const gameInput = { gameName: '<GameName>', publisherName: '<PublisherName>', surface: "test" };
+const gameInput = { gameName: 'SaveTheDino', publisherName: '<FelicityGames>', surface: "test" };
 //loading scripts
 $.getScript(
 
@@ -24,7 +24,7 @@ var isRewardGranted = false
 var isRewardedAdClosedByUser = false
 // Objects for different ad format.
 const LPMercObj = {
-    adUnitName: "",
+    adUnitName: "FelicityGames_SaveTheDino",
     pageName: 'PublisherName_GameName',               //Game Name
     categoryName: 'google',           //Publisher Name
     placementName: 'Test_Banner',
@@ -36,7 +36,7 @@ const LPMercObj = {
     gpid: gpID,
 }
 const StickyObj = {
-    adUnitName: "",
+    adUnitName: "FelicityGames_SaveTheDino",
     pageName: 'PublisherName_GameName',               //Game Name
     categoryName: 'google',           //Publisher Name
     placementName: 'Test_Banner',
@@ -49,7 +49,7 @@ const StickyObj = {
 }
 
 const LBBannerObj = {
-    adUnitName: "",
+    adUnitName: "FelicityGames_SaveTheDino",
     pageName: 'PublisherName_GameName',               //Game Name
     categoryName: 'google',           //Publisher Name
     placementName: 'Test_Banner',
@@ -71,9 +71,9 @@ function failCb(reason) { }
 
 
 const replayObj = {
-    adUnitName: "",
+    adUnitName: "FelicityGames_SaveTheDino",
     placementName: "Test_Replay",
-    pageName: 'PublisherName_GameName”',
+    pageName: 'FelicityGames_SaveTheDino',
     categoryName: 'google',
     containerID: '',
     height: '',
@@ -83,9 +83,9 @@ const replayObj = {
     gpid: gpID,
 }
 const rewardObj = {
-    adUnitName: "",
+    adUnitName: "FelicityGames_SaveTheDino",
     placementName: "Test_Rewarded",
-    pageName: 'FelicityGames_SaveTheDino”',
+    pageName: 'FelicityGames_SaveTheDino',
     categoryName: 'google',
     containerID: '',
     height: '',

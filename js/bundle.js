@@ -4142,6 +4142,110 @@ var GameMgr = /** @class */ (function (_super) {
         });
     };
     //#region 
+    GameMgr.prototype.rewardedCallbacks = function (obj) {
+        var self = this;
+        obj.adInstance?.registerCallback('onAdLoadSucceed', (data) => {
+            console.log('onAdLoadSucceeded Rewarded CALLBACK', data);
+            if (obj.adUnitName === rewardObj.adUnitName) {
+                is_rewarded_noFill = false
+            }
+            if (obj.adUnitName === replayObj.adUnitName) {
+                is_replay_noFill = false
+            }
+        });
+    
+        obj.adInstance?.registerCallback('onAdLoadFailed', (data) => {
+            console.log('onAdLoadFailed Rewarded CALLBACK', data);
+            if (obj.adUnitName === rewardObj.adUnitName) {
+                is_rewarded_noFill = true
+            }
+            if (obj.adUnitName === replayObj.adUnitName) {
+                is_replay_noFill = true
+            }
+    
+    
+        });
+    
+        obj.adInstance?.registerCallback('onAdDisplayed', (data) => {
+            console.log('onAdDisplayed Rewarded CALLBACK', data);
+    
+    
+        });
+
+        obj.adInstance?.registerCallback('onAdClicked', (data) => {
+            console.log('onAdClicked Rewarded CALLBACK', data);
+        });
+        
+        obj.adInstance?.registerCallback('onAdClosed', (data) => {
+            //sessionStorage.setItem("PlayBG",1);
+            Laya.SoundManager.muted = false;
+            console.log('onAdClosed Rewarded CALLBACK', data);
+        if(sessionStorage.getItem("reward-type") == "reward-SL"){
+            sessionStorage.removeItem("reward-type");
+            rewardInstance.destroyAd();
+            if (obj.adUnitName == rewardObj.adUnitName) {
+                isRewardedAdClosedByUser = true
+            }
+            if(!isRewardGranted && isRewardedAdClosedByUser)
+            {    
+                var url = "subRes/sound/bg.ogg"
+                Laya.SoundManager.playMusic(url,0);
+                rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameView.prototype.rewardedCallbacks);
+                // let level = parseInt(User_1.default.ryw_getLeveNum());
+                // sendCustomAnalyticsEvent("game_level", {level: level});
+            }
+            else{ 
+                let level = parseInt(User_1.default.ryw_getLeveNum() + 1);
+                sendCustomAnalyticsEvent("game_level", {level: level});
+                sessionStorage.setItem("GiveRewardSL",1);
+                rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameView.prototype.rewardedCallbacks);
+            }
+            isRewardGranted = false
+            isRewardedAdClosedByUser = false
+    
+        }
+        if(sessionStorage.getItem("reward-type") == "reward-HT"){
+            sessionStorage.removeItem("reward-type");
+            rewardInstance.destroyAd();
+            if (obj.adUnitName == rewardObj.adUnitName) {
+                isRewardedAdClosedByUser = true
+            }
+            if(!isRewardGranted && isRewardedAdClosedByUser)
+            {    
+                Laya.SoundManager.muted = false;
+                rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameMgr.prototype.rewardedCallbacks);
+            }
+            else{  
+                console.log("After Sound1");
+                GameView.prototype.giveRewardHT();
+                rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameMgr.prototype.rewardedCallbacks);
+            }
+            isRewardGranted = false
+            isRewardedAdClosedByUser = false
+    
+        }
+        if(sessionStorage.getItem("reward-type") == "replay-RP"){
+            sessionStorage.removeItem("reward-type");
+            if(replayInstance != undefined)
+            replayInstance.destroyAd();
+            var url = "subRes/sound/bg.mp3"
+            Laya.SoundManager.playMusic(url,0);
+            showGame();
+            replayInstance = window.GlanceGamingAdInterface.loadRewardedAd(replayObj, GameMgr.prototype.rewardedCallbacks);
+    
+        }
+        });
+
+        obj.adInstance?.registerCallback('onRewardsUnlocked', (data) => {
+            console.log('onRewardsUnlocked Rewarded CALLBACK', data);
+    
+            if (obj.adUnitName === rewardObj.adUnitName) {
+                isRewardGranted = true
+            }
+    
+        });
+
+}
     GameMgr.prototype.onGameComplate = function (para) {
 
         var isWin = para.isWin;
