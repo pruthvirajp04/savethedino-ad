@@ -85,7 +85,7 @@ const replayObj = {
 const rewardObj = {
     adUnitName: "",
     placementName: "Test_Rewarded",
-    pageName: 'PublisherName_GameName”',
+    pageName: 'FelicityGames_SaveTheDino”',
     categoryName: 'google',
     containerID: '',
     height: '',

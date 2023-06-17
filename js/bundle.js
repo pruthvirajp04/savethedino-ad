@@ -4143,8 +4143,16 @@ var GameMgr = /** @class */ (function (_super) {
     };
     //#region 
     GameMgr.prototype.onGameComplate = function (para) {
+
         var isWin = para.isWin;
         var levelNum = para.levelNum;
+        // console.log("THIS IS LEVEL "+para.levelNum);
+        if(levelNum%3==0)
+        {
+            
+            replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(replayInstance,GameMgr.prototype.rewardedCallbacks);
+
+        }
         var crystalReward = para.crystalReward;
         // let func: Function = () => {
         if (isWin) {
