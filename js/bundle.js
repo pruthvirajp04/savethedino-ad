@@ -4043,9 +4043,6 @@ var GameMgr = /** @class */ (function (_super) {
     }
     GameMgr.getInstance = function () { return GameMgr._instance; };
     GameMgr.prototype.onAwake = function () {
-        rewardInstance=window.GlanceGamingAdInterface?.loadRewardedAd(rewardObj,GameView.prototype.rewardedCallbacks);
-        if(replayInstance == undefined)
-        replayInstance=window.GlanceGamingAdInterface?.loadRewardedAd(replayObj,GameView.prototype.rewardedCallbacks);
         MaiLiang_1.default.GetMaiLiangOpenId(function (res) {
             console.log("GameUI 买量数据上报成功");
             Laya.Browser.window["wx"].onShow(function () {
@@ -4142,26 +4139,10 @@ var GameMgr = /** @class */ (function (_super) {
             if (null != opt) {
                 ALD_1.default.aldSendReportLaunchOptions(opt.scene, "", "");
             }
-
         });
     };
     //#region 
     GameMgr.prototype.onGameComplate = function (para) {
-        if (para.result == 1) {
-            if(this._showLevel % 3  == 0){
-                sessionStorage.setItem("reward-type","replay-RP");
-                if (!is_rewarded_noFill) {
-                    Laya.SoundManager.stopMusic();
-                    window.GlanceGamingAdInterface.showRewarededAd(replayInstance);
-                }else{
-                    var url = "subRes/sound/bgm.mp3"
-                    Laya.SoundManager.playMusic(url,0);
-                    if(replayInstance != undefined)
-                    replayInstance.destroyAd();
-                    replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(replayInstance,GameView.prototype.rewardedCallbacks);
-                } 
-            }
-            this._showLevel += 1;
         var isWin = para.isWin;
         var levelNum = para.levelNum;
         var crystalReward = para.crystalReward;
@@ -4185,7 +4166,6 @@ var GameMgr = /** @class */ (function (_super) {
         // ViewMgr.instance.openView(ViewDef.MoreGameView, { ContinueGame: true, closeFunction: func });
     };
     GameMgr.prototype.LoadGame = function (date) {
-        replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(replayInstance,GameView.prototype.rewardedCallbacks);
         this.saveGameData();
         if (WudianMgr_1.default.KuangDianBannerFlag && date.levelNum != 1) {
             var currTime_1 = Laya.timer.currTimer;
@@ -8636,7 +8616,6 @@ var GameRewardView = /** @class */ (function (_super) {
         this._rewardText = this._centerZone.getChildByName("RewardText");
     };
     GameRewardView.prototype.onStart = function () {
-        window.GlanceGamingAdInterface.showRewarededAd
         var _this = this;
         if (WudianMgr_1.default.GetIpBlocked()) {
             var time = AppSwitchConfig_1.default.getInstance().getAppSwitchData().continueBtnDelayTime;
@@ -8769,7 +8748,7 @@ var GameView = /** @class */ (function (_super) {
         ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.GameMainView);
         this.closeView();
     };
-    GameView.prototype.onRestartBtn = function () {
+    GameView.prototype.onRestarBtn = function () {
         var _this = this;
         this._skipBtn.visible = false;
         QQMiniGameAPI_1.default.showRewardedVideoAd(function (ok) {
