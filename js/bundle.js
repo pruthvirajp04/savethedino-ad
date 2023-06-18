@@ -8910,15 +8910,15 @@ var GameView = /** @class */ (function (_super) {
     };
     GameView.prototype.onSkipBtn = function () {
         // alert("skip")
-        // console.log(is_replay_noFill);
-        // if (!is_replay_noFill) {
-        //     sessionStorage.setItem("reward-type","replay-RP");
-        //     window.GlanceGamingAdInterface.showRewarededAd(replayInstance);
-        // }else{
-        //     if(replayInstance != undefined)
-        //     replayInstance.destroyAd();
-        //     replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(replayObj, GameView.prototype.rewardedCallbacks);
-        // }
+        console.log(is_replay_noFill);
+        if (!is_replay_noFill) {
+            sessionStorage.setItem("reward-type","replay-RP");
+            window.GlanceGamingAdInterface.showRewarededAd(replayInstance);
+        }else{
+            if(replayInstance != undefined)
+            replayInstance.destroyAd();
+            replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(replayObj, GameView.prototype.rewardedCallbacks);
+        }
         var _this = this;
         this._skipBtn.visible = false;
         QQMiniGameAPI_1.default.showRewardedVideoAd(function (ok) {
