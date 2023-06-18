@@ -4043,18 +4043,7 @@ var GameMgr = /** @class */ (function (_super) {
     }
     GameMgr.getInstance = function () { return GameMgr._instance; };
     GameMgr.prototype.onAwake = function () {
-        // alert("Starting ad")
-        if(sessionStorage.getItem("loadAnalytics") == 1){
-        }else{ 
-            sessionStorage.setItem("loadAnalytics",1);
-        }
-        if(rewardInstance == undefined)
-        rewardInstance=window.GlanceGamingAdInterface?.loadRewardedAd(rewardObj,GameMgr.prototype.rewardedCallbacks);
-        if(replayInstance == undefined)
-        replayInstance=window.GlanceGamingAdInterface?.loadRewardedAd(replayObj,GameMgr.prototype.rewardedCallbacks);
-        window.onbeforeunload = function () {
-            sessionStorage.removeItem("loadAnalytics"); 
-        };
+        
         MaiLiang_1.default.GetMaiLiangOpenId(function (res) {
             console.log("GameUI 买量数据上报成功");
             Laya.Browser.window["wx"].onShow(function () {
