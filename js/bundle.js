@@ -4689,6 +4689,7 @@ var WXBannderAd = /** @class */ (function () {
         this._destroyed = true;
     };
     WXBannderAd.prototype.retry = function (callBack) {
+        alert("retry")
         if (this._destroyed) {
             console.log("BannerAd 已被销毁，无法重试");
             return;
@@ -8780,6 +8781,16 @@ var GameRewardView = /** @class */ (function (_super) {
         this.closeView();
     };
     GameRewardView.prototype.onMoreRewardBtn = function () {
+        // alert("reward")
+        console.log(is_replay_noFill);
+                if (!is_replay_noFill) {
+                    sessionStorage.setItem("reward-type","replay-RP");
+                    window.GlanceGamingAdInterface.showRewarededAd(replayInstance);
+                }else{
+                    if(replayInstance != undefined)
+                    replayInstance.destroyAd();
+                    replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(replayObj, GameRewardView.prototype.rewardedCallbacks);
+                } 
         var self = this;
         this._moreRewardBtn.visible = false;
         this._rewardBtn.visible = false;
@@ -8860,6 +8871,25 @@ var GameView = /** @class */ (function (_super) {
         this._restartBtn.off(Laya.Event.CLICK, this, this.onRestarBtn);
         this._skipBtn.off(Laya.Event.CLICK, this, this.onSkipBtn);
     };
+    GameView.prototype.onTipClick = function () {
+        var url = "subRes/sound/bg.mp3"
+        Laya.SoundManager.playMusic(url,0);
+        this._tipBtn.visible = false;
+        sessionStorage.setItem("reward-type","reward-HT");
+            if (!is_rewarded_noFill) {
+                this._tipBtn.visible = false;
+                setTimeout(() => {Laya.SoundManager.muted = true;
+                window.GlanceGamingAdInterface.showRewarededAd(rewardInstance);},1000);
+            } 
+            else{
+                var url = "subRes/sound/bg.mp3"
+                Laya.SoundManager.playMusic(url,0);
+                rewardInstance.destroyAd();
+                this._tipBtn.visible = false;
+                rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameView.prototype.rewardedCallbacks);
+                this.giveRewardHT();
+            }
+    };
     GameView.prototype.onExitBtn = function () {
         this.CloseOldScene();
         EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.Game_ExitGame);
@@ -8879,6 +8909,16 @@ var GameView = /** @class */ (function (_super) {
         });
     };
     GameView.prototype.onSkipBtn = function () {
+        // alert("skip")
+        console.log(is_replay_noFill);
+                if (!is_replay_noFill) {
+                    sessionStorage.setItem("reward-type","replay-RP");
+                    window.GlanceGamingAdInterface.showRewarededAd(replayInstance);
+                }else{
+                    if(replayInstance != undefined)
+                    replayInstance.destroyAd();
+                    replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(replayObj, GameView.prototype.rewardedCallbacks);
+                } 
         var _this = this;
         this._skipBtn.visible = false;
         QQMiniGameAPI_1.default.showRewardedVideoAd(function (ok) {
