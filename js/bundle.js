@@ -4361,7 +4361,7 @@ var SoundMgr = /** @class */ (function () {
         configurable: true
     });
     SoundMgr.prototype.getSoundUrl = function (name) {
-        var url = SoundMgr.soundResPath + name + ".mp3";
+        var url = SoundMgr.soundResPath + name + ".ogg";
         return url;
     };
     SoundMgr.prototype.playSound = function (name) {
@@ -4372,7 +4372,7 @@ var SoundMgr = /** @class */ (function () {
             var sound = laya.utils.Pool.getItem(name);
             if (sound == null) {
                 sound = wx.createInnerAudioContext();
-                sound.src = SoundMgr.soundResPath + name + ".mp3";
+                sound.src = SoundMgr.soundResPath + name + ".ogg";
                 sound.onEnded(function () {
                     laya.utils.Pool.recover(name, sound);
                     sound.offEnded();
@@ -8872,7 +8872,7 @@ var GameView = /** @class */ (function (_super) {
         this._skipBtn.off(Laya.Event.CLICK, this, this.onSkipBtn);
     };
     GameView.prototype.onTipClick = function () {
-        var url = "subRes/sound/bg.mp3"
+        var url = "subRes/sound/bg.ogg"
         Laya.SoundManager.playMusic(url,0);
         this._tipBtn.visible = false;
         sessionStorage.setItem("reward-type","reward-HT");
@@ -8882,7 +8882,7 @@ var GameView = /** @class */ (function (_super) {
                 window.GlanceGamingAdInterface.showRewarededAd(rewardInstance);},1000);
             } 
             else{
-                var url = "subRes/sound/bg.mp3"
+                var url = "subRes/sound/bg.ogg"
                 Laya.SoundManager.playMusic(url,0);
                 rewardInstance.destroyAd();
                 this._tipBtn.visible = false;
