@@ -4178,59 +4178,59 @@ var GameMgr = /** @class */ (function (_super) {
         });
         
         obj.adInstance?.registerCallback('onAdClosed', (data) => {
-            //sessionStorage.setItem("PlayBG",1);
-            // Laya.SoundManager.muted = false;
-            // console.log('onAdClosed Rewarded CALLBACK', data);
-        // if(sessionStorage.getItem("reward-type") == "reward-SL"){
-        //     sessionStorage.removeItem("reward-type");
-        //     rewardInstance.destroyAd();
-        //     if (obj.adUnitName == rewardObj.adUnitName) {
-        //         isRewardedAdClosedByUser = true
-        //     }
-        //     if(!isRewardGranted && isRewardedAdClosedByUser)
-        //     {    
-        //         var url = "subRes/sound/bg.ogg"
-        //         Laya.SoundManager.playMusic(url,0);
-        //         rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameView.prototype.rewardedCallbacks);
-        //         // let level = parseInt(User_1.default.ryw_getLeveNum());
-        //         // sendCustomAnalyticsEvent("game_level", {level: level});
-        //     }
-        //     else{ 
-        //         let level = parseInt(User_1.default.ryw_getLeveNum() + 1);
-        //         sendCustomAnalyticsEvent("game_level", {level: level});
-        //         sessionStorage.setItem("GiveRewardSL",1);
-        //         rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameView.prototype.rewardedCallbacks);
-        //     }
-        //     isRewardGranted = false
-        //     isRewardedAdClosedByUser = false
+            // sessionStorage.setItem("PlayBG",1);
+            Laya.SoundManager.muted = false;
+            console.log('onAdClosed Rewarded CALLBACK', data);
+        if(sessionStorage.getItem("reward-type") == "reward-SL"){
+            sessionStorage.removeItem("reward-type");
+            rewardInstance.destroyAd();
+            if (obj.adUnitName == rewardObj.adUnitName) {
+                isRewardedAdClosedByUser = true
+            }
+            if(!isRewardGranted && isRewardedAdClosedByUser)
+            {    
+                var url = "subRes/sound/bg.ogg"
+                Laya.SoundManager.playMusic(url,0);
+                rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameView.prototype.rewardedCallbacks);
+                // let level = parseInt(User_1.default.ryw_getLeveNum());
+                // sendCustomAnalyticsEvent("game_level", {level: level});
+            }
+            else{ 
+                let level = parseInt(User_1.default.ryw_getLeveNum() + 1);
+                sendCustomAnalyticsEvent("game_level", {level: level});
+                sessionStorage.setItem("GiveRewardSL",1);
+                rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameView.prototype.rewardedCallbacks);
+            }
+            isRewardGranted = false
+            isRewardedAdClosedByUser = false
     
-        // }
-        // if(sessionStorage.getItem("reward-type") == "reward-HT"){
-        //     sessionStorage.removeItem("reward-type");
-        //     rewardInstance.destroyAd();
-        //     if (obj.adUnitName == rewardObj.adUnitName) {
-        //         isRewardedAdClosedByUser = true
-        //     }
-        //     if(!isRewardGranted && isRewardedAdClosedByUser)
-        //     {    
-        //         Laya.SoundManager.muted = false;
-        //         rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameMgr.prototype.rewardedCallbacks);
-        //     }
-        //     else{  
-        //         console.log("After Sound1");
-        //         GameView.prototype.giveRewardHT();
-        //         rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameMgr.prototype.rewardedCallbacks);
-        //     }
-        //     isRewardGranted = false
-        //     isRewardedAdClosedByUser = false
+        }
+        if(sessionStorage.getItem("reward-type") == "reward-HT"){
+            sessionStorage.removeItem("reward-type");
+            rewardInstance.destroyAd();
+            if (obj.adUnitName == rewardObj.adUnitName) {
+                isRewardedAdClosedByUser = true
+            }
+            if(!isRewardGranted && isRewardedAdClosedByUser)
+            {    
+                Laya.SoundManager.muted = false;
+                rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameMgr.prototype.rewardedCallbacks);
+            }
+            else{  
+                console.log("After Sound1");
+                GameView.prototype.giveRewardHT();
+                rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameMgr.prototype.rewardedCallbacks);
+            }
+            isRewardGranted = false
+            isRewardedAdClosedByUser = false
     
-        // }
+        }
         if(sessionStorage.getItem("reward-type") == "replay-RP"){
             sessionStorage.removeItem("reward-type");
             if(replayInstance != undefined)
             replayInstance.destroyAd();
-            // var url = "subRes/sound/bg.mp3"
-            // Laya.SoundManager.playMusic(url,0);
+            var url = "subRes/sound/bg.mp3"
+            Laya.SoundManager.playMusic(url,0);
             showGame();
             replayInstance = window.GlanceGamingAdInterface.loadRewardedAd(replayObj, GameMgr.prototype.rewardedCallbacks);
         }
@@ -8910,14 +8910,15 @@ var GameView = /** @class */ (function (_super) {
     };
     GameView.prototype.onSkipBtn = function () {
         // alert("skip")
-        console.log(is_replay_noFill);
-        if (!is_replay_noFill) {
+        console.log(is_rewarded_noFill);
+        if (!is_rewarded_noFill) {
             sessionStorage.setItem("reward-type","replay-RP");
             window.GlanceGamingAdInterface.showRewarededAd(replayInstance);
+            replayInstance.destroyAd();
         }else{
             if(replayInstance != undefined)
             replayInstance.destroyAd();
-            replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(replayObj, GameView.prototype.rewardedCallbacks);
+            replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, GameView.prototype.rewardedCallbacks);
         }
         var _this = this;
         this._skipBtn.visible = false;
