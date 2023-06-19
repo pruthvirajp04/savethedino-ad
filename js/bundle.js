@@ -8910,16 +8910,32 @@ var GameView = /** @class */ (function (_super) {
     };
     GameView.prototype.onSkipBtn = function () {
         // alert("skip")
-        console.log(is_rewarded_noFill);
-        if (!is_rewarded_noFill) {
-            sessionStorage.setItem("reward-type","replay-RP");
-            window.GlanceGamingAdInterface.showRewarededAd(replayInstance);
-            replayInstance.destroyAd();
-        }else{
-            if(replayInstance != undefined)
-            replayInstance.destroyAd();
-            replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, GameView.prototype.rewardedCallbacks);
-        }
+        // console.log(is_rewarded_noFill);
+        // if (!is_rewarded_noFill) {
+        //     sessionStorage.setItem("reward-type","replay-RP");
+        //     window.GlanceGamingAdInterface.showRewarededAd(replayInstance);
+        //     replayInstance.destroyAd();
+        // }else{
+        //     if(replayInstance != undefined)
+        //     replayInstance.destroyAd();
+        //     replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, GameView.prototype.rewardedCallbacks);
+        // }
+        sessionStorage.setItem("reward-type","reward-SL");
+            if (!is_rewarded_noFill) {
+                this.ryw__skipBtn.visible = false;
+                Laya.SoundManager.stopMusic();
+                window.GlanceGamingAdInterface.showRewarededAd(rewardInstance);
+            } 
+            else{
+                let level = parseInt(this.levelNum + 1);
+                sendCustomAnalyticsEvent("game_level", {level: level});
+                var url = "subRes/sound/bgm.ogg"
+                Laya.SoundManager.playMusic(url,0);
+                rewardInstance.destroyAd();
+                this.ryw__skipBtn.visible = false;
+                rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameView.default.prototype.rewardedCallbacks);
+                sessionStorage.setItem("GiveRewardSL",1);
+            }
         var _this = this;
         this._skipBtn.visible = false;
         QQMiniGameAPI_1.default.showRewardedVideoAd(function (ok) {

@@ -35,6 +35,14 @@ const LPMercObj = {
     yc: '3.0',
     gpid: gpID,
 }
+const isSdkNew = typeof GlanceAndroidInterface !== "undefined" ? true : false;
+function sendCustomAnalyticsEvent(eventType, extras) {
+  console.log("sendCustomAnalyticsEvent", eventType, extras);
+  if (isSdkNew) {
+    const data = JSON.stringify(extras);
+    GlanceAndroidInterface.sendCustomAnalyticsEvent(eventType, data);
+  }
+}
 const StickyObj = {
     adUnitName: "FelicityGames_SaveTheDino",
     pageName: 'PublisherName_GameName',               //Game Name
