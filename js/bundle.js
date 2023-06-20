@@ -8920,33 +8920,24 @@ var GameView = /** @class */ (function (_super) {
         //     replayInstance.destroyAd();
         //     replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, GameView.prototype.rewardedCallbacks);
         // }
+        // alert('skip')
         sessionStorage.setItem("reward-type","reward-SL");
-            if (!is_rewarded_noFill) {
-                this.ryw__skipBtn.visible = false;
-                Laya.SoundManager.stopMusic();
-                window.GlanceGamingAdInterface.showRewarededAd(rewardInstance);
-            } 
-            else{
-                let level = parseInt(this.levelNum + 1);
-                sendCustomAnalyticsEvent("game_level", {level: level});
-                var url = "subRes/sound/bgm.ogg"
-                Laya.SoundManager.playMusic(url,0);
-                rewardInstance.destroyAd();
-                this.ryw__skipBtn.visible = false;
-                rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameView.default.prototype.rewardedCallbacks);
-                sessionStorage.setItem("GiveRewardSL",1);
-            }
-        var _this = this;
-        this._skipBtn.visible = false;
-        QQMiniGameAPI_1.default.showRewardedVideoAd(function (ok) {
-            if (ok) {
-                //todo:开始下一关游戏，设置当前关卡进度
-                _this.GameOver(true);
-            }
-            _this._skipBtn.visible = true;
-        }, function () {
-            _this._skipBtn.visible = true;
-        });
+        if(!is_rewarded_noFill){
+            _this.onSkipBtn.visible = false;
+            Laya.SoundManager.stopMsuic();
+            window.GlanceGamingAdInstance.showRewarededAd(rewardInstance);
+        }
+        else
+        {
+            let level = parseInt(this.levelNum+1);
+            sendCustomAnalyticsEvent("game level", {level : level});
+            var url = "subRes/sound/bgm.ogg";
+            Laya.SoundManager.playMusic(url,0);
+            rewardInstance.destroyAd();
+            _this.onSkipBtn.visible=false;
+            rewardInstance = window.GlanceGamingAdInstance.loadRewardedAd(rewardObj, GameView.prototype.rewardedCallbacks);
+            sessionStorage.setItem("GiveRewardsSL",1);
+        }
     };
     GameView.prototype.LoadGame = function () {
         this.CloseOldScene();
