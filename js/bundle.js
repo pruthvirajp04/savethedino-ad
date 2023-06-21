@@ -3625,7 +3625,7 @@ var Main = /** @class */ (function () {
         this._loadingView = null;
         //预加载列表
         this._preLoadRes = new Array();
-        //根据IDE设置初始化引擎		
+        //根据IDE设置初始化引擎      
         if (window["Laya3D"])
             Laya3D.init(GameConfig_1.default.width, GameConfig_1.default.height);
         else
@@ -4043,7 +4043,11 @@ var GameMgr = /** @class */ (function (_super) {
     }
     GameMgr.getInstance = function () { return GameMgr._instance; };
     GameMgr.prototype.onAwake = function () {
-        
+        //You need to define replayInstance and rewardedInstance at the very start.
+        if(replayInstance == undefined) 
+        replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(replayObj, GameMgr.prototype.rewardedCallbacks);
+        if(rewardInstance == undefined)
+        rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, GameMgr.prototype.rewardedCallbacks);
         MaiLiang_1.default.GetMaiLiangOpenId(function (res) {
             console.log("GameUI 买量数据上报成功");
             Laya.Browser.window["wx"].onShow(function () {
@@ -4252,20 +4256,20 @@ var GameMgr = /** @class */ (function (_super) {
         var isWin = para.isWin;
         var levelNum = para.levelNum;
         // console.log("THIS IS LEVEL "+para.levelNum);
-        if(levelNum%3==0)
-        { console.log(is_replay_noFill);
-                if (!is_replay_noFill) {
-                    sessionStorage.setItem("reward-type","replay-RP");
-                    window.GlanceGamingAdInterface.showRewarededAd(replayInstance);
-                }else{
-                    if(replayInstance != undefined)
-                    replayInstance.destroyAd();
-                    replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(replayObj, GameMgr.prototype.rewardedCallbacks);
-                } 
-        }
         var crystalReward = para.crystalReward;
         // let func: Function = () => {
         if (isWin) {
+            if(levelNum%3==0)
+            { console.log(is_replay_noFill);
+                    if (!is_replay_noFill) {
+                        sessionStorage.setItem("reward-type","replay-RP");
+                        window.GlanceGamingAdInterface.showRewarededAd(replayInstance);
+                    }else{
+                        if(replayInstance != undefined)
+                        replayInstance.destroyAd();
+                        replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(replayObj, GameMgr.prototype.rewardedCallbacks);
+                    } 
+            }
             User_1.default.unLockMaxLevelNum(levelNum + 1); //解锁下一个关卡
             ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.GameRewardView, {
                 isWin: true,
@@ -6013,10 +6017,10 @@ var QQMiniGameAPI = /** @class */ (function () {
     };
     /**
      * 得到小程序启动参数的同步方法，可得到一个Object返回值，返回值具体的数据结构在下面的列表中
-     * scene	number	启动小游戏的场景值
-     * query	Object	启动小游戏的 query 参数
-     * shareTicket	string	shareTicket，详见获取更多转发信息
-     * referrerInfo	object	来源信息。从另一个小程序、公众号或 App 进入小程序时返回。否则返回 {}
+     * scene    number  启动小游戏的场景值
+     * query    Object  启动小游戏的 query 参数
+     * shareTicket  string  shareTicket，详见获取更多转发信息
+     * referrerInfo object  来源信息。从另一个小程序、公众号或 App 进入小程序时返回。否则返回 {}
      * https://developers.weixin.qq.com/minigame/dev/api/base/app/life-cycle/qq.getLaunchOptionsSync.html
      * @static
      * @returns {LaunchOptions}
@@ -8824,6 +8828,7 @@ var ViewBase_1 = require("../ViewBase");
 var Utilit_1 = require("../../Utilit");
 var EventMgr_1 = require("../../Event/EventMgr");
 var EventDef_1 = require("../../Event/EventDef");
+var GameMgr_1 = require("../../Mgr/GameMgr");
 var ViewMgr_1 = require("../../Mgr/ViewMgr");
 var TouchCtr_1 = require("../../GameCore/TouchCtr");
 var User_1 = require("../../User/User");
@@ -8886,7 +8891,7 @@ var GameView = /** @class */ (function (_super) {
                 Laya.SoundManager.playMusic(url,0);
                 rewardInstance.destroyAd();
                 this._tipBtn.visible = false;
-                rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameView.prototype.rewardedCallbacks);
+                rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameMgr_1.prototype.rewardedCallbacks);
                 this.giveRewardHT();
             }
     };
@@ -8944,7 +8949,7 @@ var GameView = /** @class */ (function (_super) {
             if (!is_rewarded_noFill) {
                 this.onSkipBtn.visible = false;
                 Laya.SoundManager.stopMusic();
-                window.GlanceGamingAdInterface.loadRewardedAd(rewardInstance);
+                window.GlanceGamingAdInterface.showRewarededAd(rewardInstance); //This should be showRewarededAd. We are showing the ad here. LoadrewardedAd should only be called at the very start in the onAwake function and then loadRewardedAd function should only be called when we show the ad and need to fetch it for the next time.
             } 
             else{
                 let level = parseInt(this._data.levelNum+1);
@@ -8953,7 +8958,7 @@ var GameView = /** @class */ (function (_super) {
                 Laya.SoundManager.playMusic(url,0);
                 rewardInstance.destroyAd();
                 this.onSkipBtn.visible = false;
-                rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameView.default.prototype.rewardedCallbacks);
+                rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameMgr_1.prototype.rewardedCallbacks);
                 sessionStorage.setItem("GiveRewardSL",1);
             }
     };
@@ -9043,7 +9048,7 @@ var GameView = /** @class */ (function (_super) {
     return GameView;
 }(ViewBase_1.default));
 exports.default = GameView;
-},{"../../CachedQQBannerAd":3,"../../Event/EventDef":9,"../../Event/EventMgr":10,"../../GameCore/TouchCtr":26,"../../Mgr/ViewMgr":48,"../../Mgr/WudianMgr":50,"../../QQMiniGameAPI":56,"../../User/User":63,"../../Utilit":64,"../ViewBase":110}],75:[function(require,module,exports){
+},{"../../CachedQQBannerAd":3,"../../Event/EventDef":9,"../../Event/EventMgr":10,"../../GameCore/TouchCtr":26,"../../Mgr/GameMgr":46,"../../Mgr/ViewMgr":48,"../../Mgr/WudianMgr":50,"../../QQMiniGameAPI":56,"../../User/User":63,"../../Utilit":64,"../ViewBase":110}],75:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function isIViewStateListener(element) {
@@ -11921,10 +11926,10 @@ var WXAPI = /** @class */ (function () {
     };
     /**
      * 得到小程序启动参数的同步方法，可得到一个Object返回值，返回值具体的数据结构在下面的列表中
-     * scene	number	启动小游戏的场景值
-     * query	Object	启动小游戏的 query 参数
-     * shareTicket	string	shareTicket，详见获取更多转发信息
-     * referrerInfo	object	来源信息。从另一个小程序、公众号或 App 进入小程序时返回。否则返回 {}
+     * scene    number  启动小游戏的场景值
+     * query    Object  启动小游戏的 query 参数
+     * shareTicket  string  shareTicket，详见获取更多转发信息
+     * referrerInfo object  来源信息。从另一个小程序、公众号或 App 进入小程序时返回。否则返回 {}
      * https://developers.weixin.qq.com/minigame/dev/api/base/app/life-cycle/wx.getLaunchOptionsSync.html
      * @static
      * @returns {LaunchOptions}
