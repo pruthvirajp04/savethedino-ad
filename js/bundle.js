@@ -8920,24 +8920,42 @@ var GameView = /** @class */ (function (_super) {
         //     replayInstance.destroyAd();
         //     replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, GameView.prototype.rewardedCallbacks);
         // }
-        // alert('skip')
-        sessionStorage.setItem("reward-type","reward-SL");
-        if(!is_rewarded_noFill){
-            _this.onSkipBtn.visible = false;
-            Laya.SoundManager.stopMsuic();
-            window.GlanceGamingAdInstance.showRewarededAd(rewardInstance);
-        }
-        else
-        {
-            let level = parseInt(this.levelNum+1);
-            sendCustomAnalyticsEvent("game level", {level : level});
-            var url = "subRes/sound/bgm.ogg";
-            Laya.SoundManager.playMusic(url,0);
-            rewardInstance.destroyAd();
-            _this.onSkipBtn.visible=false;
-            rewardInstance = window.GlanceGamingAdInstance.loadRewardedAd(rewardObj, GameView.prototype.rewardedCallbacks);
-            sessionStorage.setItem("GiveRewardsSL",1);
-        }
+        // alert('skip'
+        //Approach-2
+        // console.log(this._data.levelNum);
+        // let level = parseInt( this._data.levelNum+ 1);
+        //     sendCustomAnalyticsEvent("game level", { level: level });
+        //     var url = "subRes/sound/bgm.ogg";
+        //     Laya.SoundManager.playMusic(url, 0);
+            
+        //     if (rewardInstance && typeof rewardInstance.loadRewardedAd === 'function') {
+        //       rewardInstance.destroyAd();
+        //     }
+            
+        //     this.onSkipBtn.visible = false;
+            
+        //     if (typeof window.GlanceGamingAdInstance === 'object' && typeof window.GlanceGamingAdInstance.loadRewardedAd === 'function') {
+        //       rewardInstance = window.GlanceGamingAdInstance;
+        //       rewardInstance.loadRewardedAd(rewardObj, GameView.prototype.rewardedCallbacks);
+        //     }
+        //     sessionStorage.setItem("GiveRewardsSL", 1);
+            //approach-3
+            sessionStorage.setItem("reward-type","reward-SL");
+            if (!is_rewarded_noFill) {
+                this.onSkipBtn.visible = false;
+                Laya.SoundManager.stopMusic();
+                window.GlanceGamingAdInterface.loadRewardedAd(rewardInstance);
+            } 
+            else{
+                let level = parseInt(this._data.levelNum+1);
+                sendCustomAnalyticsEvent("game_level", {level: level});
+                var url = "subRes/sound/bgm.ogg"
+                Laya.SoundManager.playMusic(url,0);
+                rewardInstance.destroyAd();
+                this.onSkipBtn.visible = false;
+                rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameView.default.prototype.rewardedCallbacks);
+                sessionStorage.setItem("GiveRewardSL",1);
+            }
     };
     GameView.prototype.LoadGame = function () {
         this.CloseOldScene();
