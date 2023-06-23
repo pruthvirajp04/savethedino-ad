@@ -4042,6 +4042,29 @@ var GameMgr = /** @class */ (function (_super) {
         return _this;
     }
     GameMgr.getInstance = function () { return GameMgr._instance; };
+    GameMgr.prototype.onUpdate = function () {
+        if(sessionStorage.getItem("GiveRewardSL") == 1){
+            sessionStorage.removeItem("GiveRewardSL");
+            var url = "subRes/sound/bgm.ogg"
+        Laya.SoundManager.playMusic(url,0);
+        var self = this;
+        User_1.default.setLeveNum(User_1.default.getLeveNum() + 1);
+        var level = User_1.default.getLeveNum() + 1;
+        // User_1.default.addwinLevel(User_1.default.getLeveNum() + 1);
+        GameView_1.default.prototype.onGetNextLevel();
+        localStorage.setItem("pinrescue_session",level-1);
+        sessionStorage.setItem("pinrescue_session",level-1);
+        User_1.default.passLevel();
+        User_1.default.passLoaclLevel();
+        var openGameView = function () {
+            GameMgr.default.instance.openView(ViewMgr_1.ViewDef.GameView, null, function (v) {
+                v.owner.zOrder = 1;
+                self.closeView();
+            });
+        };
+        openGameView();
+        }
+    };
     GameMgr.prototype.onAwake = function () {
         //You need to define replayInstance and rewardedInstance at the very start.
         if(replayInstance == undefined) 
@@ -4183,6 +4206,7 @@ var GameMgr = /** @class */ (function (_super) {
         
         obj.adInstance?.registerCallback('onAdClosed', (data) => {
             // sessionStorage.setItem("PlayBG",1);
+            
             Laya.SoundManager.muted = false;
             console.log('onAdClosed Rewarded CALLBACK', data);
         if(sessionStorage.getItem("reward-type") == "reward-SL"){
@@ -4193,17 +4217,17 @@ var GameMgr = /** @class */ (function (_super) {
             }
             if(!isRewardGranted && isRewardedAdClosedByUser)
             {    
-                var url = "subRes/sound/bg.ogg"
+                var url = "subRes/sound/bgm.ogg"
                 Laya.SoundManager.playMusic(url,0);
-                rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameView.prototype.rewardedCallbacks);
+                rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameMgr.prototype.rewardedCallbacks);
                 // let level = parseInt(User_1.default.ryw_getLeveNum());
                 // sendCustomAnalyticsEvent("game_level", {level: level});
             }
             else{ 
-                let level = parseInt(User_1.default.ryw_getLeveNum() + 1);
+                let level = parseInt(User_1.default.getLeveNum() + 1);
                 sendCustomAnalyticsEvent("game_level", {level: level});
                 sessionStorage.setItem("GiveRewardSL",1);
-                rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameView.prototype.rewardedCallbacks);
+                rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameMgr.prototype.rewardedCallbacks);
             }
             isRewardGranted = false
             isRewardedAdClosedByUser = false
@@ -6469,6 +6493,7 @@ var BannerAdView = /** @class */ (function (_super) {
         _this._onResize = null;
         return _this;
     }
+   
     BannerAdView.prototype.onAwake = function () {
         this._displaySp = this.owner.getChildByName("Display");
         if (null == this._displaySp) {
@@ -6729,6 +6754,7 @@ var HorizontalLoopAdView = /** @class */ (function (_super) {
     };
     HorizontalLoopAdView.prototype.onDisable = function () {
     };
+
     HorizontalLoopAdView.prototype.onUpdate = function () {
         if (this._scrollForward) {
             this._list.scrollBar.value += 100 * Laya.timer.delta / 1000;
