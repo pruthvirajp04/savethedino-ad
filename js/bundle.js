@@ -4045,16 +4045,17 @@ var GameMgr = /** @class */ (function (_super) {
     GameMgr.prototype.onUpdate = function () {
         if(sessionStorage.getItem("GiveRewardSL") == 1){
             sessionStorage.removeItem("GiveRewardSL");
-            console.log(is_rewarded_noFill);
-        if (!is_rewarded_noFill) {
-            sessionStorage.setItem("reward-type","reward-SL");
-            window.GlanceGamingAdInterface.showRewarededAd(rewardInstancee);
-            rewardInstance.destroyAd();
-        }else{
-            if(rewardInstance != undefined)
-            rewardInstance.destroyAd();
-            rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, GameMgr.prototype.rewardedCallbacks);
-        }
+            var _this = this;
+            this._skipBtn.visible = false;
+            QQMiniGameAPI_1.default.showRewardedVideoAd(function (ok) {
+                if (ok) {
+                    //todo:开始下一关游戏，设置当前关卡进度
+                    _this.GameOver(true);
+                }
+                _this._skipBtn.visible = true;
+            }, function () {
+                _this._skipBtn.visible = true;
+            })
        
     };
     GameMgr.prototype.onAwake = function () {
