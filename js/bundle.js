@@ -4042,22 +4042,6 @@ var GameMgr = /** @class */ (function (_super) {
         return _this;
     }
     GameMgr.getInstance = function () { return GameMgr._instance; };
-    GameMgr.prototype.onUpdate = function () {
-        if(sessionStorage.getItem("GiveRewardSL") == 1){
-            sessionStorage.removeItem("GiveRewardSL");
-            var _this = this;
-            this._skipBtn.visible = false;
-            QQMiniGameAPI_1.default.showRewardedVideoAd(function (ok) {
-                if (ok) {
-                    //todo:开始下一关游戏，设置当前关卡进度
-                    _this.GameOver(true);
-                }
-                _this._skipBtn.visible = true;
-            }, function () {
-                _this._skipBtn.visible = true;
-            })
-       
-    };
     GameMgr.prototype.onAwake = function () {
         //You need to define replayInstance and rewardedInstance at the very start.
         if(replayInstance == undefined) 
@@ -8884,6 +8868,22 @@ var GameView = /** @class */ (function (_super) {
         this._skipBtn = this._topZone.getChildByName("SkipBtn");
         this._levelText = this._topZone.getChildByName("Level");
         // ALD.aldSendOnlySingleReport(ALDEventDef.EnterBattleView);
+    };
+    GameView.prototype.onUpdate = function () {
+        if(sessionStorage.getItem("GiveRewardSL") == 1){
+            sessionStorage.removeItem("GiveRewardSL");
+            var _this = this;
+            this._skipBtn.visible = false;
+            QQMiniGameAPI_1.default.showRewardedVideoAd(function (ok) {
+                if (ok) {
+                    //todo:开始下一关游戏，设置当前关卡进度
+                    _this.GameOver(true);
+                }
+                _this._skipBtn.visible = true;
+            }, function () {
+                _this._skipBtn.visible = true;
+            })
+       }
     };
     GameView.prototype.addEvent = function () {
         this._exitBtn.on(Laya.Event.CLICK, this, this.onExitBtn);
