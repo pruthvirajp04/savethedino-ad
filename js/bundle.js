@@ -4045,25 +4045,17 @@ var GameMgr = /** @class */ (function (_super) {
     GameMgr.prototype.onUpdate = function () {
         if(sessionStorage.getItem("GiveRewardSL") == 1){
             sessionStorage.removeItem("GiveRewardSL");
-            var url = "subRes/sound/bgm.ogg"
-        Laya.SoundManager.playMusic(url,0);
-        var self = this;
-        User_1.default.setLeveNum(User_1.default.getLeveNum() + 1);
-        var level = User_1.default.getLeveNum() + 1;
-        // User_1.default.addwinLevel(User_1.default.getLeveNum() + 1);
-        GameView_1.default.prototype.onGetNextLevel();
-        localStorage.setItem("pinrescue_session",level-1);
-        sessionStorage.setItem("pinrescue_session",level-1);
-        User_1.default.passLevel();
-        User_1.default.passLoaclLevel();
-        var openGameView = function () {
-            GameMgr.default.instance.openView(ViewMgr_1.ViewDef.GameView, null, function (v) {
-                v.owner.zOrder = 1;
-                self.closeView();
-            });
-        };
-        openGameView();
+            console.log(is_rewarded_noFill);
+        if (!is_rewarded_noFill) {
+            sessionStorage.setItem("reward-type","replay-RP");
+            window.GlanceGamingAdInterface.showRewarededAd(replayInstance);
+            replayInstance.destroyAd();
+        }else{
+            if(replayInstance != undefined)
+            replayInstance.destroyAd();
+            replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, GameMgr.prototype.rewardedCallbacks);
         }
+       
     };
     GameMgr.prototype.onAwake = function () {
         //You need to define replayInstance and rewardedInstance at the very start.
