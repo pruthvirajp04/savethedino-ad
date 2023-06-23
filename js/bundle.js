@@ -4047,13 +4047,13 @@ var GameMgr = /** @class */ (function (_super) {
             sessionStorage.removeItem("GiveRewardSL");
             console.log(is_rewarded_noFill);
         if (!is_rewarded_noFill) {
-            sessionStorage.setItem("reward-type","replay-RP");
-            window.GlanceGamingAdInterface.showRewarededAd(replayInstance);
-            replayInstance.destroyAd();
+            sessionStorage.setItem("reward-type","reward-SL");
+            window.GlanceGamingAdInterface.showRewarededAd(rewardInstancee);
+            rewardInstance.destroyAd();
         }else{
-            if(replayInstance != undefined)
-            replayInstance.destroyAd();
-            replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, GameMgr.prototype.rewardedCallbacks);
+            if(rewardInstance != undefined)
+            rewardInstance.destroyAd();
+            rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, GameMgr.prototype.rewardedCallbacks);
         }
        
     };
