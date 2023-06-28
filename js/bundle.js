@@ -8408,7 +8408,14 @@ var FreeRewardView = /** @class */ (function (_super) {
         this._energyText.text = String(curr);
     };
     FreeRewardView.prototype.onRewardBtn = function () {
-        var rewardType = this._curRewardType;
+        sessionStorage.setItem("reward-type","reward-Free");
+            if (!is_rewarded_noFill) {
+                this.onRewardBtn.visible = false;
+                Laya.SoundManager.stopMusic();
+                window.GlanceGamingAdInterface.showRewarededAd(rewardInstance); 
+            } 
+            else{
+                 var rewardType = this._curRewardType;
         var rewardNum = 0;
         switch (this._curRewardType) {
             case FreeRewardType.Crystal:
@@ -8418,6 +8425,14 @@ var FreeRewardView = /** @class */ (function (_super) {
                 rewardNum = GameCommonConfig_1.default.getInstance().getGameConfigData().freeEnergy;
                 break;
         }
+                var url = "subRes/sound/bgm.ogg"
+                Laya.SoundManager.playMusic(url,0);
+                rewardInstance.destroyAd();
+                this.onRewardBtn.visible = false;
+                rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,FreeRewardView.prototype.rewardedCallbacks);
+                sessionStorage.setItem("GiveFreeRewards",1);
+            }
+       
         var self = this;
         this._rewardBtn.visible = false;
         QQMiniGameAPI_1.default.showRewardedVideoAd(function (ok) {
@@ -8885,6 +8900,22 @@ var GameView = /** @class */ (function (_super) {
             })
        }
     };
+    // FreeRewardView.prototype.onUpdate = function () {
+    //     if(sessionStorage.getItem("reward-Free") == 1){
+    //         sessionStorage.removeItem("reward-Free");
+    //         var _this = this;
+    //         this._rewardBtn.visible = false;
+    //         QQMiniGameAPI_1.default.showRewardedVideoAd(function (ok) {
+    //             if (ok) {
+    //                 //todo:开始下一关游戏，设置当前关卡进度
+    //                 _this.GameOver(true);
+    //             }
+    //             _this._rewardBtn.visible = true;
+    //         }, function () {
+    //             _this._rewardBtn.visible = true;
+    //         })
+    //    }
+    // };
     GameView.prototype.addEvent = function () {
         this._exitBtn.on(Laya.Event.CLICK, this, this.onExitBtn);
         this._restartBtn.on(Laya.Event.CLICK, this, this.onRestarBtn);
