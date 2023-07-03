@@ -8347,6 +8347,22 @@ var FreeRewardView = /** @class */ (function (_super) {
         _this._bannerClosed = false;
         return _this;
     }
+    FreeRewardView.prototype.onUpdate = function () {
+        if(sessionStorage.getItem("reward-Free") == 1){
+            sessionStorage.removeItem("reward-Free");
+            var _this = this;
+            this._rewardBtn.visible = false;
+            QQMiniGameAPI_1.default.showRewardedVideoAd(function (ok) {
+                if (ok) {
+                    //todo:开始下一关游戏，设置当前关卡进度
+                    _this.GameOver(true);
+                }
+                _this._rewardBtn.visible = true;
+            }, function () {
+                _this._rewardBtn.visible = true;
+            })
+       }
+    };
     FreeRewardView.prototype.onAwake = function () {
         this._topZone = this.owner.getChildByName("TopZone");
         if (Utilit_1.default.isIphoneX()) {
@@ -8900,22 +8916,22 @@ var GameView = /** @class */ (function (_super) {
             })
        }
     };
-    FreeRewardView.prototype.onUpdate = function () {
-        if(sessionStorage.getItem("reward-Free") == 1){
-            sessionStorage.removeItem("reward-Free");
-            var _this = this;
-            this._rewardBtn.visible = false;
-            QQMiniGameAPI_1.default.showRewardedVideoAd(function (ok) {
-                if (ok) {
-                    //todo:开始下一关游戏，设置当前关卡进度
-                    _this.GameOver(true);
-                }
-                _this._rewardBtn.visible = true;
-            }, function () {
-                _this._rewardBtn.visible = true;
-            })
-       }
-    };
+    // FreeRewardView.prototype.onUpdate = function () {
+    //     if(sessionStorage.getItem("reward-Free") == 1){
+    //         sessionStorage.removeItem("reward-Free");
+    //         var _this = this;
+    //         this._rewardBtn.visible = false;
+    //         QQMiniGameAPI_1.default.showRewardedVideoAd(function (ok) {
+    //             if (ok) {
+    //                 //todo:开始下一关游戏，设置当前关卡进度
+    //                 _this.GameOver(true);
+    //             }
+    //             _this._rewardBtn.visible = true;
+    //         }, function () {
+    //             _this._rewardBtn.visible = true;
+    //         })
+    //    }
+    // };
     GameView.prototype.addEvent = function () {
         this._exitBtn.on(Laya.Event.CLICK, this, this.onExitBtn);
         this._restartBtn.on(Laya.Event.CLICK, this, this.onRestarBtn);
