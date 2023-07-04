@@ -4210,6 +4210,25 @@ var GameMgr = /** @class */ (function (_super) {
             isRewardedAdClosedByUser = false
     
         }
+        if(sessionStorage.getItem("reward-type") == "reward-Free"){
+            sessionStorage.removeItem("reward-type");
+            rewardInstance.destroyAd();
+            if (obj.adUnitName == rewardObj.adUnitName) {
+                isRewardedAdClosedByUser = true
+            }
+            if(!isRewardGranted && isRewardedAdClosedByUser)
+            {    
+                Laya.SoundManager.muted = false;
+                rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,FreeRewardView.prototype.rewardedCallbacks);
+            }
+            else{  
+                console.log("After Sound1");
+                GameView.prototype.giveRewardHT();
+                rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,FreeRewardView.prototype.rewardedCallbacks);
+            }
+            isRewardGranted = false
+            isRewardedAdClosedByUser = false
+        }
         if(sessionStorage.getItem("reward-type") == "reward-HT"){
             sessionStorage.removeItem("reward-type");
             rewardInstance.destroyAd();
