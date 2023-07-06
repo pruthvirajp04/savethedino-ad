@@ -7279,7 +7279,7 @@ var User = /** @class */ (function (_super) {
         User._gameData.levelNum = 1;
         User._gameData.moneyNum = 0;
         User._gameData.crystalNum = 0;
-        User._gameData.energyNum = 150000;
+        User._gameData.energyNum = 7000;
     };
     User.initiUser = function (data) {
         if (data && data.cddata && 0 != data.cddata) {
