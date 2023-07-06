@@ -7279,7 +7279,7 @@ var User = /** @class */ (function (_super) {
         User._gameData.levelNum = 1;
         User._gameData.moneyNum = 0;
         User._gameData.crystalNum = 0;
-        User._gameData.energyNum = 150;
+        User._gameData.energyNum = 150000;
     };
     User.initiUser = function (data) {
         if (data && data.cddata && 0 != data.cddata) {
@@ -9586,16 +9586,16 @@ var MainView = /** @class */ (function (_super) {
         var last = para.last;
         this._energyText.text = String(curr);
     };
-    MainView.prototype.onFreeEnergyBtn = function () {
-        ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.FreeRewardView, {
-            rewardType: FreeRewardView_1.FreeRewardType.Energy
-        });
-    };
-    MainView.prototype.onFreeCrystalBtn = function () {
-        ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.FreeRewardView, {
-            rewardType: FreeRewardView_1.FreeRewardType.Crystal
-        });
-    };
+    // MainView.prototype.onFreeEnergyBtn = function () {
+    //     ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.FreeRewardView, {
+    //         rewardType: FreeRewardView_1.FreeRewardType.Energy
+    //     });
+    // };
+    // MainView.prototype.onFreeCrystalBtn = function () {
+    //     ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.FreeRewardView, {
+    //         rewardType: FreeRewardView_1.FreeRewardType.Crystal
+    //     });
+    // };
     MainView.prototype.onSkinBtn = function () {
         ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.ActorSkinView);
     };
