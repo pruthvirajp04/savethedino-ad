@@ -1,6 +1,5 @@
  <!DOCTYPE html>
 <html>
-
 <head>
     <title>Save The Dino</title>
     <meta charset='utf-8' />
@@ -21,13 +20,18 @@
     <script src="jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="./stickyBanner.js"></script>
     <link rel="stylesheet" href="./stickyBanner.css">
-    <script type="text/javascript" src="./gpid.js"></script>
     <script type="text/javascript" src="./ads.js"></script>
-    <script src="./jquery-3.4.1.min.js"></script>
 </head>
 
 <body onload="load_show()" style="overflow: hidden;background-color: #000000;">
   <script type="text/javascript">
+    const urlQuery = new URLSearchParams(window.location.search);
+        const langParam = urlQuery.get('hl');
+        let lang = null;
+        if(langParam == "id")
+            lang = "IND";
+        else lang = "";
+        let progressPrec = 0;
         function load_show()
         {  
             refreshStickyBannerAd();
@@ -44,6 +48,51 @@
             script.async = false;
             script.src = url;
             document.body.appendChild(script);
+        }
+        //events
+        function pauseEvent(){
+            Laya.SoundManager.muted = true;
+            let ins = document.createElement("ins");
+            ins.style = "display: block !important; background-color: rgba(1, 1, 1, 0) !important; opacity: 1 !important; position: fixed !important; margin: 0px !important; padding: 0px !important; z-index: 2147483647 !important; width: 100% !important; height: 93% !important; left: 0px !important; top: 0px !important;";
+            ins.setAttribute("id", "pauseOverlay");
+            if(lang == "IND"){
+                ins.innerHTML = "<h1 style='color:black;position: absolute;left: 50%;top: 50%;-moz-transform: translate(-50%, -50%); /* Firefox */-ms-transform: translate(-50%, -50%);  /* IE 9 */-webkit-transform: translate(-50%, -50%); /* Safari and Chrome*/-o-transform: translate(-50%, -50%); /* Opera */transform: translate(-50%, -50%);'>Dijeda</h1>";
+            }else{
+                ins.innerHTML = "<h1 style='color:black;position: absolute;left: 50%;top: 50%;-moz-transform: translate(-50%, -50%); /* Firefox */-ms-transform: translate(-50%, -50%);  /* IE 9 */-webkit-transform: translate(-50%, -50%); /* Safari and Chrome*/-o-transform: translate(-50%, -50%); /* Opera */transform: translate(-50%, -50%);'>Paused</h1>";
+            }
+            document.body.appendChild(ins);
+        }
+        function resumeEvent(){
+            Laya.SoundManager.muted = false;
+            document.getElementById('pauseOverlay').remove();
+        }
+        function replayGameEvent(){
+            if((sessionStorage.getItem("CurrentScreen")=="MainMenu")||(sessionStorage.getItem("CurrentScreen")=="SkinShop")||(sessionStorage.getItem("CurrentScreen")=="LevelSelector")){}
+            else if(sessionStorage.getItem("CurrentScreen")=="GameOver") {sessionStorage.setItem("replayGameEvent1",1);}
+            else sessionStorage.setItem("replayGameEvent",1);
+        }
+        function nextLevelEvent(){
+            if((sessionStorage.getItem("CurrentScreen")=="MainMenu")||(sessionStorage.getItem("CurrentScreen")=="SkinShop")||(sessionStorage.getItem("CurrentScreen")=="LevelSelector")){}
+            else if(sessionStorage.getItem("CurrentScreen")=="GameOver") {sessionStorage.setItem("nextLevelEvent1",1);}
+            else sessionStorage.setItem("nextLevelEvent",1);
+        }
+        function gotoHomeEvent(){
+            if((sessionStorage.getItem("CurrentScreen")=="MainMenu")||(sessionStorage.getItem("CurrentScreen")=="SkinShop")||(sessionStorage.getItem("CurrentScreen")=="LevelSelector")){}
+            else if(sessionStorage.getItem("CurrentScreen")=="GameOver") {sessionStorage.setItem("gotoHomeEvent1",1);}
+            else sessionStorage.setItem("gotoHomeEvent",1);
+        }
+        function gotoLevel(levelNo){
+            if((sessionStorage.getItem("CurrentScreen")=="MainMenu")||(sessionStorage.getItem("CurrentScreen")=="SkinShop")||(sessionStorage.getItem("CurrentScreen")=="LevelSelector")){}
+            else if(sessionStorage.getItem("CurrentScreen")=="GameOver") {sessionStorage.setItem("gotoLevel1",levelNo);}
+            else sessionStorage.setItem("gotoLevel",levelNo);
+        }
+        function enableSound(isMuted){
+        if(isMuted)
+            Laya.SoundManager.muted = false;
+        else Laya.SoundManager.muted = true;
+        }
+        function getLoadingPerc(){
+         return progressPrec;
         }
     </script>
 </body>

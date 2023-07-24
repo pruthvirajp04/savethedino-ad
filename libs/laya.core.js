@@ -19549,12 +19549,12 @@ var SoundManager=(function(){
 	__getset(1,SoundManager,'autoStopMusic',function(){
 		return SoundManager._autoStopMusic;
 		},function(v){
-		Laya.stage.off(/*laya.events.Event.BLUR*/"blur",null,SoundManager._stageOnBlur);
+		Laya.stage.off(/*laya.events.Event.BLUR*/"blur",null,SoundManager._stageOnFocus);
 		Laya.stage.off(/*laya.events.Event.FOCUS*/"focus",null,SoundManager._stageOnFocus);
 		Laya.stage.off(/*laya.events.Event.VISIBILITY_CHANGE*/"visibilitychange",null,SoundManager._visibilityChange);
 		SoundManager._autoStopMusic=v;
 		if (v){
-			Laya.stage.on(/*laya.events.Event.BLUR*/"blur",null,SoundManager._stageOnBlur);
+			Laya.stage.on(/*laya.events.Event.BLUR*/"blur",null,SoundManager._stageOnFocus);
 			Laya.stage.on(/*laya.events.Event.FOCUS*/"focus",null,SoundManager._stageOnFocus);
 			Laya.stage.on(/*laya.events.Event.VISIBILITY_CHANGE*/"visibilitychange",null,SoundManager._visibilityChange);
 		}
@@ -19685,7 +19685,7 @@ var SoundManager=(function(){
 		if (Laya.stage.isVisibility){
 			SoundManager._stageOnFocus();
 			}else {
-			SoundManager._stageOnBlur();
+			SoundManager._stageOnFocus();
 		}
 	}
 

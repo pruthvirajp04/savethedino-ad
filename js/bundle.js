@@ -26,11 +26,11 @@ var ALD = /** @class */ (function () {
     ALD.aldSendOpenId = function (openid) {
         if (Laya.Browser.onMiniGame) {
             Laya.Browser.window["wx"].aldSendOpenid(openid);
-            console.log("ALD 上报 openid : ", openid);
+            //console.log("ALD 上报 openid : ", openid);
         }
         else if (Laya.Browser.onQQMiniGame) {
             Laya.Browser.window["qq"].aldSendOpenid(openid);
-            console.log("ALD 上报 openid : ", openid);
+            //console.log("ALD 上报 openid : ", openid);
         }
     };
     ALD.aldSendEvent = function (event, data) {
@@ -72,8 +72,8 @@ var AppConfig = /** @class */ (function () {
     function AppConfig() {
     }
     AppConfig.AppID = "1110171573";
-    AppConfig.ResServer = "https://oss.renyouwangluo.cn/qq-jjklbb"; //资源服务器地址
-    AppConfig.LocalTestReServer = "res/json"; //本地测试资源服务器地址
+    AppConfig.ResServer = "subRes"; //资源服务器地址
+    AppConfig.LocalTestReServer = "subRes"; //本地测试资源服务器地址
     AppConfig.Versions = "1.0.0";
     AppConfig.onTTMiniGame = false; //是否是头条小游戏
     return AppConfig;
@@ -107,14 +107,14 @@ var CachedQQBannerAd = /** @class */ (function () {
             });
             if (banner_1) {
                 CachedQQBannerAd._onLoad = function (res) {
-                    console.log("CachedQQBanner 广告 加载完成", bannerid);
-                    console.log(res);
+                    //console.log("CachedQQBanner 广告 加载完成", bannerid);
+                    //console.log(res);
                     banner_1.show();
                 };
                 banner_1.onLoad(CachedQQBannerAd._onLoad);
                 CachedQQBannerAd._onError = function (err) {
-                    console.log("CachedQQBanner 广告 加载失败", bannerid);
-                    console.log(err);
+                    //console.log("CachedQQBanner 广告 加载失败", bannerid);
+                    //console.log(err);
                     banner_1.offLoad(CachedQQBannerAd._onLoad);
                     banner_1.offError(CachedQQBannerAd._onError);
                     banner_1.destroy();
@@ -131,7 +131,7 @@ var CachedQQBannerAd = /** @class */ (function () {
             CachedQQBannerAd._curBanner.offError(CachedQQBannerAd._onError);
             CachedQQBannerAd._curBanner.destroy();
             CachedQQBannerAd._curBanner = null;
-            console.log("CachedQQBanner 广告隐藏");
+            //console.log("CachedQQBanner 广告隐藏");
         }
     };
     CachedQQBannerAd.changeShow = function () {
@@ -171,8 +171,8 @@ var CachedWXBannerAd = /** @class */ (function () {
                 preLoadBanners.splice(Math.floor(Math.random() * preLoadBanners.length), 1);
             }
         }
-        console.log("开始预创建微信Bannaer", preLoadBanners);
-        console.log("Bannaer 最大数限制 ：", bannerTodayBannerMax);
+        //console.log("开始预创建微信Bannaer", preLoadBanners);
+        //console.log("Bannaer 最大数限制 ：", bannerTodayBannerMax);
         var counter = 0;
         Laya.timer.loop(2000, CachedWXBannerAd._preLoopObj, function () {
             if (counter >= preLoadBanners.length) {
@@ -185,7 +185,7 @@ var CachedWXBannerAd = /** @class */ (function () {
                 banner = CachedWXBannerAd.create(bannerid);
                 if (null != banner) {
                     CachedWXBannerAd._bannerCache[bannerid] = banner;
-                    console.log("预创建微信Bannaer", bannerid, "完成");
+                    //console.log("预创建微信Bannaer", bannerid, "完成");
                 }
             }
             ++counter;
@@ -219,18 +219,18 @@ var CachedWXBannerAd = /** @class */ (function () {
             });
             if (banner) {
                 banner.onLoad(function (res) {
-                    console.log("CachedWXBanner 广告 加载完成", bannerid);
-                    console.log(res);
+                    //console.log("CachedWXBanner 广告 加载完成", bannerid);
+                    //console.log(res);
                 });
                 banner.onError(function (err) {
-                    console.log("CachedWXBanner 广告 加载失败", bannerid);
-                    console.log(err);
+                    //console.log("CachedWXBanner 广告 加载失败", bannerid);
+                    //console.log(err);
                     // ALD.aldSendOnlySingleReport(ALDEventDef.WXBannerLoadFail,{
                     //     "banner加载失败原因":err 
                     // });
                 });
                 banner.onResize(function (res) {
-                    console.log(banner.style.realWidth, banner.style.realHeight);
+                    //console.log(banner.style.realWidth, banner.style.realHeight);
                 });
             }
             return banner;
@@ -254,7 +254,7 @@ var CachedWXBannerAd = /** @class */ (function () {
             var sh = sysInfo.screenHeight;
             CachedWXBannerAd._curBanner.style.top = (Laya.stage.height - 240) / Laya.stage.height * sh;
             CachedWXBannerAd._curBanner.show();
-            console.log("CachedWXBanner 广告显示 bannerid ： ", bannerid);
+            //console.log("CachedWXBanner 广告显示 bannerid ： ", bannerid);
         }
         var time = AppSwitchConfig_1.default.getInstance().getAppSwitchData().bannerFreshTimer;
         //Laya.timer.once(time * 1000,CachedWXBannerAd,CachedWXBannerAd.changeShow);
@@ -265,7 +265,7 @@ var CachedWXBannerAd = /** @class */ (function () {
             CachedWXBannerAd._curBanner.hide();
             CachedWXBannerAd._curBanner = null;
         }
-        console.log("CachedWXBanner 广告隐藏");
+        //console.log("CachedWXBanner 广告隐藏");
     };
     CachedWXBannerAd.changeShow = function () {
         if (null != CachedWXBannerAd._curBanner) {
@@ -1033,7 +1033,7 @@ var DangerZone = /** @class */ (function (_super) {
     DangerZone.prototype.onTriggerEnter = function (other, self, contact) {
         if (this._fired)
             return;
-        console.log(other.owner);
+        //console.log(other.owner);
         this._fired = true;
         this.owner.parent.event("shoot");
         Laya.timer.once(this.waitTime, this, this.shootProjectile);
@@ -1124,6 +1124,7 @@ var Enemy = /** @class */ (function (_super) {
         }
         if (other.owner.name.indexOf("Danger") >= 0) {
             SoundMgr_1.default.instance.playSound("撞到物体");
+            if(this.owner.getChildByName("SensorZone") != null)
             this.owner.getChildByName("SensorZone").removeSelf();
             this.EnemyDead();
         }
@@ -1464,15 +1465,17 @@ var Player = /** @class */ (function (_super) {
     };
     Player.prototype.onTriggerExit = function (other, self, contact) {
         // if(!other.owner || !other.owner.name) return;
+        if(other.owner!=null){
         if (other.owner.name.indexOf("M_") >= 0) {
             // this._rigBody.linearVelocity = { x: 0, y: this._rigBody.linearVelocity.y };
             this._moveTimer = 50;
             this._moveExit = true;
         }
+    }
     };
     Player.prototype.onTriggerStay = function (other, self, contact) {
         // if(!other.owner || !other.owner.name) return;
-        console.log(other.owner.name);
+        //console.log(other.owner.name);
     };
     Player.prototype.GameOverSetCol = function () {
         this._rigBody.mask = PhysicsUtils_1.CollisionFilterGroupEnum.None | PhysicsUtils_1.CollisionFilterGroupEnum.Ground;
@@ -1944,8 +1947,10 @@ var TideObject = /** @class */ (function (_super) {
         if (!other.isSensor && !this._tide) {
             this.RopeBroken();
         }
-        if (other.owner.name.indexOf("Ground") >= 0) {
-            this.RopeBroken();
+        if(other.owner != null){
+            if (other.owner.name.indexOf("Ground") >= 0) {
+                this.RopeBroken();
+            }
         }
     };
     /**
@@ -2248,13 +2253,13 @@ var KRQ_Banner = /** @class */ (function (_super) {
             });
             if (null != self._wxBanner) {
                 self._wxBanner.onLoad(function (res) {
-                    console.log("KRQ  WXBanner广告 加载完成 : ", bannerAdUnitId_1);
-                    console.log(res);
+                    //console.log("KRQ  WXBanner广告 加载完成 : ", bannerAdUnitId_1);
+                    //console.log(res);
                     self._wxBanner.show();
                 });
                 self._wxBanner.onError(function (err) {
-                    console.log("KRQ WXBanner广告 加载失败 : ", bannerAdUnitId_1);
-                    console.log(err);
+                    //console.log("KRQ WXBanner广告 加载失败 : ", bannerAdUnitId_1);
+                    //console.log(err);
                     self.refreshBanner();
                     self.clearWXBaner();
                 });
@@ -2282,14 +2287,14 @@ var KRQ_Banner = /** @class */ (function (_super) {
             });
             if (null != self._wxBanner) {
                 self._onLoad = function (res) {
-                    console.log("KRQ  QQBanner广告 加载完成 : ", bannerAdUnitId_2);
-                    console.log(res);
+                    //console.log("KRQ  QQBanner广告 加载完成 : ", bannerAdUnitId_2);
+                    //console.log(res);
                     self._wxBanner.show();
                 };
                 self._wxBanner.onLoad(self._onLoad);
                 self._onError = function (err) {
-                    console.log("KRQ QQBanner广告 加载失败 : ", bannerAdUnitId_2);
-                    console.log(err);
+                    //console.log("KRQ QQBanner广告 加载失败 : ", bannerAdUnitId_2);
+                    //console.log(err);
                     self.refreshBanner();
                     self.clearWXBaner();
                 };
@@ -2394,44 +2399,44 @@ var KRQ_ComBase = /** @class */ (function (_super) {
     KRQ_ComBase.prototype.navigateToMiniProgram = function (d) {
         var data = null == d ? this._data : d;
         if (data) {
-            console.log("跳转游戏： " + data.title);
+            //console.log("跳转游戏： " + data.title);
             if (Laya.Browser.onMiniGame) {
                 WXAPI_1.default.navigateToMiniProgram(data.appid, data.url, function (res) {
-                    console.log("跳转成功");
+                    //console.log("跳转成功");
                     ShareAd_1.default.reportUserClick(data.appid);
                     ALD_1.default.aldSendReportAdClickSuccess(data);
                 }, function (res) {
-                    console.log("跳转失败");
+                    //console.log("跳转失败");
                     EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.AD_OnShareAdFail);
                     if (res.errMsg == "navigateToMiniProgram:fail cancel") {
-                        console.log("用户取消跳转");
+                        //console.log("用户取消跳转");
                         ALD_1.default.aldSendReportAdClickFail(data);
                     }
                 }, function (res) {
-                    console.log("跳转完成");
+                    //console.log("跳转完成");
                 });
             }
             else if (Laya.Browser.onQGMiniGame) {
                 OPPOAPI_1.default.navigateToMiniProgram(data.appid, data.title, data.url, function (res) {
-                    console.log("跳转成功");
+                    //console.log("跳转成功");
                     ShareAd_1.default.reportUserClick(data.appid);
                 }, function (res) {
-                    console.log("跳转失败");
+                    //console.log("跳转失败");
                     EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.AD_OnShareAdFail);
                 }, function (res) {
-                    console.log("跳转完成");
+                    //console.log("跳转完成");
                 });
             }
             else if (Laya.Browser.onQQMiniGame) //qq小游戏
              {
                 QQMiniGameAPI_1.default.navigateToMiniProgram(data.appid, data.url, function (res) {
-                    console.log("跳转成功");
+                    //console.log("跳转成功");
                     ShareAd_1.default.reportUserClick(data.appid);
                 }, function (res) {
-                    console.log("跳转失败");
+                    //console.log("跳转失败");
                     EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.AD_OnShareAdFail);
                 }, function (res) {
-                    console.log("跳转完成");
+                    //console.log("跳转完成");
                 });
             }
         }
@@ -3452,59 +3457,9 @@ var MaiLiang = /** @class */ (function () {
             req.url = MaiLiang.mainUrl + req.url;
         }
         var completeFunc = function (res) {
-            console.log(res, "MaiLiang http Success");
-            res = JSON.parse(res);
-            if (res.Status == "200") {
-                if (res.Result["OpenId"] != null && res.Result["OpenId"] != "") {
-                    MaiLiang.MaiLiangOpenId = res.Result["OpenId"];
-                    MaiLiang.time = req.data.posttime;
-                    console.log("获得买量系统OpenId " + MaiLiang.MaiLiangOpenId);
-                }
-                else {
-                    console.log("上报买量系统停留时间成功");
-                }
-                if (req.onSuccess) {
-                    req.onSuccess(res);
-                }
-            }
-            else {
-                if (req.onFail) {
-                    req.onFail(res);
-                }
-            }
-            req.onSuccess = null;
-            req = null;
         };
         var errorFunc = function (res) {
-            console.log(res, "MaiLiang http fail");
-            if (req.onFail) {
-                req.onFail(res);
-            }
-            req.onFail = null;
-            req = null;
         };
-        var xhr = new Laya.HttpRequest();
-        xhr.once(Laya.Event.COMPLETE, MaiLiang, completeFunc);
-        xhr.once(Laya.Event.ERROR, MaiLiang, errorFunc);
-        if (req.meth == "get") {
-            var para = "";
-            for (var _i = 0, _a = Object.keys(req.data); _i < _a.length; _i++) {
-                var key = _a[_i];
-                var value = req.data[key];
-                para += key + "=" + value + "&";
-            }
-            req.url = req.url + "?" + para;
-            xhr.send(req.url, null, req.meth);
-        }
-        else {
-            var para = "";
-            for (var _b = 0, _c = Object.keys(req.data); _b < _c.length; _b++) {
-                var key = _c[_b];
-                var value = req.data[key];
-                para += key + "=" + value + "&";
-            }
-            xhr.send(req.url, para, req.meth, null, ["Content-Type", "application/x-www-form-urlencoded"]);
-        }
     };
     /**
      * 获得买量系统唯一标识ID,此ID的作用是用来上报游戏时间
@@ -3513,53 +3468,6 @@ var MaiLiang = /** @class */ (function () {
      * @memberof MaiLiang
      */
     MaiLiang.GetMaiLiangOpenId = function (onSuccess, onFail) {
-        if (Laya.Browser.onMiniGame) {
-            var option = WXAPI_1.default.getLaunchOptionsSync();
-            if (option != null) {
-                var key = option.query["key"];
-                if (key != null && key != "" && User_1.default.openId != "") {
-                    MaiLiang.key = key;
-                    var req = new HttpUnit_1.requestData();
-                    req.url = MaiLiang.uclick;
-                    req.onSuccess = onSuccess;
-                    req.onFail = onFail;
-                    req.data.appid = AppConfig_1.default.AppID;
-                    req.data.openid = "";
-                    var time = new Date().getTime() / 1000;
-                    req.data.posttime = time;
-                    req.data.auth = 0;
-                    req.data.key = key;
-                    req.data.wxopenid = User_1.default.openId;
-                    req.meth = "POST";
-                    console.log("发送买量数据接口");
-                    MaiLiang.request(req);
-                }
-            }
-            else {
-                console.log("上报买量数据失败");
-                onFail(null);
-            }
-        }
-        else if (Laya.Browser.onQGMiniGame) {
-            var option = OPPOAPI_1.default.getLaunchOptionsSync();
-            HttpUnit_1.default.reportImport(option.referrerInfo.package, option.referrerInfo.extraData.appid, function (result) {
-                if (1 == result.code) {
-                    console.log("OPPO 上报买量数据成功");
-                }
-                else {
-                    console.log("OPPO 上报买量数据失败", result.msg);
-                }
-            }, function (result) {
-                console.log("OPPO 上报买量数据失败");
-                for (var key in result) {
-                    console.log(key, result[key]);
-                }
-            });
-        }
-        else {
-            console.log("不在微信模式下调用，默认上报买量数据失败");
-            onFail(null);
-        }
     };
     /**
      * 上报买量接口停留时间
@@ -3572,31 +3480,10 @@ var MaiLiang = /** @class */ (function () {
      * @memberof MaiLiang
      */
     MaiLiang.ReportStayTime = function (onSuccess, onFail) {
-        if (Laya.Browser.onMiniGame) {
-            if (MaiLiang.MaiLiangOpenId != "") {
-                var req = new HttpUnit_1.requestData();
-                req.url = MaiLiang.stay;
-                req.onSuccess = onSuccess;
-                req.onFail = onFail;
-                req.data.appid = AppConfig_1.default.AppID;
-                req.data.openid = MaiLiang.MaiLiangOpenId;
-                var time = new Date().getTime() / 1000;
-                req.data.posttime = time;
-                var staytime = MaiLiang.time != 0 ? time - MaiLiang.time : 0;
-                req.data.time = staytime;
-                req.meth = "POST";
-                console.log("发送停留时间至买量接口");
-                MaiLiang.request(req);
-            }
-        }
-        else {
-            console.log("不在微信模式下调用，默认发送停留时间至买量接口失败");
-            onFail(null);
-        }
     };
-    MaiLiang.mainUrl = "https://swtj.mrkzx.cn";
-    MaiLiang.uclick = "/v1.1/api/Activity/uclick.html";
-    MaiLiang.stay = "/v1.1/api/Activity/stay.html";
+    MaiLiang.mainUrl = "";
+    MaiLiang.uclick = "";
+    MaiLiang.stay = "";
     MaiLiang.key = ""; //推广路径中同名参数，需要调用方法WXAPi.getLaunchOptionsSync()，从返回的参数中获得。
     MaiLiang.MaiLiangOpenId = ""; //买量系统唯一标识,执行GetMaiLiangOpenId()方法成功后自动获得。
     MaiLiang.time = 0; //买量系统唯一标识后，记录当前时间（精确到秒）。
@@ -3659,7 +3546,9 @@ var Main = /** @class */ (function () {
     }
     Main.prototype.onVersionLoaded = function () {
         //激活大小图映射，加载小图的时候，如果发现小图在大图合集里面，则优先加载大图合集，而不是小图
-        Laya.AtlasInfoManager.enable("fileconfig.json", Laya.Handler.create(this, this.onConfigLoaded));
+        if(lang == "IND")
+        Laya.AtlasInfoManager.enable("fileconfig_IND.json", Laya.Handler.create(this, this.onConfigLoaded));
+        else Laya.AtlasInfoManager.enable("fileconfig.json", Laya.Handler.create(this, this.onConfigLoaded));
     };
     Main.prototype.onConfigLoaded = function () {
         Laya.loader.maxLoader = 50;
@@ -3675,31 +3564,11 @@ var Main = /** @class */ (function () {
         EventMgr_1.default.instance.regOnceEvent(EventDef_1.EventDef.App_CloseFirstLoadingView, this, this.closeloadingUI);
     };
     Main.prototype.initLoadingView = function () {
-        this._loadingUI = new layaMaxUI_1.ui.View.LoadingUI();
-        Laya.stage.addChild(this._loadingUI);
-        this._loadingUI.width = Laya.stage.width;
-        this._loadingUI.height = Laya.stage.height;
-        this._loadingView = this._loadingUI.getComponent(LoadingView_1.default);
-        this._loadingView.setProcess(0);
     };
     Main.prototype.postResToOpenDataContext = function (onComplate) {
-        if (Laya.Browser.onMiniGame) {
-            console.log("开始透传资源数据到开放域");
-            Laya.loader.load([
-                "openRes/Rank.atlas",
-            ], Laya.Handler.create(null, function () {
-                Laya.MiniAdpter.sendAtlasToOpenDataContext("openRes/Rank.atlas");
-                console.log("透传资源数据到开放域  完毕！！！");
-                if (onComplate) {
-                    onComplate();
-                }
-            }));
-        }
-        else {
             if (onComplate) {
                 onComplate();
             }
-        }
     };
     Main.prototype.preLoad = function () {
         //这里添加你需要预加载的资源
@@ -3712,299 +3581,28 @@ var Main = /** @class */ (function () {
         this.preLoad();
         var resource = this._preLoadRes;
         var self = this;
-        if (Laya.Browser.onMiniGame) {
-            //开始加载分包
-            var loadSubResTask = Laya.Browser.window["wx"].loadSubpackage({
-                name: 'subRes',
-                success: function (res) {
-                    // 分包加载成功,开始预加载资源
-                    if (resource.length > 0) {
-                        Laya.loader.load(resource, Laya.Handler.create(_this, function () {
-                            self.onLoadResComplate(); //预加载完成
-                        }), Laya.Handler.create(_this, function (res) {
-                            //todo:跟新进度条
-                            self._loadingView.setProcess(res / 2 + 0.5);
-                        }));
-                    }
-                    else {
-                        self.onLoadResComplate(); //预加载完成
-                    }
-                },
-                fail: function (res) {
-                    _this.loadRes(); //加载失败，重新加载
-                }
-            });
-            loadSubResTask.onProgressUpdate(function (res) {
-                self._loadingView.setProcess(res / 2);
-            });
-        }
-        else if (Laya.Browser.onQGMiniGame) //oppo小游戏
-         {
-            //开始加载分包
-            var loadSubResTask = Laya.Browser.window["qg"].loadSubpackage({
-                name: 'subRes',
-                success: function (res) {
-                    // 分包加载成功,开始预加载资源
-                    if (resource.length > 0) {
-                        Laya.loader.load(resource, Laya.Handler.create(_this, function () {
-                            self.onLoadResComplate(); //预加载完成
-                        }), Laya.Handler.create(_this, function (res) {
-                            //todo:跟新进度条
-                            self._loadingView.setProcess(res / 2 + 0.5);
-                        }));
-                    }
-                    else {
-                        self.onLoadResComplate(); //预加载完成
-                    }
-                },
-                fail: function (res) {
-                    _this.loadRes(); //加载失败，重新加载
-                }
-            });
-            loadSubResTask.onProgressUpdate(function (res) {
-                // 加载进度百分比
-                var progress = res["progress"];
-                // 下载数据
-                var totalBytesWritten = res["totalBytesWritten"];
-                // 总长度
-                var totalBytesExpectedToWrite = res["totalBytesExpectedToWrite"];
-                self._loadingView.setProcess(progress / 2);
-            });
-        }
-        else if (Laya.Browser.onQQMiniGame) {
-            //开始加载分包
-            var loadSubResTask = Laya.Browser.window["qq"].loadSubpackage({
-                name: 'subRes',
-                success: function (res) {
-                    // 分包加载成功,开始预加载资源
-                    if (resource.length > 0) {
-                        Laya.loader.load(resource, Laya.Handler.create(_this, function () {
-                            self.onLoadResComplate(); //预加载完成
-                        }), Laya.Handler.create(_this, function (res) {
-                            //todo:跟新进度条
-                            self._loadingView.setProcess(res / 2 + 0.5);
-                        }));
-                    }
-                    else {
-                        self.onLoadResComplate(); //预加载完成
-                    }
-                },
-                fail: function (res) {
-                    _this.loadRes(); //加载失败，重新加载
-                }
-            });
-            loadSubResTask.onProgressUpdate(function (res) {
-                self._loadingView.setProcess(res / 2);
-            });
-        }
-        else { //字节跳动没有分包
+        //字节跳动没有分包
             if (resource.length > 0) {
                 Laya.loader.load(resource, Laya.Handler.create(this, function () {
                     self.onLoadResComplate();
                 }), Laya.Handler.create(this, function (res) {
-                    self._loadingView.setProcess(res);
+                    progressPrec = res*100;
+                    progressBar(res*100);
                 }));
             }
             else {
                 self.onLoadResComplate();
-            }
         }
     };
     Main.prototype.onLoadResComplate = function () {
         var _this = this;
         var self = this;
-        this._loadingView.setProcess(1);
-        if (Laya.Browser.onMiniGame) {
-            WXAPI_1.default.wxLogin(function (code) {
-                var _this = this;
-                User_1.default.code = code;
-                HttpUnit_1.default.login(function (res) {
-                    if (res.code == 1) {
-                        console.log("登陆成功！！！");
-                        User_1.default.token = res.data.token;
-                        User_1.default.openId = res.data.openid;
-                        ALD_1.default.aldSendOpenId(User_1.default.openId);
-                        HttpUnit_1.default.getGameData(function (res) {
-                            console.log("获取用户数据成功！！！");
-                            if (1 == res.code) {
-                                User_1.default.initiUser(res.data);
-                            }
-                            else {
-                                User_1.default.initiUser(null);
-                            }
-                            GameConfig_1.default.startScene && Laya.Scene.open(GameConfig_1.default.startScene, false, Laya.Handler.create(_this, function () {
-                            }));
-                        }, function (res) {
-                            console.log("获取用户数据失败！！！");
-                            User_1.default.token = "";
-                            User_1.default.openId = "";
-                            User_1.default.initiUser(null);
-                            GameConfig_1.default.startScene && Laya.Scene.open(GameConfig_1.default.startScene, false, Laya.Handler.create(_this, function () {
-                            }));
-                        });
-                    }
-                    else {
-                        console.log("登陆失败！！！" + res);
-                        User_1.default.initiUser(null);
-                        GameConfig_1.default.startScene && Laya.Scene.open(GameConfig_1.default.startScene, false, Laya.Handler.create(_this, function () {
-                        }));
-                    }
-                }, function (res) {
-                    console.log("登陆失败！！！" + res);
-                    User_1.default.initiUser(null);
-                    GameConfig_1.default.startScene && Laya.Scene.open(GameConfig_1.default.startScene, false, Laya.Handler.create(_this, function () {
-                    }));
-                });
-            }, null);
-        }
-        else if (Laya.Browser.onQGMiniGame) //oppo小游戏
-         {
-            OPPOAPI_1.default.initAdService(function () {
-            }, function () {
-            }, function () {
-            });
-            OPPOAPI_1.default.Login(function (token) {
-                var _this = this;
-                User_1.default.code = token;
-                HttpUnit_1.default.login(function (res) {
-                    if (res.code == 1) {
-                        console.log("登陆成功！！！");
-                        User_1.default.token = res.data.token;
-                        User_1.default.openId = res.data.openid;
-                        HttpUnit_1.default.getGameData(function (res) {
-                            console.log("获取用户数据成功！！！");
-                            if (1 == res.code) {
-                                User_1.default.initiUser(res.data);
-                                console.log("获取用户数据--------------------Start");
-                                for (var key in res.data) {
-                                    console.log(key, res.data[key]);
-                                }
-                                console.log("获取用户数据--------------------End");
-                            }
-                            else {
-                                User_1.default.initiUser(null);
-                            }
-                            GameConfig_1.default.startScene && Laya.Scene.open(GameConfig_1.default.startScene, false, Laya.Handler.create(_this, function () {
-                            }));
-                        }, function (res) {
-                            console.log("获取用户数据失败！！！");
-                            User_1.default.token = "";
-                            User_1.default.openId = "";
-                            User_1.default.initiUser(null);
-                            GameConfig_1.default.startScene && Laya.Scene.open(GameConfig_1.default.startScene, false, Laya.Handler.create(_this, function () {
-                            }));
-                        });
-                    }
-                    else {
-                        console.log("登陆失败！！！", res);
-                        User_1.default.initiUser(null);
-                        GameConfig_1.default.startScene && Laya.Scene.open(GameConfig_1.default.startScene, false, Laya.Handler.create(_this, function () {
-                        }));
-                    }
-                }, function (res) {
-                    console.log("登陆失败！！！", res);
-                    User_1.default.initiUser(null);
-                    GameConfig_1.default.startScene && Laya.Scene.open(GameConfig_1.default.startScene, false, Laya.Handler.create(_this, function () {
-                    }));
-                });
-            }, null);
-        }
-        else if (Laya.Browser.onQQMiniGame) //qq小游戏
-         {
-            QQMiniGameAPI_1.default.Login(function (code) {
-                var _this = this;
-                User_1.default.code = code;
-                HttpUnit_1.default.login(function (res) {
-                    if (res.code == 1) {
-                        console.log("登陆成功！！！");
-                        User_1.default.token = res.data.token;
-                        User_1.default.openId = res.data.openid;
-                        ALD_1.default.aldSendOpenId(User_1.default.openId);
-                        HttpUnit_1.default.getGameData(function (res) {
-                            console.log("获取用户数据成功！！！");
-                            if (1 == res.code) {
-                                User_1.default.initiUser(res.data);
-                            }
-                            else {
-                                User_1.default.initiUser(null);
-                            }
-                            GameConfig_1.default.startScene && Laya.Scene.open(GameConfig_1.default.startScene, false, Laya.Handler.create(_this, function () {
-                            }));
-                        }, function (res) {
-                            console.log("获取用户数据失败！！！");
-                            User_1.default.token = "";
-                            User_1.default.openId = "";
-                            User_1.default.initiUser(null);
-                            GameConfig_1.default.startScene && Laya.Scene.open(GameConfig_1.default.startScene, false, Laya.Handler.create(_this, function () {
-                            }));
-                        });
-                    }
-                    else {
-                        console.log("登陆失败！！！" + res);
-                        User_1.default.initiUser(null);
-                        GameConfig_1.default.startScene && Laya.Scene.open(GameConfig_1.default.startScene, false, Laya.Handler.create(_this, function () {
-                        }));
-                    }
-                }, function (res) {
-                    console.log("登陆失败！！！" + res);
-                    User_1.default.initiUser(null);
-                    GameConfig_1.default.startScene && Laya.Scene.open(GameConfig_1.default.startScene, false, Laya.Handler.create(_this, function () {
-                    }));
-                });
-            }, null);
-        }
-        else if (AppConfig_1.default.onTTMiniGame) //头条，字节跳动
-         {
-            TTAPI_1.default.ttLogin(function (code) {
-                var _this = this;
-                User_1.default.code = code;
-                HttpUnit_1.default.login(function (res) {
-                    if (res.code == 1) {
-                        console.log("登陆成功！！！");
-                        User_1.default.token = res.data.token;
-                        User_1.default.openId = res.data.openid;
-                        HttpUnit_1.default.getGameData(function (res) {
-                            console.log("获取用户数据成功！！！");
-                            if (1 == res.code) {
-                                User_1.default.initiUser(res.data);
-                            }
-                            else {
-                                User_1.default.initiUser(null);
-                            }
-                            GameConfig_1.default.startScene && Laya.Scene.open(GameConfig_1.default.startScene, false, Laya.Handler.create(_this, function () {
-                            }));
-                        }, function (res) {
-                            console.log("获取用户数据失败！！！");
-                            User_1.default.token = "";
-                            User_1.default.openId = "";
-                            User_1.default.initiUser(null);
-                            GameConfig_1.default.startScene && Laya.Scene.open(GameConfig_1.default.startScene, false, Laya.Handler.create(_this, function () {
-                            }));
-                        });
-                    }
-                    else {
-                        console.log("登陆失败！！！" + res);
-                        User_1.default.initiUser(null);
-                        GameConfig_1.default.startScene && Laya.Scene.open(GameConfig_1.default.startScene, false, Laya.Handler.create(_this, function () {
-                        }));
-                    }
-                }, function (res) {
-                    console.log("登陆失败！！！" + res);
-                    User_1.default.initiUser(null);
-                    GameConfig_1.default.startScene && Laya.Scene.open(GameConfig_1.default.startScene, false, Laya.Handler.create(_this, function () {
-                    }));
-                });
-            }, function () {
-                User_1.default.initiUser(null);
-                GameConfig_1.default.startScene && Laya.Scene.open(GameConfig_1.default.startScene, false, Laya.Handler.create(_this, function () {
-                }));
-            });
-        }
-        else {
+        progressPrec = 100;
+        progressBar(100);
+        sendCustomAnalyticsEvent("game_load", {});
             User_1.default.testInitUser(); //测试
             GameConfig_1.default.startScene && Laya.Scene.open(GameConfig_1.default.startScene, false, Laya.Handler.create(this, function () {
             }));
-        }
     };
     Main.prototype.closeloadingUI = function () {
         if (this._loadingUI && !this._loadingUI.destroyed) {
@@ -4043,13 +3641,12 @@ var GameMgr = /** @class */ (function (_super) {
     }
     GameMgr.getInstance = function () { return GameMgr._instance; };
     GameMgr.prototype.onAwake = function () {
-        //You need to define replayInstance and rewardedInstance at the very start.
         if(replayInstance == undefined) 
         replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(replayObj, GameMgr.prototype.rewardedCallbacks);
         if(rewardInstance == undefined)
         rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, GameMgr.prototype.rewardedCallbacks);
         MaiLiang_1.default.GetMaiLiangOpenId(function (res) {
-            console.log("GameUI 买量数据上报成功");
+            //console.log("GameUI 买量数据上报成功");
             Laya.Browser.window["wx"].onShow(function () {
                 MaiLiang_1.default.GetMaiLiangOpenId(null, null);
             });
@@ -4057,7 +3654,7 @@ var GameMgr = /** @class */ (function (_super) {
                 MaiLiang_1.default.ReportStayTime(null, null);
             });
         }, function (res) {
-            console.log("GameUI 买量数据上报失败");
+            //console.log("GameUI 买量数据上报失败");
         });
         WXAPI_1.default.SetShareMenu("恐龙宝宝被人绑架了，快来救救它吧！", "subRes/image/分享图.png", function () {
         }, function () {
@@ -4085,13 +3682,12 @@ var GameMgr = /** @class */ (function (_super) {
     GameMgr.prototype.preCreateGame = function () {
         //todo：这里添加初始化主场景的代码。EventMgr.instance.dispatch(EventDef.App_CloseFirstLoadingView); 添加到你的关卡加载完成的回调中，关闭加载界面
         EventMgr_1.default.instance.regEvemt(EventDef_1.EventDef.Game_onGameComplate, this, this.onGameComplate);
-        EventMgr_1.default.instance.regEvemt(EventDef_1.EventDef.Game_StartGame, this, this.LoadGame);
+        EventMgr_1.default.instance.regEvemt(EventDef_1.EventDef.Game_StartGame, this, this.LoadGame1);
         EventMgr_1.default.instance.regEvemt(EventDef_1.EventDef.Game_PlayBgm, this, this.playBgm);
         EventMgr_1.default.instance.regEvemt(EventDef_1.EventDef.Game_StopBgm, this, this.stopBgm);
         EventMgr_1.default.instance.regEvemt(EventDef_1.EventDef.AD_OnShareAdFail_UseCancel, this, this.switchBanner);
         EventMgr_1.default.instance.regEvemt(EventDef_1.EventDef.Game_OnUserCrystalChange, this, this.saveGameData);
         EventMgr_1.default.instance.regEvemt(EventDef_1.EventDef.Game_OnUserEnergyChange, this, this.saveGameData);
-        console.log(User_1.default.getSaveData());
         if (User_1.default.getLeveNum() <= 1) {
             EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.App_CloseFirstLoadingView);
             var data = { levelNum: 1, costEnergy: 0, crystalReward: 5 };
@@ -4108,19 +3704,19 @@ var GameMgr = /** @class */ (function (_super) {
     GameMgr.prototype.saveGameData = function () {
         HttpUnit_1.default.saveGameData(User_1.default.getSaveData(), function (res) {
             if (res.code == 1) {
-                console.log("存档成功");
+                //console.log("存档成功");
             }
             else {
-                console.log("存档失败");
+                //console.log("存档失败");
             }
         }, function (res) {
-            console.log("存档失败");
+            //console.log("存档失败");
         });
     };
     GameMgr.prototype.reportLaunchOptions = function () {
         HttpUnit_1.default.Getuserip(function (res) {
             if (1 == res.code) {
-                console.log("获取玩家ip,地区成功 ：", res.data.dqip, res.data.ipxq);
+                //console.log("获取玩家ip,地区成功 ：", res.data.dqip, res.data.ipxq);
                 var opt = null;
                 if (Laya.Browser.onMiniGame) {
                     opt = WXAPI_1.default.getLaunchOptionsSync();
@@ -4133,7 +3729,7 @@ var GameMgr = /** @class */ (function (_super) {
                 }
             }
         }, function (res) {
-            console.log("获取玩家ip,地区失败");
+            //console.log("获取玩家ip,地区失败");
             var opt = null;
             if (Laya.Browser.onMiniGame) {
                 opt = WXAPI_1.default.getLaunchOptionsSync();
@@ -4150,7 +3746,7 @@ var GameMgr = /** @class */ (function (_super) {
     GameMgr.prototype.rewardedCallbacks = function (obj) {
         var self = this;
         obj.adInstance?.registerCallback('onAdLoadSucceed', (data) => {
-            console.log('onAdLoadSucceeded Rewarded CALLBACK', data);
+            //console.log('onAdLoadSucceeded Rewarded CALLBACK', data);
             if (obj.adUnitName === rewardObj.adUnitName) {
                 is_rewarded_noFill = false
             }
@@ -4160,7 +3756,7 @@ var GameMgr = /** @class */ (function (_super) {
         });
         
         obj.adInstance?.registerCallback('onAdLoadFailed', (data) => {
-            console.log('onAdLoadFailed Rewarded CALLBACK', data);
+            //console.log('onAdLoadFailed Rewarded CALLBACK', data);
             if (obj.adUnitName === rewardObj.adUnitName) {
                 is_rewarded_noFill = true
             }
@@ -4172,78 +3768,70 @@ var GameMgr = /** @class */ (function (_super) {
         });
     
         obj.adInstance?.registerCallback('onAdDisplayed', (data) => {
-            console.log('onAdDisplayed Rewarded CALLBACK', data);
+            //console.log('onAdDisplayed Rewarded CALLBACK', data);
     
     
         });
 
         obj.adInstance?.registerCallback('onAdClicked', (data) => {
-            console.log('onAdClicked Rewarded CALLBACK', data);
+            //console.log('onAdClicked Rewarded CALLBACK', data);
         });
         
         obj.adInstance?.registerCallback('onAdClosed', (data) => {
-            // sessionStorage.setItem("PlayBG",1);
-            
             Laya.SoundManager.muted = false;
-            console.log('onAdClosed Rewarded CALLBACK', data);
+            //console.log('onAdClosed Rewarded CALLBACK', data);
+
         if(sessionStorage.getItem("reward-type") == "reward-SL"){
             sessionStorage.removeItem("reward-type");
+            if(rewardInstance != undefined)
             rewardInstance.destroyAd();
             if (obj.adUnitName == rewardObj.adUnitName) {
                 isRewardedAdClosedByUser = true
             }
+            rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameMgr.prototype.rewardedCallbacks);
             if(!isRewardGranted && isRewardedAdClosedByUser)
-            {    
-                var url = "subRes/sound/bgm.ogg"
-                Laya.SoundManager.playMusic(url,0);
-                rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameMgr.prototype.rewardedCallbacks);
-                // let level = parseInt(User_1.default.ryw_getLeveNum());
-                // sendCustomAnalyticsEvent("game_level", {level: level});
+            {  
+                cancelRewardSL(); 
             }
             else{ 
-                let level = parseInt(User_1.default.getLeveNum() + 1);
-                sendCustomAnalyticsEvent("game_level", {level: level});
-                sessionStorage.setItem("GiveRewardSL",1);
-                rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameMgr.prototype.rewardedCallbacks);
+                giveRewardSL();
             }
             isRewardGranted = false
             isRewardedAdClosedByUser = false
     
         }
-        if(sessionStorage.getItem("reward-type") == "reward-Free"){
+        if(sessionStorage.getItem("reward-type") == "reward-SH"){
             sessionStorage.removeItem("reward-type");
+            if(rewardInstance != undefined)
             rewardInstance.destroyAd();
             if (obj.adUnitName == rewardObj.adUnitName) {
                 isRewardedAdClosedByUser = true
             }
+            rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameMgr.prototype.rewardedCallbacks);
             if(!isRewardGranted && isRewardedAdClosedByUser)
-            {    
-                Laya.SoundManager.muted = false;
-                rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,FreeRewardView.prototype.rewardedCallbacks);
+            {  
+                cancelRewardSH();
             }
-            else{  
-                console.log("After Sound1");
-                GameView.prototype.giveRewardHT();
-                rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,FreeRewardView.prototype.rewardedCallbacks);
+            else{ 
+                giveRewardSH();
             }
             isRewardGranted = false
             isRewardedAdClosedByUser = false
         }
-        if(sessionStorage.getItem("reward-type") == "reward-HT"){
+        if(sessionStorage.getItem("reward-type") == "reward-CL"){
             sessionStorage.removeItem("reward-type");
+            if(rewardInstance != undefined)
             rewardInstance.destroyAd();
             if (obj.adUnitName == rewardObj.adUnitName) {
                 isRewardedAdClosedByUser = true
             }
+            rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameMgr.prototype.rewardedCallbacks);
             if(!isRewardGranted && isRewardedAdClosedByUser)
-            {    
-                Laya.SoundManager.muted = false;
-                rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameMgr.prototype.rewardedCallbacks);
+            {  
+                cancelRewardCL();
             }
-            else{  
-                console.log("After Sound1");
-                GameView.prototype.giveRewardHT();
-                rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameMgr.prototype.rewardedCallbacks);
+            else{ 
+                giveRewardCL();
             }
             isRewardGranted = false
             isRewardedAdClosedByUser = false
@@ -4253,15 +3841,35 @@ var GameMgr = /** @class */ (function (_super) {
             sessionStorage.removeItem("reward-type");
             if(replayInstance != undefined)
             replayInstance.destroyAd();
-            var url = "subRes/sound/bg.mp3"
-            Laya.SoundManager.playMusic(url,0);
-            showGame();
+            replayInstance = window.GlanceGamingAdInterface.loadRewardedAd(replayObj, GameMgr.prototype.rewardedCallbacks);
+        }
+        if(sessionStorage.getItem("reward-type") == "replay-RP1"){
+            sessionStorage.removeItem("reward-type");
+            sessionStorage.setItem("doneReplay",1);
+            if(replayInstance != undefined)
+            replayInstance.destroyAd();
+            replayInstance = window.GlanceGamingAdInterface.loadRewardedAd(replayObj, GameMgr.prototype.rewardedCallbacks);
+        }
+        if(sessionStorage.getItem("reward-type") == "replay-RP2"){
+            sessionStorage.removeItem("reward-type");
+            let level = parseInt(sessionStorage.getItem("SelectedLevel"));
+            sendCustomAnalyticsEvent('game_end', {level: level,score:0,highScore:0});
+            sendCustomAnalyticsEvent("game_replay", {level: level,score:0,highScore:0});
+            sendCustomAnalyticsEvent("game_level", {level: level});
+            if(replayInstance != undefined)
+            replayInstance.destroyAd();
+            replayInstance = window.GlanceGamingAdInterface.loadRewardedAd(replayObj, GameMgr.prototype.rewardedCallbacks);
+        }
+        if(sessionStorage.getItem("reward-type") == "replay-BK"){
+            sessionStorage.removeItem("reward-type");
+            if(replayInstance != undefined)
+            replayInstance.destroyAd();
             replayInstance = window.GlanceGamingAdInterface.loadRewardedAd(replayObj, GameMgr.prototype.rewardedCallbacks);
         }
         });
 
         obj.adInstance?.registerCallback('onRewardsUnlocked', (data) => {
-            console.log('onRewardsUnlocked Rewarded CALLBACK', data);
+            //console.log('onRewardsUnlocked Rewarded CALLBACK', data);
     
             if (obj.adUnitName === rewardObj.adUnitName) {
                 isRewardGranted = true
@@ -4275,14 +3883,15 @@ var GameMgr = /** @class */ (function (_super) {
 
         var isWin = para.isWin;
         var levelNum = para.levelNum;
-        // console.log("THIS IS LEVEL "+para.levelNum);
         var crystalReward = para.crystalReward;
-        // let func: Function = () => {
         if (isWin) {
-            if(levelNum%3==0)
-            { console.log(is_replay_noFill);
+            let level = parseInt(sessionStorage.getItem("SelectedLevel"));
+            sendCustomAnalyticsEvent("level_completed", {level: level});
+            if(levelNum % 3==0)
+            { 
                     if (!is_replay_noFill) {
                         sessionStorage.setItem("reward-type","replay-RP");
+                        Laya.SoundManager.muted = true;
                         window.GlanceGamingAdInterface.showRewarededAd(replayInstance);
                     }else{
                         if(replayInstance != undefined)
@@ -4298,9 +3907,12 @@ var GameMgr = /** @class */ (function (_super) {
             });
         }
         else {
-            ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.GameOverView, {
+            let level = parseInt(sessionStorage.getItem("SelectedLevel"));
+            sendCustomAnalyticsEvent('game_end', {level: level,score:0,highScore:0});
+            ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.GameRewardView, {
                 isWin: false,
                 levelNum: levelNum,
+                rewardNum: 0
             });
         }
         // }
@@ -4309,41 +3921,23 @@ var GameMgr = /** @class */ (function (_super) {
     };
     GameMgr.prototype.LoadGame = function (date) {
         this.saveGameData();
-        if (WudianMgr_1.default.KuangDianBannerFlag && date.levelNum != 1) {
-            var currTime_1 = Laya.timer.currTimer;
-            var data = {};
-            data.PrizeCount = "恭喜获得皮肤";
-            data.ClickType = 1;
-            data.CompleteHander = Laya.Handler.create(this, function (d) {
-                {
-                    console.log("游戏开始狂点停留时间", (Laya.timer.currTimer - currTime_1) / 1000);
-                    // ALD.aldSendOnlySingleReport(ALDEventDef.StayStartClickGetPrizeTime, {
-                    //     "时间": (Laya.timer.currTimer - currTime) / 1000
-                    // });
-                    ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.GameView, d);
-                }
-            }, [date]);
-            ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.ClickGetPrize_2, data, function () {
-                // ALD.aldSendOnlySingleReport(ALDEventDef.EnterStartClickGetPrize);
-                // ALD.aldSendOnlySingleReport(ALDEventDef.EnterStartClickGetPrizeScene,
-                //     {
-                //         "场景值": WXAPI.getLaunchOptionsSync().scene
-                //     });
-            });
+        ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.GameMainView, date);
+        //SoundMgr_1.default.instance.stopBGM();
+    };
+    GameMgr.prototype.LoadGame1 = function (date) {
+        this.saveGameData();
+        let level = parseInt(sessionStorage.getItem("SelectedLevel"));
+        if(sessionStorage.getItem("loadtime") == 123){
+           // if(sessionStorage.getItem("SelectedLevel") <= User_1.default.getLeveNum())
+            if(sessionStorage.getItem("ReplayAnalytics") == 1)
+            sendCustomAnalyticsEvent("game_replay", {level: level,score:0,highScore:0});
         }
         else {
-            if (User_1.default.getEnergy < date.costEnergy) {
-                ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.FreeRewardView, {
-                    rewardType: FreeRewardView_1.FreeRewardType.Energy
-                });
-            }
-            else {
-                console.log("能量充足,开始游戏");
-                ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.GameView, date);
-            }
+            sessionStorage.setItem("loadtime",123);
+            sendCustomAnalyticsEvent("game_start", {});
         }
-        SoundMgr_1.default.instance.stopBGM();
-        // ViewMgr.instance.openView(ViewDef.GameView, date);
+        sendCustomAnalyticsEvent("game_level", {level: level});
+        ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.GameView, date);
     };
     GameMgr.prototype.playBgm = function () {
         SoundMgr_1.default.instance.playBGM("bgm");
@@ -4352,11 +3946,11 @@ var GameMgr = /** @class */ (function (_super) {
         SoundMgr_1.default.instance.stopBGM();
     };
     GameMgr.prototype.switchBanner = function () {
-        // console.log("触发取消打开更多好玩");
+        // //console.log("触发取消打开更多好玩");
         // let moreGame = ViewMgr.instance.getView(ViewDef.MoreGameView);
         // let gamePlaying = ViewMgr.instance.getView(ViewDef.GameView);
         // if (moreGame == null && gamePlaying == null) {
-        //     console.log("没有更多好玩界面或者游戏进行中界面，打开");
+        //     //console.log("没有更多好玩界面或者游戏进行中界面，打开");
         //     ViewMgr.instance.openView(ViewDef.MoreGameView, { ContinueGame: true, closeFunction: null });
         // }
     };
@@ -4459,10 +4053,14 @@ var ViewDef;
     ViewDef["OPPONativeView"] = "View/Template/OPPONativeViewTemplate.json";
     ViewDef["QQCrazyClickView"] = "View/Template/QQ/QQCrazyClick.json";
     ViewDef["QQCrazyClickView2"] = "View/Template/QQ/QQCrazyClick2.json";
-    ViewDef["GameMainView"] = "View/MainView.json";
+    if(lang == "IND")
+    ViewDef["GameMainView"] = "View/MainView_IND.json";
+    else ViewDef["GameMainView"] = "View/MainView.json";
     ViewDef["LevelStateView"] = "View/LevelStateView.json";
     ViewDef["MoreGameView"] = "View/MoreGame.json";
-    ViewDef["GameRewardView"] = "View/GameReward.json";
+    if(lang == "IND")
+    ViewDef["GameRewardView"] = "View/GameReward_IND.json";
+    else ViewDef["GameRewardView"] = "View/GameReward.json";
     ViewDef["GameOverView"] = "View/GameOver.json";
     ViewDef["SignInRewardView"] = "View/SignInReward.json";
     ViewDef["ActorSkinView"] = "View/ActorSkinView.json";
@@ -4499,7 +4097,7 @@ var ViewMgr = /** @class */ (function () {
         for (var i = 0; i < this._loadingList.length; ++i) {
             var def = this._loadingList[i];
             if (def == viewType) {
-                console.log("界面 : " + String(def) + " 正在加载中，请不要重复加载");
+                //console.log("界面 : " + String(def) + " 正在加载中，请不要重复加载");
                 return;
             }
         }
@@ -4699,11 +4297,11 @@ var WXBannderAd = /** @class */ (function () {
     };
     WXBannderAd.prototype.destroy = function () {
         if (this._destroyed) {
-            console.log("BannerAd 已经被销毁");
+            //console.log("BannerAd 已经被销毁");
             return;
         }
         if (this._loading) {
-            console.log("BannerAd 正在加载中，无法进行销毁");
+            //console.log("BannerAd 正在加载中，无法进行销毁");
             return;
         }
         if (null != this._banner) {
@@ -4715,19 +4313,19 @@ var WXBannderAd = /** @class */ (function () {
     WXBannderAd.prototype.retry = function (callBack) {
         
         if (this._destroyed) {
-            console.log("BannerAd 已被销毁，无法重试");
+            //console.log("BannerAd 已被销毁，无法重试");
             return;
         }
         if (this.isReady) {
-            console.log("BannerAd 已创建成功，无需重试");
+            //console.log("BannerAd 已创建成功，无需重试");
             return;
         }
         if (this._loading) {
-            console.log("BannerAd 正在创建中");
+            //console.log("BannerAd 正在创建中");
             return;
         }
         if (this._retryCount >= WXBannderAd.MAX_RETRY_COUNT) {
-            console.log("此 BannerAd 重试次数已达最大");
+            //console.log("此 BannerAd 重试次数已达最大");
             return;
         }
         var self = this;
@@ -4772,7 +4370,7 @@ var WXBannderAd = /** @class */ (function () {
             var self_2 = this;
             this._loading = true;
             banner.onLoad(function (res) {
-                console.log("BannderAd 加载完成", self_2._id, res);
+                //console.log("BannderAd 加载完成", self_2._id, res);
                 self_2._banner = banner;
                 self_2._createTime = Laya.timer.currTimer;
                 self_2._loading = false;
@@ -4781,7 +4379,7 @@ var WXBannderAd = /** @class */ (function () {
                 }
             });
             banner.onError(function (err) {
-                console.log("BannderAd 加载失败", self_2._id, err);
+                //console.log("BannderAd 加载失败", self_2._id, err);
                 self_2._error = err;
                 self_2._loading = false;
                 banner.destroy();
@@ -4859,11 +4457,11 @@ var WXGridAd = /** @class */ (function () {
     };
     WXGridAd.prototype.destroy = function () {
         if (this._destroyed) {
-            console.log("GridAD 已经被销毁");
+            //console.log("GridAD 已经被销毁");
             return;
         }
         if (this._loading) {
-            console.log("GridAD 正在加载中，无法进行销毁");
+            //console.log("GridAD 正在加载中，无法进行销毁");
             return;
         }
         if (null != this._gridAd) {
@@ -4874,15 +4472,15 @@ var WXGridAd = /** @class */ (function () {
     };
     WXGridAd.prototype.retry = function (callBack) {
         if (this._destroyed) {
-            console.log("GridAD 已被销毁，无法重试");
+            //console.log("GridAD 已被销毁，无法重试");
             return;
         }
         if (this.isReady) {
-            console.log("GridAD 已创建成功，无需重试");
+            //console.log("GridAD 已创建成功，无需重试");
             return;
         }
         if (this._loading) {
-            console.log("GridAD 正在创建中");
+            //console.log("GridAD 正在创建中");
             return;
         }
         var self = this;
@@ -4913,7 +4511,7 @@ var WXGridAd = /** @class */ (function () {
             var self_3 = this;
             this._loading = true;
             gridAd.onLoad(function (res) {
-                console.log("GridAD 加载完成", self_3._id, res);
+                //console.log("GridAD 加载完成", self_3._id, res);
                 self_3._gridAd = gridAd;
                 self_3._createTime = Laya.timer.currTimer;
                 self_3._loading = false;
@@ -4922,7 +4520,7 @@ var WXGridAd = /** @class */ (function () {
                 }
             });
             gridAd.onError(function (err) {
-                console.log("GridAD 加载失败", self_3._id, err);
+                //console.log("GridAD 加载失败", self_3._id, err);
                 self_3._error = err;
                 self_3._loading = false;
                 gridAd.destroy();
@@ -5028,7 +4626,7 @@ var WXADMgr = /** @class */ (function () {
             var bannerShowTime = AppSwitchConfig_1.default.getInstance().getAppSwitchData().bannerShowTime;
             if (!bannerAd.isReady) {
                 if (bannerAd.RetryCount >= WXBannderAd.MAX_RETRY_COUNT) {
-                    console.log("BannerAd 超过重试次数，销毁 : ", bannerAd.Id);
+                    //console.log("BannerAd 超过重试次数，销毁 : ", bannerAd.Id);
                     bannerAd.destroy();
                 }
                 else {
@@ -5036,7 +4634,7 @@ var WXADMgr = /** @class */ (function () {
                 }
             }
             else if (readyBannerAd.length >= 2 && bannerAd.BannerTotalShowTime >= bannerShowTime * 1000) {
-                console.log("BannerAd 展示时间超过限制，销毁 : ", bannerAd.Id);
+                //console.log("BannerAd 展示时间超过限制，销毁 : ", bannerAd.Id);
                 bannerAd.destroy();
             }
         }
@@ -5095,7 +4693,7 @@ var WudianMgr = /** @class */ (function () {
      */
     WudianMgr.UpdateIpBlockState = function () {
         HttpUnit_1.default.GetIpBlock(function (res) {
-            console.log("调用IpBlock接口成功,结果为:", res);
+            //console.log("调用IpBlock接口成功,结果为:", res);
             WudianMgr._ipBlockFlag = res.code;
         }, null);
     };
@@ -5129,7 +4727,7 @@ var WudianMgr = /** @class */ (function () {
     WudianMgr.IsSwitchOpen = function () {
         var mainSwitch = AppSwitchConfig_1.default.getInstance().getAppSwitchData().wudian == 1;
         var isOpenTime = AppSwitchConfig_1.default.getInstance().getAppSwitchData().wudianTimeAvaliable;
-        console.log("误点Flag状态: ", "总开关:", mainSwitch, "打开时间", isOpenTime);
+        //console.log("误点Flag状态: ", "总开关:", mainSwitch, "打开时间", isOpenTime);
         return mainSwitch && isOpenTime;
     };
     Object.defineProperty(WudianMgr, "WudianFlag", {
@@ -5163,7 +4761,7 @@ var WudianMgr = /** @class */ (function () {
             /* 测试功能，等删 */
             // ipnotBlock = true;
             var main = mainSwitch && noEnterBySearch && ipnotBlock && ver;
-            console.log("误点Flag状态: ", "总开关:", mainSwitch, "场景进入", noEnterBySearch, "IP未被屏蔽", ipnotBlock, "版本号", ver);
+            //console.log("误点Flag状态: ", "总开关:", mainSwitch, "场景进入", noEnterBySearch, "IP未被屏蔽", ipnotBlock, "版本号", ver);
             return main;
         },
         enumerable: true,
@@ -5174,7 +4772,7 @@ var WudianMgr = /** @class */ (function () {
             var wudianMain = this.WudianFlag;
             var banner = AppSwitchConfig_1.default.getInstance().getAppSwitchData().qqcfg.kuangdianBanner == 1;
             var tootal = wudianMain && banner;
-            console.log("KuangDianBannerFlag状态: ", "总开关:", wudianMain, "分开关", banner);
+            //console.log("KuangDianBannerFlag状态: ", "总开关:", wudianMain, "分开关", banner);
             return tootal;
         },
         enumerable: true,
@@ -5185,7 +4783,7 @@ var WudianMgr = /** @class */ (function () {
             var wudianMain = this.WudianFlag;
             var box = AppSwitchConfig_1.default.getInstance().getAppSwitchData().qqcfg.kuangdianBox == 1;
             var tootal = wudianMain && box;
-            console.log("KuangDiaBoxFlag状态: ", "总开关:", wudianMain, "分开关", box);
+            //console.log("KuangDiaBoxFlag状态: ", "总开关:", wudianMain, "分开关", box);
             return tootal;
         },
         enumerable: true,
@@ -5196,7 +4794,7 @@ var WudianMgr = /** @class */ (function () {
             var wudianMain = this.WudianFlag;
             var weiyi = AppSwitchConfig_1.default.getInstance().getAppSwitchData().qqcfg.weiyi == 1;
             var tootal = wudianMain && weiyi;
-            console.log("WeiyiFlag状态: ", "总开关:", wudianMain, "分开关", weiyi);
+            //console.log("WeiyiFlag状态: ", "总开关:", wudianMain, "分开关", weiyi);
             return tootal;
         },
         enumerable: true,
@@ -5207,7 +4805,7 @@ var WudianMgr = /** @class */ (function () {
             var wudianMain = this.WudianFlag;
             var autoBox = AppSwitchConfig_1.default.getInstance().getAppSwitchData().qqcfg.box == 1;
             var tootal = wudianMain && autoBox;
-            console.log("AutoBoxFlag状态: ", "总开关:", wudianMain, "分开关", autoBox);
+            //console.log("AutoBoxFlag状态: ", "总开关:", wudianMain, "分开关", autoBox);
             return tootal;
         },
         enumerable: true,
@@ -5273,74 +4871,22 @@ var HttpUnit = /** @class */ (function () {
             req.url = NetConfig_1.default.serverUrl + req.url;
         }
         var completeFunc = function (res) {
-            console.log(res, "http Success");
-            if (req.onSuccess) {
-                req.onSuccess(res);
-            }
-            req.onSuccess = null;
-            req = null;
+
         };
         var errorFunc = function (res) {
-            console.log(res, "http fail");
-            if (req.onFail) {
-                req.onFail(res);
-            }
-            req.onFail = null;
-            req = null;
+
         };
-        var xhr = new Laya.HttpRequest();
-        xhr.once(Laya.Event.COMPLETE, HttpUnit, completeFunc);
-        xhr.once(Laya.Event.ERROR, HttpUnit, errorFunc);
-        var dataStr = JSON.stringify(req.data);
-        if (Laya.Browser.onMiniGame || AppConfig_1.default.onTTMiniGame) {
-            req.data.code = User_1.default.code;
-        }
-        else if (Laya.Browser.onQGMiniGame) //OPPO小游戏
-         {
-            req.data.oppotoken = User_1.default.code;
-        }
-        else if (Laya.Browser.onQQMiniGame) //qq小游戏
-         {
-            req.data.code = User_1.default.code;
-        }
-        else {
-            req.data.code = User_1.default.code;
-        }
-        var time = "time=" + String(Date.now());
-        var header = [
-            "Content-Type", "application/json",
-            "state", NetConfig_1.default.state,
-            "gameid", NetConfig_1.default.gameid,
-            "sign", AesTools_1.default.encrypt(time),
-        ];
-        if (User_1.default.token) {
-            header.push("token");
-            header.push(User_1.default.token);
-        }
-        xhr.send(req.url, JSON.stringify(req.data), req.meth, "json", header);
+       
     };
     //todo:这里添加你们和服务器相互的接口
     HttpUnit.login = function (onSuccess, onFail) {
-        var req = new requestData();
-        req.url = NetConfig_1.default.Login;
-        req.onSuccess = onSuccess;
-        req.onFail = onFail;
-        HttpUnit.request(req);
+      
     };
     HttpUnit.saveGameData = function (gameData, onSuccess, onFail) {
-        var req = new requestData();
-        req.url = NetConfig_1.default.SaveGameData;
-        req.data.gameData = gameData;
-        req.onSuccess = onSuccess;
-        req.onFail = onFail;
-        HttpUnit.request(req);
+        
     };
     HttpUnit.getGameData = function (onSuccess, onFail) {
-        var req = new requestData();
-        req.url = NetConfig_1.default.GetUser;
-        req.onSuccess = onSuccess;
-        req.onFail = onFail;
-        HttpUnit.request(req);
+        
     };
     /**
      * IP屏蔽方法，需要在NetConfig类中设置IpBlock的接口地址
@@ -5349,38 +4895,16 @@ var HttpUnit = /** @class */ (function () {
      * @memberof HttpUnit
      */
     HttpUnit.GetIpBlock = function (onSuccess, onFail) {
-        if (-1 != NetConfig_1.default.gameid) {
-            var req = new requestData();
-            req.url = NetConfig_1.default.IpBlock;
-            req.onSuccess = onSuccess;
-            req.onFail = onFail;
-            HttpUnit.request(req);
-        }
+        
     };
     HttpUnit.reportExport = function (appid, game_name, onSuccess, onFail) {
-        var req = new requestData();
-        req.url = NetConfig_1.default.reportExport;
-        req.data.wbappid = appid;
-        req.data.game_name = game_name;
-        req.onSuccess = onSuccess;
-        req.onFail = onFail;
-        HttpUnit.request(req);
+        
     };
     HttpUnit.reportImport = function (appid, channel, onSuccess, onFail) {
-        var req = new requestData();
-        req.url = NetConfig_1.default.reportImport;
-        req.data.wbappid = appid;
-        req.data.channel = channel;
-        req.onSuccess = onSuccess;
-        req.onFail = onFail;
-        HttpUnit.request(req);
+       
     };
     HttpUnit.Getuserip = function (onSuccess, onFail) {
-        var req = new requestData();
-        req.url = NetConfig_1.default.getuserip;
-        req.onSuccess = onSuccess;
-        req.onFail = onFail;
-        HttpUnit.request(req);
+       
     };
     return HttpUnit;
 }());
@@ -5393,15 +4917,15 @@ var NetConfig = /** @class */ (function () {
     }
     NetConfig.state = 4;
     NetConfig.gameid = 140;
-    NetConfig.serverUrl = "https://sysxue.5iape.com";
-    NetConfig.Login = "https://sysxue.5iape.com/api/login/login/qqclogin";
-    NetConfig.SaveGameData = "https://sysxue.5iape.com/api/qqjjklbb/index/savecd";
-    NetConfig.GetUser = "https://sysxue.5iape.com/api/qqjjklbb/index/getuser";
+    NetConfig.serverUrl = "";
+    NetConfig.Login = "";
+    NetConfig.SaveGameData = "";
+    NetConfig.GetUser = "";
     /* 用来对IP地址进行屏蔽的接口地址，可以使用接口的返回值让某些广告逻辑在微信的审核地区(广州)发生变化 */
-    NetConfig.IpBlock = "https://sysxue.5iape.com/api/share/ip_select";
-    NetConfig.reportExport = "/api/share/getwaibuad";
-    NetConfig.reportImport = "/api/share/getzjadml";
-    NetConfig.getuserip = "/api/share/getuserip";
+    NetConfig.IpBlock = "";
+    NetConfig.reportExport = "";
+    NetConfig.reportImport = "";
+    NetConfig.getuserip = "";
     return NetConfig;
 }());
 exports.default = NetConfig;
@@ -5530,15 +5054,15 @@ var OPPOAPI = /** @class */ (function () {
                 success: function (res) {
                     var token = res.data.token;
                     onSuccess(token);
-                    console.log("OPPO 登陆成功,获取到 token : " + token);
+                    //console.log("OPPO 登陆成功,获取到 token : " + token);
                     for (var key in res) {
-                        console.log(key, res[key]);
+                        //console.log(key, res[key]);
                     }
                 },
                 fail: function (res) {
-                    console.log("OPPO 登陆失败", res);
+                    //console.log("OPPO 登陆失败", res);
                     for (var key in res) {
-                        console.log(key, res[key]);
+                        //console.log(key, res[key]);
                     }
                 }
             });
@@ -5549,19 +5073,19 @@ var OPPOAPI = /** @class */ (function () {
             appId: AppConfig_1.default.AppID,
             isDebug: false,
             success: function (res) {
-                console.log("oppo initAdService success");
+                //console.log("oppo initAdService success");
                 if (onSuccess) {
                     onSuccess(res);
                 }
             },
             fail: function (res) {
-                console.log("oppo initAdService fail: ", res.code, res.msg);
+                //console.log("oppo initAdService fail: ", res.code, res.msg);
                 if (onFail) {
                     onFail(res);
                 }
             },
             complete: function (res) {
-                console.log("oppo initAdService complete");
+                //console.log("oppo initAdService complete");
                 if (onComplete) {
                     onComplete(res);
                 }
@@ -5574,25 +5098,25 @@ var OPPOAPI = /** @class */ (function () {
                 posId: OPPOAPI.adUnitId,
             });
             videoAd.onLoad(function () {
-                console.log("oppo 视频广告加载完成");
+                //console.log("oppo 视频广告加载完成");
                 videoAd.show();
             });
             videoAd.onVideoStart(function () {
-                console.log("oppo 视频广告开始播放");
+                //console.log("oppo 视频广告开始播放");
             });
             videoAd.onClose(function (res) {
                 if (res.isEnded) {
-                    console.log("oppo 视频广告观看 完成");
+                    //console.log("oppo 视频广告观看 完成");
                     onAdClose(true);
                 }
                 else {
-                    console.log("oppo 视频广告观看 未完成");
+                    //console.log("oppo 视频广告观看 未完成");
                     onAdClose(false);
                 }
                 videoAd.destroy();
             });
             videoAd.onError(function (err) {
-                console.log("oppo 视频广告获取失败", err);
+                //console.log("oppo 视频广告获取失败", err);
                 videoAd.destroy();
                 onFailed();
             });
@@ -5604,18 +5128,18 @@ var OPPOAPI = /** @class */ (function () {
     };
     OPPOAPI.navigateToMiniProgram = function (pkgName, gameName, path, onSuccess, onFail, onComplate) {
         if (Laya.Browser.onQGMiniGame) {
-            console.log("OPPO 跳转游戏： " + pkgName);
+            //console.log("OPPO 跳转游戏： " + pkgName);
             HttpUnit_1.default.reportExport(pkgName, gameName, function (result) {
                 if (1 == result.code) {
-                    console.log("OPPO 导出上报成功");
+                    //console.log("OPPO 导出上报成功");
                 }
                 else {
-                    console.log("OPPO 导出上报失败", result.msg);
+                    //console.log("OPPO 导出上报失败", result.msg);
                 }
             }, function (result) {
-                console.log("OPPO 导出上报失败");
+                //console.log("OPPO 导出上报失败");
                 for (var key in result) {
-                    console.log(key, result[key]);
+                    //console.log(key, result[key]);
                 }
             });
             var time = Date.now();
@@ -5648,14 +5172,14 @@ var OPPOAPI = /** @class */ (function () {
             });
             insertAd.load();
             insertAd.onLoad(function () {
-                console.log("插屏广告加载完成");
+                //console.log("插屏广告加载完成");
                 insertAd.show();
             });
             insertAd.onShow(function () {
-                console.log("插屏广告显示成功");
+                //console.log("插屏广告显示成功");
             });
             insertAd.onError(function (err) {
-                console.log("插屏广告拉取失败", err);
+                //console.log("插屏广告拉取失败", err);
                 insertAd.destroy();
                 if (onFailed) {
                     onFailed();
@@ -5696,7 +5220,7 @@ var OPPOAPI = /** @class */ (function () {
                 obj = options;
             }
             else {
-                console.log("没有启动设置！！！");
+                //console.log("没有启动设置！！！");
             }
             return obj;
         }
@@ -5720,9 +5244,9 @@ var OPPOAPI = /** @class */ (function () {
                                 if (onFail) {
                                     onFail();
                                 }
-                                console.log("创建桌面图标失败！！！！", err);
+                                //console.log("创建桌面图标失败！！！！", err);
                                 for (var key in err) {
-                                    console.log(key, err);
+                                    //console.log(key, err);
                                 }
                             },
                             complete: function () {
@@ -5730,7 +5254,7 @@ var OPPOAPI = /** @class */ (function () {
                         });
                     }
                     else {
-                        console.log("桌面图标已存在！！！！");
+                        //console.log("桌面图标已存在！！！！");
                         if (onFail) {
                             onFail();
                         }
@@ -5740,9 +5264,9 @@ var OPPOAPI = /** @class */ (function () {
                     if (onFail) {
                         onFail();
                     }
-                    console.log("判断桌面图标是否存在失败！！！", err);
+                    //console.log("判断桌面图标是否存在失败！！！", err);
                     for (var key in err) {
-                        console.log(key, err);
+                        //console.log(key, err);
                     }
                 },
                 complete: function () {
@@ -5816,30 +5340,30 @@ var QQMiniGameAPI = /** @class */ (function () {
                     if (res.code) {
                         var code = res.code;
                         onSuccess(code);
-                        console.log("登陆成功,获取到code : " + code);
+                        //console.log("登陆成功,获取到code : " + code);
                     }
                 }
             });
         }
     };
     QQMiniGameAPI.onRewardedVideoAdLoad = function () {
-        console.log('激励视频 广告加载完成');
+        //console.log('激励视频 广告加载完成');
     };
     QQMiniGameAPI.onRewardedVideoAdError = function (err) {
-        console.log('激励视频 广告加载失败' + err);
+        //console.log('激励视频 广告加载失败' + err);
         if (QQMiniGameAPI._onRewardedVideoAdFailed) {
             QQMiniGameAPI._onRewardedVideoAdFailed();
         }
     };
     QQMiniGameAPI.onRewardedVideoAdClose = function (res) {
         if ((res && res.isEnded) || res == null) {
-            console.log('激励视频 已完整观看');
+            //console.log('激励视频 已完整观看');
             if (QQMiniGameAPI._onRewardedVideoAdClose) {
                 QQMiniGameAPI._onRewardedVideoAdClose(true);
             }
         }
         else {
-            console.log('激励视频 未完整观看');
+            //console.log('激励视频 未完整观看');
             if (QQMiniGameAPI._onRewardedVideoAdClose) {
                 QQMiniGameAPI._onRewardedVideoAdClose(false);
             }
@@ -5863,19 +5387,20 @@ var QQMiniGameAPI = /** @class */ (function () {
             }
             rewardedVideoAd.load().then(function () {
                 var promise = rewardedVideoAd.show();
-                promise.then(function () { return console.log('激励视频 广告显示成功'); });
+                promise.then(function () { return //console.log('激励视频 广告显示成功');
+             });
                 promise.catch(function (err) {
                     rewardedVideoAd.load()
                         .then(function () { return rewardedVideoAd.show(); })
                         .catch(function (err) {
-                        console.log('激励视频 广告显示失败');
+                        //console.log('激励视频 广告显示失败');
                         if (onFailed) {
                             onFailed();
                         }
                     });
                 });
             }).catch(function (err) {
-                console.log('激励视频 广告加载失败');
+                //console.log('激励视频 广告加载失败');
                 if (onFailed) {
                     onFailed();
                 }
@@ -5889,7 +5414,7 @@ var QQMiniGameAPI = /** @class */ (function () {
     //-------------------------小游戏跳转---------------------------
     QQMiniGameAPI.navigateToMiniProgram = function (appId, path, onSuccess, onFail, onComplate) {
         if (Laya.Browser.onQQMiniGame) {
-            console.log("跳转游戏： " + appId);
+            //console.log("跳转游戏： " + appId);
             Laya.Browser.window["qq"].navigateToMiniProgram({
                 appId: appId,
                 path: path,
@@ -5947,9 +5472,9 @@ var QQMiniGameAPI = /** @class */ (function () {
                 adUnitId: QQMiniGameAPI.InsAdUnitId,
             });
             var _onLoad_1 = function () {
-                console.log('插屏广告 加载完成');
+                //console.log('插屏广告 加载完成');
                 interstitialAd.show().catch(function (err) {
-                    console.log('插屏广告 显示失败 ：' + err);
+                    //console.log('插屏广告 显示失败 ：' + err);
                     interstitialAd.offLoad(_onLoad_1);
                     interstitialAd.offError(_onError_1);
                     interstitialAd.offClose(_onClose_1);
@@ -5961,7 +5486,7 @@ var QQMiniGameAPI = /** @class */ (function () {
             };
             interstitialAd.onLoad(_onLoad_1);
             var _onError_1 = function (err) {
-                console.log('插屏广告 加载失败' + err);
+                //console.log('插屏广告 加载失败' + err);
                 interstitialAd.offLoad(_onLoad_1);
                 interstitialAd.offError(_onError_1);
                 interstitialAd.offClose(_onClose_1);
@@ -5972,7 +5497,7 @@ var QQMiniGameAPI = /** @class */ (function () {
             };
             interstitialAd.onError(_onError_1);
             var _onClose_1 = function () {
-                console.log('插屏广告 关闭');
+                //console.log('插屏广告 关闭');
                 interstitialAd.offLoad(_onLoad_1);
                 interstitialAd.offError(_onError_1);
                 interstitialAd.offClose(_onClose_1);
@@ -5993,16 +5518,16 @@ var QQMiniGameAPI = /** @class */ (function () {
                 adUnitId: QQMiniGameAPI.AppBoxId,
             });
             this.mAppboxAd.load().then(function () {
-                console.log('盒子广告 加载完成');
+                //console.log('盒子广告 加载完成');
             });
             this.mAppboxAd.onError(function (err) {
-                console.log('盒子广告 加载失败' + err);
+                //console.log('盒子广告 加载失败' + err);
                 if (onFailed) {
                     onFailed();
                 }
             });
             this.onBoxAdClose = function () {
-                console.log('盒子广告 关闭');
+                //console.log('盒子广告 关闭');
                 if (onAdClose) {
                     onAdClose();
                 }
@@ -6015,17 +5540,17 @@ var QQMiniGameAPI = /** @class */ (function () {
     };
     QQMiniGameAPI.showAppBoxAd = function (onFailed, onAdClose) {
         if (this.mAppboxAd) {
-            console.log("显示盒子广告");
+            //console.log("显示盒子广告");
             this.mAppboxAd.offClose(this.onBoxAdClose);
             this.onBoxAdClose = function () {
-                console.log('盒子广告 关闭');
+                //console.log('盒子广告 关闭');
                 if (onAdClose) {
                     onAdClose();
                 }
             };
             this.mAppboxAd.onClose(this.onBoxAdClose);
             this.mAppboxAd.show().catch(function (err) {
-                console.log('盒子广告 显示失败 ：' + err);
+                //console.log('盒子广告 显示失败 ：' + err);
                 if (onFailed) {
                     onFailed();
                 }
@@ -6041,7 +5566,6 @@ var QQMiniGameAPI = /** @class */ (function () {
      * query    Object  启动小游戏的 query 参数
      * shareTicket  string  shareTicket，详见获取更多转发信息
      * referrerInfo object  来源信息。从另一个小程序、公众号或 App 进入小程序时返回。否则返回 {}
-     * https://developers.weixin.qq.com/minigame/dev/api/base/app/life-cycle/qq.getLaunchOptionsSync.html
      * @static
      * @returns {LaunchOptions}
      * @memberof QQMiniGameAPI
@@ -6050,14 +5574,14 @@ var QQMiniGameAPI = /** @class */ (function () {
         // let result = { scene: 0, query: null, shareTicket: "", referrerInfo: null };
         if (Laya.Browser.onQQMiniGame) {
             var obj_1 = Laya.Browser.window["qq"].getLaunchOptionsSync();
-            console.log("场景值 " + obj_1.scene);
+            //console.log("场景值 " + obj_1.scene);
             var str = JSON.stringify(obj_1.query);
-            console.log("Query参数 " + str);
+            //console.log("Query参数 " + str);
             var key = obj_1.query["key"];
-            console.log("Query参数：key " + key);
-            console.log("ShareTicket " + obj_1.shareTicket);
-            console.log("ReferrerInfo.appId " + obj_1.referrerInfo.appId);
-            console.log("ReferrerInfo.extraData " + obj_1.referrerInfo.extraData);
+            //console.log("Query参数：key " + key);
+            //console.log("ShareTicket " + obj_1.shareTicket);
+            //console.log("ReferrerInfo.appId " + obj_1.referrerInfo.appId);
+            //console.log("ReferrerInfo.extraData " + obj_1.referrerInfo.extraData);
             return obj_1;
         }
         var obj = { scene: 1001, query: "", shareTicket: "", appId: "", extraData: "" };
@@ -6078,7 +5602,7 @@ var QQMiniGameAPI = /** @class */ (function () {
      */
     QQMiniGameAPI.SetShareMenu = function (titel, imageUrl, success, fail, complate) {
         if (Laya.Browser.onQQMiniGame) {
-            console.log("小游戏设置转发按钮");
+            //console.log("小游戏设置转发按钮");
             Laya.Browser.window["qq"].showShareMenu({
                 withShareTicket: false,
                 success: success,
@@ -6130,20 +5654,20 @@ var ShareAd = /** @class */ (function () {
     ShareAd.refreshAd = function (complate) {
         ShareAd.getAdPosData(function (res) {
             if (1 == res.code) {
-                console.log("获取分享广告数据成功");
+                //console.log("获取分享广告数据成功");
                 ShareAd._adPosition = res.result;
                 if (complate) {
                     complate(true);
                 }
             }
             else {
-                console.log("获取分享广告数据失败 ： " + res.msg);
+                //console.log("获取分享广告数据失败 ： " + res.msg);
                 if (complate) {
                     complate(false);
                 }
             }
         }, function (res) {
-            console.log("获取分享广告数据失败");
+            //console.log("获取分享广告数据失败");
             if (complate) {
                 complate(false);
             }
@@ -6210,13 +5734,13 @@ var ShareAd = /** @class */ (function () {
     ShareAd.reportUserClick = function (advid) {
         ShareAd.reqUserClick(advid, function (res) {
             if (1 == res.code) {
-                console.log("点击广告上报成功");
+                //console.log("点击广告上报成功");
             }
             else {
-                console.log("点击广告上报失败");
+                //console.log("点击广告上报失败");
             }
         }, function (res) {
-            console.log("点击广告上报失败");
+            //console.log("点击广告上报失败");
         });
     };
     ShareAd.getRandomADPosID = function () {
@@ -6231,81 +5755,17 @@ var ShareAd = /** @class */ (function () {
             req.url = ShareAd.mainUrl + req.url;
         }
         var completeFunc = function (res) {
-            console.log(res, "http Success");
-            res = JSON.parse(res);
-            if (req.onSuccess) {
-                req.onSuccess(res);
-            }
-            req.onSuccess = null;
-            req = null;
+            
         };
         var errorFunc = function (res) {
-            console.log(res, "http fail");
-            if (req.onFail) {
-                req.onFail(res);
-            }
-            req.onFail = null;
-            req = null;
+           
         };
-        var xhr = new Laya.HttpRequest();
-        xhr.once(Laya.Event.COMPLETE, this, completeFunc);
-        xhr.once(Laya.Event.ERROR, this, errorFunc);
-        if (req.meth == "get") {
-            var para = "";
-            for (var _i = 0, _a = Object.keys(req.data); _i < _a.length; _i++) {
-                var key = _a[_i];
-                var value = req.data[key];
-                para += key + "=" + value + "&";
-            }
-            req.url = req.url + "?" + para;
-            var header = [
-                "versions", AppConfig_1.default.Versions,
-            ];
-            xhr.send(req.url, null, req.meth, null, header);
-        }
-        else {
-            var para = "";
-            for (var _b = 0, _c = Object.keys(req.data); _b < _c.length; _b++) {
-                var key = _c[_b];
-                var value = req.data[key];
-                para += key + "=" + value + "&";
-            }
-            para += "ts=" + String(Date.now()) + "&";
-            var header = [
-                "Content-Type", "application/x-www-form-urlencoded",
-                "versions", AppConfig_1.default.Versions,
-            ];
-            xhr.send(req.url, para, req.meth, null, header);
-        }
     };
     ShareAd.getAdPosData = function (onSuccess, onFail) {
-        var req = new HttpUnit_1.requestData();
-        req.url = ShareAd.getAdPostion;
-        req.onSuccess = onSuccess;
-        req.onFail = onFail;
-        req.data.softid = AppConfig_1.default.AppID;
-        req.meth = "get";
-        ShareAd.request(req);
     };
     ShareAd.reqUserClick = function (advid, onSuccess, onFail) {
-        var req = new HttpUnit_1.requestData();
-        req.url = ShareAd.userClick;
-        req.onSuccess = onSuccess;
-        req.onFail = onFail;
-        req.data.softid = AppConfig_1.default.AppID;
-        req.data.uid = User_1.default.openId;
-        req.data.advid = advid;
-        ShareAd.request(req);
     };
     ShareAd.getADVData = function (locationid, onSuccess, onFail) {
-        var req = new HttpUnit_1.requestData();
-        req.url = ShareAd.getAdv;
-        req.onSuccess = onSuccess;
-        req.onFail = onFail;
-        req.data.softid = AppConfig_1.default.AppID;
-        req.data.locationid = locationid;
-        req.data.preview = 0;
-        ShareAd.request(req);
     };
     /**
          * 随机跳转的方法，会从广告列表中随机得到一个AppId并且跳转,输入的参数为概率，大小在0-1之间
@@ -6316,140 +5776,17 @@ var ShareAd = /** @class */ (function () {
          * @memberof ShareAd
          */
     ShareAd.RandomJump = function (rate) {
-        if (rate === void 0) { rate = 1; }
-        console.log("随机跳转,rate：" + rate);
-        if (rate > 1) {
-            rate = rate / 100;
-        }
-        var rd = Math.random();
-        if (rd <= rate) {
-            var adLocationID = ShareAd.LoopAdLocationID;
-            var Locations = [
-                ShareAd.LoopAdLocationID,
-                ShareAd.InsertAdLocationID,
-                ShareAd.BannerAdLocationID,
-                ShareAd.AniAdLocationID,
-            ];
-            if (ShareAd.UseRandomAdPos) {
-                for (var i = 0; i < ShareAd.AdLocationids.length; ++i) {
-                    Locations.push(ShareAd.AdLocationids[i]);
-                }
-            }
-            adLocationID = Locations[Math.floor(Math.random() * Locations.length)];
-            var datas = ShareAd.getADVs(adLocationID, function (datas) {
-                if (datas) {
-                    var rd_1 = Math.floor(datas.length * Math.random());
-                    var data_1 = datas[rd_1];
-                    console.log("跳转游戏： " + data_1.title);
-                    WXAPI_1.default.navigateToMiniProgram(data_1.appid, data_1.url, function (res) {
-                        console.log("跳转成功");
-                        ShareAd.reportUserClick(data_1.appid);
-                        ALD_1.default.aldSendReportAdClickSuccess(data_1);
-                    }, function (res) {
-                        console.log("跳转失败");
-                        EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.AD_OnShareAdFail);
-                        if (res.errMsg == "navigateToMiniProgram:fail cancel") {
-                            console.log("用户取消跳转");
-                            ALD_1.default.aldSendReportAdClickFail(data_1);
-                        }
-                    }, function (res) {
-                        console.log("跳转完成");
-                    });
-                }
-            }, true);
-        }
     };
     ShareAd.isNeedShowAd = function () {
-        if (0 == AppSwitchConfig_1.default.getInstance().getAppSwitchData().adSwitch)
-            return false;
-        if (Laya.Browser.onQGMiniGame) {
-            if (AppSwitchConfig_1.default.getInstance().getAppSwitchData().oppocfg.oppoversions != AppConfig_1.default.Versions) {
-                return false;
-            }
-        }
-        var mailiang = AppSwitchConfig_1.default.getInstance().getAppSwitchData().mailiang;
-        var mailianglist = AppSwitchConfig_1.default.getInstance().getAppSwitchData().mailianglist;
-        var mailiangscenelist = AppSwitchConfig_1.default.getInstance().getAppSwitchData().mailiangSceneList;
-        if (1 == mailiang) {
-            var flag = null;
-            var scene = null;
-            if (Laya.Browser.onMiniGame) {
-                flag = WXAPI_1.default.getLaunchOptionsSync().query['chid'];
-                scene = WXAPI_1.default.getLaunchOptionsSync().scene;
-            }
-            else if (Laya.Browser.onQQMiniGame) {
-                flag = QQMiniGameAPI_1.default.getLaunchOptionsSync().query['chid'];
-                scene = QQMiniGameAPI_1.default.getLaunchOptionsSync().scene;
-            }
-            if (null != flag && null != mailianglist && mailianglist.length > 0) {
-                for (var i = 0; i < mailianglist.length; ++i) {
-                    if (flag == mailianglist[i]) {
-                        return false;
-                    }
-                }
-            }
-            if (null != scene && null != mailiangscenelist && mailiangscenelist.length > 0) {
-                for (var i = 0; i < mailiangscenelist.length; ++i) {
-                    if (scene == mailiangscenelist[i]) {
-                        return false;
-                    }
-                }
-            }
-        }
-        return true;
+        return false;
     };
     ShareAd.sortDatas = function (datas) {
-        if (null == datas || 0 == datas.length)
-            return [];
-        var dataDic = {};
-        var dataArray = new Array();
-        for (var i = 0; i < datas.length; ++i) {
-            var data = datas[i];
-            if (dataDic[data.appid] == null) {
-                dataDic[data.appid] = new Array();
-                dataDic[data.appid].push(data);
-                dataArray.push(dataDic[data.appid]);
-            }
-            else {
-                dataDic[data.appid].push(data);
-            }
-        }
-        //从大到小排序
-        for (var i_1 = 0; i_1 < dataArray.length; i_1++) {
-            for (var j = i_1 + 1; j < dataArray.length; j++) {
-                if (dataArray[i_1].length < dataArray[j].length) {
-                    var d = dataArray[j];
-                    dataArray[j] = dataArray[i_1];
-                    dataArray[i_1] = d;
-                }
-            }
-        }
-        //重新分组
-        var groupArray = new Array();
-        for (var i_2 = 0; i_2 < dataArray[0].length; i_2++) {
-            groupArray[i_2] = new Array();
-            for (var j = 0; j < dataArray.length; j++) {
-                if (dataArray[j].length > i_2) {
-                    groupArray[i_2].push(dataArray[j][i_2]);
-                }
-            }
-            // //组内打乱            
-            // groupArray[i].sort(() => { return 0.5 - Math.random() })
-        }
-        //打乱分组
-        // groupArray.sort(() => { return 0.5 - Math.random() });
-        var res = new Array();
-        for (var i_3 = 0; i_3 < groupArray.length; i_3++) {
-            for (var j = 0; j < groupArray[i_3].length; j++) {
-                res.push(groupArray[i_3][j]);
-            }
-        }
-        return res;
+        return "1";
     };
-    ShareAd.mainUrl = "https://swwww.mrkzx.cn";
-    ShareAd.getAdPostion = "/v1.1/api/getAdPosition.html"; //获取广告位列表
-    ShareAd.getAdv = "/v1.1/api/getAdv.html"; //获取第三方广告列表
-    ShareAd.userClick = "/v1.1/api/userclick.html"; //用户点击上报
+    ShareAd.mainUrl = "";
+    ShareAd.getAdPostion = ""; //获取广告位列表
+    ShareAd.getAdv = ""; //获取第三方广告列表
+    ShareAd.userClick = ""; //用户点击上报
     ShareAd.LoopAdLocationID = -1;
     ShareAd.BannerAdLocationID = -1;
     ShareAd.InsertAdLocationID = -1;
@@ -6532,44 +5869,44 @@ var BannerAdView = /** @class */ (function (_super) {
     BannerAdView.prototype.onSpClick = function () {
         var data = this._data;
         if (data) {
-            console.log("跳转游戏： " + data.title);
+            //console.log("跳转游戏： " + data.title);
             if (Laya.Browser.onMiniGame) {
                 WXAPI_1.default.navigateToMiniProgram(data.appid, data.url, function (res) {
-                    console.log("跳转成功");
+                    //console.log("跳转成功");
                     ShareAd_1.default.reportUserClick(data.appid);
                     ALD_1.default.aldSendReportAdClickSuccess(data);
                 }, function (res) {
-                    console.log("跳转失败");
+                    //console.log("跳转失败");
                     EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.AD_OnShareAdFail);
                     if (res.errMsg == "navigateToMiniProgram:fail cancel") {
-                        console.log("用户取消跳转");
+                        //console.log("用户取消跳转");
                         ALD_1.default.aldSendReportAdClickFail(data);
                     }
                 }, function (res) {
-                    console.log("跳转完成");
+                    //console.log("跳转完成");
                 });
             }
             else if (Laya.Browser.onQGMiniGame) {
                 OPPOAPI_1.default.navigateToMiniProgram(data.appid, data.title, data.url, function (res) {
-                    console.log("跳转成功");
+                    //console.log("跳转成功");
                     ShareAd_1.default.reportUserClick(data.appid);
                 }, function (res) {
-                    console.log("跳转失败");
+                    //console.log("跳转失败");
                     EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.AD_OnShareAdFail);
                 }, function (res) {
-                    console.log("跳转完成");
+                    //console.log("跳转完成");
                 });
             }
             else if (Laya.Browser.onQQMiniGame) //qq小游戏
              {
                 QQMiniGameAPI_1.default.navigateToMiniProgram(data.appid, data.url, function (res) {
-                    console.log("跳转成功");
+                    //console.log("跳转成功");
                     ShareAd_1.default.reportUserClick(data.appid);
                 }, function (res) {
-                    console.log("跳转失败");
+                    //console.log("跳转失败");
                     EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.AD_OnShareAdFail);
                 }, function (res) {
-                    console.log("跳转完成");
+                    //console.log("跳转完成");
                 });
             }
         }
@@ -6609,12 +5946,12 @@ var BannerAdView = /** @class */ (function (_super) {
                 }
             });
             self._wxBanner.onLoad(function (res) {
-                console.log("WXBanner广告 加载完成");
-                console.log(res);
+                //console.log("WXBanner广告 加载完成");
+                //console.log(res);
             });
             self._wxBanner.onError(function (err) {
-                console.log("WXBanner广告 加载失败");
-                console.log(err);
+                //console.log("WXBanner广告 加载失败");
+                //console.log(err);
                 self.refreshBannerDis();
                 self.clearWXBaner();
             });
@@ -6639,14 +5976,14 @@ var BannerAdView = /** @class */ (function (_super) {
             });
             if (null != self._wxBanner) {
                 self._onLoad = function (res) {
-                    console.log("QQBanner广告 加载完成 : ", bannerAdUnitId_1);
-                    console.log(res);
+                    //console.log("QQBanner广告 加载完成 : ", bannerAdUnitId_1);
+                    //console.log(res);
                     self._wxBanner.show();
                 };
                 self._wxBanner.onLoad(self._onLoad);
                 self._onError = function (err) {
-                    console.log("QQBanner广告 加载失败 : ", bannerAdUnitId_1);
-                    console.log(err);
+                    //console.log("QQBanner广告 加载失败 : ", bannerAdUnitId_1);
+                    //console.log(err);
                     self.refreshBannerDis();
                     self.clearWXBaner();
                 };
@@ -6828,45 +6165,45 @@ var LoopAdBox = /** @class */ (function (_super) {
     LoopAdBox.prototype.onSpClick = function () {
         var data = this._data;
         if (data) {
-            console.log("跳转游戏： " + data.title);
+            //console.log("跳转游戏： " + data.title);
             if (Laya.Browser.onMiniGame) {
                 WXAPI_1.default.navigateToMiniProgram(data.appid, data.url, function (res) {
-                    console.log("跳转成功");
+                    //console.log("跳转成功");
                     ShareAd_1.default.reportUserClick(data.appid);
                     ALD_1.default.aldSendReportAdClickSuccess(data);
                 }, function (res) {
-                    console.log("跳转失败");
+                    //console.log("跳转失败");
                     EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.AD_OnShareAdFail);
                     if (res.errMsg == "navigateToMiniProgram:fail cancel") {
-                        console.log("用户取消跳转");
+                        //console.log("用户取消跳转");
                         EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.AD_OnShareAdFail_UseCancel);
                         ALD_1.default.aldSendReportAdClickFail(data);
                     }
                 }, function (res) {
-                    console.log("跳转完成");
+                    //console.log("跳转完成");
                 });
             }
             else if (Laya.Browser.onQGMiniGame) {
                 OPPOAPI_1.default.navigateToMiniProgram(data.appid, data.title, data.url, function (res) {
-                    console.log("跳转成功");
+                    //console.log("跳转成功");
                     ShareAd_1.default.reportUserClick(data.appid);
                 }, function (res) {
-                    console.log("跳转失败");
+                    //console.log("跳转失败");
                     EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.AD_OnShareAdFail);
                 }, function (res) {
-                    console.log("跳转完成");
+                    //console.log("跳转完成");
                 });
             }
             else if (Laya.Browser.onQQMiniGame) //qq小游戏
              {
                 QQMiniGameAPI_1.default.navigateToMiniProgram(data.appid, data.url, function (res) {
-                    console.log("跳转成功");
+                    //console.log("跳转成功");
                     ShareAd_1.default.reportUserClick(data.appid);
                 }, function (res) {
-                    console.log("跳转失败");
+                    //console.log("跳转失败");
                     EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.AD_OnShareAdFail);
                 }, function (res) {
-                    console.log("跳转完成");
+                    //console.log("跳转完成");
                 });
             }
         }
@@ -6967,18 +6304,18 @@ var TTAPI = /** @class */ (function () {
             Laya.Browser.window["tt"].login({
                 force: false,
                 success: function (res) {
-                    console.log("登陆成功1");
+                    //console.log("登陆成功1");
                     var code = res.code;
                     if (code) {
                         onSuccess(code);
                     }
                     else {
-                        console.log("用户没有登陆，采用临时code");
+                        //console.log("用户没有登陆，采用临时code");
                         onFail();
                     }
                 },
                 fail: function () {
-                    console.log("登陆失败1");
+                    //console.log("登陆失败1");
                     onFail();
                 },
             });
@@ -6986,23 +6323,23 @@ var TTAPI = /** @class */ (function () {
         }
     };
     TTAPI.onRewardedVideoAdLoad = function () {
-        console.log('激励视频 广告加载完成');
+        //console.log('激励视频 广告加载完成');
     };
     TTAPI.onRewardedVideoAdError = function (err) {
-        console.log('激励视频 广告加载失败' + err);
+        //console.log('激励视频 广告加载失败' + err);
         if (TTAPI._onRewardedVideoAdFailed) {
             TTAPI._onRewardedVideoAdFailed();
         }
     };
     TTAPI.onRewardedVideoAdClose = function (res) {
         if ((res && res.isEnded) || res == null) {
-            console.log('激励视频 已完整观看');
+            //console.log('激励视频 已完整观看');
             if (TTAPI._onRewardedVideoAdClose) {
                 TTAPI._onRewardedVideoAdClose(true);
             }
         }
         else {
-            console.log('激励视频 未完整观看');
+            //console.log('激励视频 未完整观看');
             if (TTAPI._onRewardedVideoAdClose) {
                 TTAPI._onRewardedVideoAdClose(false);
             }
@@ -7026,19 +6363,20 @@ var TTAPI = /** @class */ (function () {
             }
             rewardedVideoAd.load().then(function () {
                 var promise = rewardedVideoAd.show();
-                promise.then(function () { return console.log('激励视频 广告显示成功'); });
+                promise.then(function () { return //console.log('激励视频 广告显示成功');
+             });
                 promise.catch(function (err) {
                     rewardedVideoAd.load()
                         .then(function () { return rewardedVideoAd.show(); })
                         .catch(function (err) {
-                        console.log('激励视频 广告显示失败');
+                        //console.log('激励视频 广告显示失败');
                         if (onFailed) {
                             onFailed();
                         }
                     });
                 });
             }).catch(function (err) {
-                console.log('激励视频 广告加载失败');
+                //console.log('激励视频 广告加载失败');
                 if (onFailed) {
                     onFailed();
                 }
@@ -7052,7 +6390,7 @@ var TTAPI = /** @class */ (function () {
     //-------------------------小游戏跳转---------------------------TODO
     // public static navigateToMiniProgram(appId: string, path: string, onSuccess: Function, onFail: Function, onComplate: Function) {
     //     if (Laya.Browser.onMiniGame) {
-    //         console.log("跳转游戏： " + appId);
+    //         //console.log("跳转游戏： " + appId);
     //         Laya.Browser.window["tt"].navigateToMiniProgram(
     //             {
     //                 appId: appId,
@@ -7088,11 +6426,11 @@ var TTAPI = /** @class */ (function () {
         TTAPI.record = Laya.Browser.window["tt"].getGameRecorderManager();
         if (TTAPI.record != null) {
             TTAPI.record.onStart(function (res) {
-                console.log("录屏开始");
+                //console.log("录屏开始");
                 TTAPI.recordRes = "";
             });
             TTAPI.record.onStop(function (res) {
-                console.log("录屏结束");
+                //console.log("录屏结束");
                 TTAPI.recordRes = res.videoPath;
             });
         }
@@ -7133,15 +6471,15 @@ var TTAPI = /** @class */ (function () {
                     if (callback != null) {
                         callback();
                     }
-                    console.log("分享视频成功");
+                    //console.log("分享视频成功");
                 },
                 fail: function (e) {
-                    console.log("分享视频失败");
+                    //console.log("分享视频失败");
                 }
             });
         }
         else {
-            console.log("分享视频为空");
+            //console.log("分享视频为空");
         }
     };
     //----------------------------------------------------------------------
@@ -7159,7 +6497,7 @@ var TTAPI = /** @class */ (function () {
                 }
             },
             fail: function () {
-                console.log("分享失败");
+                //console.log("分享失败");
             }
         });
     };
@@ -7181,7 +6519,7 @@ var TTAPI = /** @class */ (function () {
                 }
             });
             TTAPI._banner.onResize(function (size) {
-                console.log(size.width, size.height);
+                //console.log(size.width, size.height);
                 TTAPI._banner.style.top = windowHeight_1 - size.height;
                 TTAPI._banner.style.left = (windowWidth_1 - size.width) / 2;
             });
@@ -7208,13 +6546,13 @@ var TTAPI = /** @class */ (function () {
                     // {...}
                 ],
                 success: function (res) {
-                    console.log("success", res.errMsg);
+                    //console.log("success", res.errMsg);
                     if (onSuccess) {
                         onSuccess();
                     }
                 },
                 fail: function (res) {
-                    console.log("fail", res.errMsg);
+                    //console.log("fail", res.errMsg);
                     if (onFail) {
                         onFail();
                     }
@@ -7251,8 +6589,8 @@ var UserGameData = /** @class */ (function () {
     function UserGameData() {
         this.levelNum = 1; //当前关卡
         this.moneyNum = 0; //金币数量
-        this.crystalNum = 0; //钻石数量
-        this.energyNum = 0; //体力数量
+        this.crystalNum = 5; //钻石数量
+        this.energyNum = 150000; //体力数量
         this.actorSkins = [1]; //已解锁的皮肤
         this.curActorSkin = 1; //当前皮肤
         this.lastSignInTime = 0; //上次签到时间
@@ -7278,15 +6616,27 @@ var User = /** @class */ (function (_super) {
     User.testInitUser = function () {
         User._gameData.levelNum = 1;
         User._gameData.moneyNum = 0;
-        User._gameData.crystalNum = 0;
-        User._gameData.energyNum = 7000;
+        User._gameData.crystalNum = 5;
+        User._gameData.energyNum = 150000;
+        if(Laya.LocalStorage.getItem("Level")){}
+        else Laya.LocalStorage.setItem("Level", 1);
+        if(Laya.LocalStorage.getItem("Crystal")){}
+        else Laya.LocalStorage.setItem("Crystal", 5);
+        if(Laya.LocalStorage.getItem("Energy")){}
+        else Laya.LocalStorage.setItem("Energy", 150000);
     };
     User.initiUser = function (data) {
         if (data && data.cddata && 0 != data.cddata) {
             User._gameData.levelNum = data.cddata.levelNum;
             User._gameData.moneyNum = data.cddata.moneyNum;
-            User._gameData.crystalNum = data.cddata.crystalNum;
-            User._gameData.energyNum = data.cddata.energyNum;
+            User._gameData.crystalNum = 5;
+            User._gameData.energyNum = 150000;
+            if(Laya.LocalStorage.getItem("Level")){}
+            else Laya.LocalStorage.setItem("Level", 1);
+            if(Laya.LocalStorage.getItem("Crystal")){}
+            else Laya.LocalStorage.setItem("Crystal", 5);
+            if(Laya.LocalStorage.getItem("Energy")){}
+            else Laya.LocalStorage.setItem("Energy", 150000);
             var actorSkins = data.cddata.actorSkins;
             if (null != actorSkins) {
                 for (var i = 0; i < actorSkins.length; ++i) {
@@ -7387,14 +6737,11 @@ var User = /** @class */ (function (_super) {
         });
     };
     User.getCrystal = function () {
-        var myNumberStr = Laya.LocalStorage.getItem("Crystal");
-        if (myNumberStr === null) {
-            myNumber = 1;
+        var myNumberStr = 5;
+        if(Laya.LocalStorage.getItem("Crystal")){
+            myNumberStr = parseInt(Laya.LocalStorage.getItem("Crystal"));
         }
-        else {
-            var myNumber = parseInt(myNumberStr);
-        }
-        return myNumber;
+        return myNumberStr;
     };
     User.addEnergy = function (add) {
         add = Math.ceil(add);
@@ -7420,14 +6767,12 @@ var User = /** @class */ (function (_super) {
         });
     };
     User.getEnergy = function () {
-        var myNumberStr = Laya.LocalStorage.getItem("Energy");
-        if (myNumberStr === null) {
-            myNumber = 1;
-        }
-        else {
-            var myNumber = parseInt(myNumberStr);
-        }
-        return myNumber;
+        //var myNumberStr = 150000;
+        // if(Laya.LocalStorage.getItem("Energy")){
+        //     myNumberStr = parseInt(Laya.LocalStorage.getItem("Energy"));
+        // }
+        //return myNumberStr;
+        return User._gameData.energyNum;
     };
     User.setCurActorSkin = function (skin) {
         if (!User.actorSkinIsUnlock(skin))
@@ -7639,6 +6984,8 @@ exports.default = Utilit;
 Object.defineProperty(exports, "__esModule", { value: true });
 var User_1 = require("../../User/User");
 var QQMiniGameAPI_1 = require("../../QQMiniGameAPI");
+var GameMgr_1 = require("../../Mgr/GameMgr");
+var ViewMgr_1 = require("../../Mgr/ViewMgr")
 var ActorSkinBox = /** @class */ (function (_super) {
     __extends(ActorSkinBox, _super);
     function ActorSkinBox() {
@@ -7647,6 +6994,7 @@ var ActorSkinBox = /** @class */ (function (_super) {
         return _this;
     }
     ActorSkinBox.prototype.onAwake = function () {
+        sessionStorage.setItem("CurrentScreen","SkinShop");
         this._selectBg = this.owner.getChildByName("Select");
         this._unlockBg = this.owner.getChildByName("Unlock");
         this._luckBg = this.owner.getChildByName("Lock");
@@ -7655,7 +7003,62 @@ var ActorSkinBox = /** @class */ (function (_super) {
         this._crystalCostText = this._crystalUnlockBtn.getChildByName("Text");
         this._vedioUnlockBtn = this.owner.getChildByName("VedioUnlockBtn");
         this._vedioCostText = this._vedioUnlockBtn.getChildByName("Text");
+        if(localStorage.getItem("UnlockSkin2") == 1){
+            User_1.default.unlockActorSkin(2);
+        }
+        if(localStorage.getItem("UnlockSkin4") == 2){
+            User_1.default.unlockActorSkin(4);
+        }
+        if(localStorage.getItem("UnlockSkin6") == 3){
+            User_1.default.unlockActorSkin(6);
+        }
+        User_1.default.setCurActorSkin(parseInt(localStorage.getItem("CurrentSkin")));
     };
+    ActorSkinBox.prototype.onUpdate = function () {
+        if(sessionStorage.getItem("GiveRewardSH") == 1){
+            sessionStorage.removeItem("GiveRewardSH");
+            if(sessionStorage.getItem("SkinIndex") == 2){
+                localStorage.setItem("UnlockSkin2",1);
+            }
+            if(sessionStorage.getItem("SkinIndex") == 4){
+                if(localStorage.getItem("UnlockSkin4")){
+                    localStorage.setItem("UnlockSkin4",parseInt(localStorage.getItem("UnlockSkin4"))+1);
+                }
+                else {
+                    localStorage.setItem("UnlockSkin4",1);
+                }
+            }
+            if(sessionStorage.getItem("SkinIndex") == 6){
+                if(localStorage.getItem("UnlockSkin6")){
+                    localStorage.setItem("UnlockSkin6",parseInt(localStorage.getItem("UnlockSkin6"))+1);
+                }
+                else {
+                    localStorage.setItem("UnlockSkin6",1);
+                }
+            }
+            if(localStorage.getItem("UnlockSkin2") == 1){
+                if (User_1.default.unlockActorSkin(2)) {
+                    User_1.default.setCurActorSkin(2);
+                }
+            }
+            if(localStorage.getItem("UnlockSkin4") == 2){
+                if (User_1.default.unlockActorSkin(4)) {
+                    User_1.default.setCurActorSkin(4);
+                }
+            }
+            if(localStorage.getItem("UnlockSkin6") == 3){
+                if (User_1.default.unlockActorSkin(6)) {
+                    User_1.default.setCurActorSkin(6);
+                }
+            }
+            ViewMgr_1.default.instance.closeView(ViewMgr_1.ViewDef.ActorSkinView);
+            ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.GameMainView);
+            ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.ActorSkinView);
+        }
+        if(sessionStorage.getItem("CancelRewardSH") == 1){
+            sessionStorage.removeItem("CancelRewardSH");
+        } 
+    }
     ActorSkinBox.prototype.onEnable = function () {
         this._unlockBg.on(Laya.Event.CLICK, this, this.onSpClick);
         this._crystalUnlockBtn.on(Laya.Event.CLICK, this, this.onCrystalUnlockBtn);
@@ -7691,13 +7094,37 @@ var ActorSkinBox = /** @class */ (function (_super) {
                 }
                 else if (this._data.vedio > 0) {
                     this._vedioUnlockBtn.visible = true;
-                    this._vedioCostText.text = "0/" + String(this._data.vedio);
+                    if(this._data.skinIndex == 2){
+                        if(localStorage.getItem("UnlockSkin2")){
+                            this._vedioCostText.text = String(localStorage.getItem("UnlockSkin2")) + "/" + String(this._data.vedio);
+                        }
+                        else{
+                            this._vedioCostText.text = "0/" + String(this._data.vedio);
+                        }
+                    }
+                    if(this._data.skinIndex == 4){
+                        if(localStorage.getItem("UnlockSkin4")){
+                            this._vedioCostText.text = String(localStorage.getItem("UnlockSkin4")) + "/" + String(this._data.vedio);
+                        }
+                        else{
+                            this._vedioCostText.text = "0/" + String(this._data.vedio);
+                        }
+                    }
+                    if(this._data.skinIndex == 6){
+                        if(localStorage.getItem("UnlockSkin6")){
+                            this._vedioCostText.text = String(localStorage.getItem("UnlockSkin6")) + "/" + String(this._data.vedio);
+                        }
+                        else{
+                            this._vedioCostText.text = "0/" + String(this._data.vedio);
+                        }
+                    }
                 }
             }
         }
     };
     ActorSkinBox.prototype.onSpClick = function () {
         if (null != this._data && User_1.default.actorSkinIsUnlock(this._data.skinIndex)) {
+            localStorage.setItem("CurrentSkin",this._data.skinIndex);
             User_1.default.setCurActorSkin(this._data.skinIndex);
         }
     };
@@ -7713,22 +7140,53 @@ var ActorSkinBox = /** @class */ (function (_super) {
         }
     };
     ActorSkinBox.prototype.onVedioUnlockBtn = function () {
-        if (null != this._data && this._data.vedio > 0) {
+            sendCustomAnalyticsEvent("rewarded_ad", {successCB : 'giveRewardSH',failureCB: 'cancelRewardSH'});
             var skinIndex = this._data.skinIndex;
-            QQMiniGameAPI_1.default.showRewardedVideoAd(function (ok) {
-                if (ok) {
-                    if (User_1.default.unlockActorSkin(skinIndex)) {
-                        User_1.default.setCurActorSkin(skinIndex);
-                    }
+            var videoCost = this._data.vedio;
+            if(skinIndex == 2){
+                sessionStorage.setItem("SkinIndex",2);
+                if (!is_rewarded_noFill) {
+                    Laya.SoundManager.muted = true;
+                    sessionStorage.setItem("reward-type","reward-SH");
+                    window.GlanceGamingAdInterface.showRewarededAd(rewardInstance);
+                }else{
+                    if(rewardInstance != undefined)
+                    rewardInstance.destroyAd();
+                    rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameMgr_1.default.prototype.rewardedCallbacks);
+                    giveRewardSH();
                 }
-            }, function () {
-            });
-        }
+            }
+            if(skinIndex == 4){
+                sessionStorage.setItem("SkinIndex",4);
+                if (!is_rewarded_noFill) {
+                    Laya.SoundManager.muted = true;
+                    sessionStorage.setItem("reward-type","reward-SH");
+                    window.GlanceGamingAdInterface.showRewarededAd(rewardInstance);
+                }else{
+                    if(rewardInstance != undefined)
+                    rewardInstance.destroyAd();
+                    rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameMgr_1.default.prototype.rewardedCallbacks);
+                    giveRewardSH();
+                }
+            }
+            if(skinIndex == 6){
+                sessionStorage.setItem("SkinIndex",6);
+                if (!is_rewarded_noFill) {
+                    Laya.SoundManager.muted = true;
+                    sessionStorage.setItem("reward-type","reward-SH");
+                    window.GlanceGamingAdInterface.showRewarededAd(rewardInstance);
+                }else{
+                    if(rewardInstance != undefined)
+                    rewardInstance.destroyAd();
+                    rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameMgr_1.default.prototype.rewardedCallbacks);
+                    giveRewardSH();
+                }
+            }
     };
     return ActorSkinBox;
 }(Laya.Script));
 exports.default = ActorSkinBox;
-},{"../../QQMiniGameAPI":56,"../../User/User":63}],66:[function(require,module,exports){
+},{"../../Mgr/GameMgr":46,"../../Mgr/ViewMgr":48,"../../QQMiniGameAPI":56,"../../User/User":63}],66:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var ViewBase_1 = require("../ViewBase");
@@ -7859,7 +7317,7 @@ var CachedWXBannerAd_1 = require("../../CachedWXBannerAd");
     let data : any = {};
     //狂点逻辑完成后的回调方法
     data.Complete = function(){
-        console.log("狂点按钮结束");//在这里写入狂点窗口结束后需要调用的逻辑，例如弹出结算页面
+        //console.log("狂点按钮结束");//在这里写入狂点窗口结束后需要调用的逻辑，例如弹出结算页面
     }
     // 完成点击之后获得的奖励数量，依照各项目不同自行实现
     data.PrizeCount = 30;
@@ -7969,7 +7427,7 @@ var ClickGetPrize = /** @class */ (function (_super) {
      * @memberof ClickGetPrize
      */
     // WudianLoadComplete() {
-    //     console.log("WudianBanner预加载完毕");
+    //     //console.log("WudianBanner预加载完毕");
     //     this._wudianLoadFlag = true;
     // }
     /**
@@ -7978,7 +7436,7 @@ var ClickGetPrize = /** @class */ (function (_super) {
      * @memberof ClickGetPrize
      */
     ClickGetPrize.prototype.ShowBanner = function () {
-        console.log("AD_WudianBanner_Show");
+        //console.log("AD_WudianBanner_Show");
         CachedWXBannerAd_1.default.show();
     };
     /**
@@ -7999,7 +7457,7 @@ var ClickGetPrize = /** @class */ (function (_super) {
                 this._clickTime = this._needClickTime - 1;
             }
             this._bannerClicked = true;
-            console.log("误点Banner套路启动");
+            //console.log("误点Banner套路启动");
             //用户连点，出banner
             this.ShowBanner();
             Laya.timer.once(2000, this, function () {
@@ -8008,7 +7466,7 @@ var ClickGetPrize = /** @class */ (function (_super) {
         }
         //用户一直没被套路到，让他继续玩
         else if (this._totalClickTime > this._totalClickTimer) {
-            console.log("用户一直没点到，放他一马", this._totalClickTime);
+            //console.log("用户一直没点到，放他一马", this._totalClickTime);
             this.BannerClicked();
         }
         var progress = (this._clickTime / this._needClickTime) * this._clickBarOriginalWidth;
@@ -8052,7 +7510,7 @@ var CachedQQBannerAd_1 = require("../../CachedQQBannerAd");
     let data : any = {};
     //狂点逻辑完成后的回调方法
     data.Complete = function(){
-        console.log("狂点按钮结束");//在这里写入狂点窗口结束后需要调用的逻辑，例如弹出结算页面
+        //console.log("狂点按钮结束");//在这里写入狂点窗口结束后需要调用的逻辑，例如弹出结算页面
     }
     // 完成点击之后获得的奖励数量，依照各项目不同自行实现
     data.PrizeCount = 30;
@@ -8224,7 +7682,7 @@ var ClickGetPrize_2 = /** @class */ (function (_super) {
      * @memberof ClickGetPrize
      */
     // WudianLoadComplete() {
-    //     console.log("WudianBanner预加载完毕");
+    //     //console.log("WudianBanner预加载完毕");
     //     this._wudianLoadFlag = true;
     // }
     /**
@@ -8233,7 +7691,7 @@ var ClickGetPrize_2 = /** @class */ (function (_super) {
      * @memberof ClickGetPrize
      */
     ClickGetPrize_2.prototype.ShowBanner = function () {
-        console.log("AD_WudianBanner_Show");
+        //console.log("AD_WudianBanner_Show");
         // CachedWXBannerAd.show();
         if (this._clickType == 2) {
             QQMiniGameAPI_1.default.showAppBoxAd(function () { }, function () { });
@@ -8275,14 +7733,14 @@ var ClickGetPrize_2 = /** @class */ (function (_super) {
                 this._clickTime = this._needClickTime - 1;
             }
             this._bannerClicked = true;
-            console.log("误点Banner套路启动");
+            //console.log("误点Banner套路启动");
             //用户连点，出banner
             this.ShowBanner();
             Laya.timer.once(2000, this, this.BannerClicked);
         }
         //用户一直没被套路到，让他继续玩
         else if (this._totalClickTime > this._totalClickTimer && !this._bannerClicked) {
-            console.log("用户一直没点到，放他一马", this._totalClickTime);
+            //console.log("用户一直没点到，放他一马", this._totalClickTime);
             this.BannerClicked();
         }
         var progress = (this._clickTime / this._needClickTime) * this._clickBarOriginalWidth;
@@ -8366,22 +7824,6 @@ var FreeRewardView = /** @class */ (function (_super) {
         _this._bannerClosed = false;
         return _this;
     }
-    FreeRewardView.prototype.onUpdate = function () {
-        if(sessionStorage.getItem("reward-Free") == 1){
-            sessionStorage.removeItem("reward-Free");
-            var _this = this;
-            this._rewardBtn.visible = false;
-            QQMiniGameAPI_1.default.showRewardedVideoAd(function (ok) {
-                if (ok) {
-                    //todo:开始下一关游戏，设置当前关卡进度
-                    _this.GameOver(true);
-                }
-                _this._rewardBtn.visible = true;
-            }, function () {
-                _this._rewardBtn.visible = true;
-            })
-       }
-    };
     FreeRewardView.prototype.onAwake = function () {
         this._topZone = this.owner.getChildByName("TopZone");
         if (Utilit_1.default.isIphoneX()) {
@@ -8443,50 +7885,6 @@ var FreeRewardView = /** @class */ (function (_super) {
         this._energyText.text = String(curr);
     };
     FreeRewardView.prototype.onRewardBtn = function () {
-        sessionStorage.setItem("reward-type","reward-Free");
-            if (!is_rewarded_noFill) {
-                this.onRewardBtn.visible = false;
-                Laya.SoundManager.stopMusic();
-                window.GlanceGamingAdInterface.showRewarededAd(rewardInstance); 
-            } 
-            else{
-                 var rewardType = this._curRewardType;
-        var rewardNum = 0;
-        switch (this._curRewardType) {
-            case FreeRewardType.Crystal:
-                rewardNum = GameCommonConfig_1.default.getInstance().getGameConfigData().freeDiamond;
-                break;
-            case FreeRewardType.Energy:
-                rewardNum = GameCommonConfig_1.default.getInstance().getGameConfigData().freeEnergy;
-                break;
-        }
-                var url = "subRes/sound/bgm.ogg"
-                Laya.SoundManager.playMusic(url,0);
-                rewardInstance.destroyAd();
-                this.onRewardBtn.visible = false;
-                rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,FreeRewardView.prototype.rewardedCallbacks);
-                sessionStorage.setItem("GiveFreeRewards",1);
-            }
-       
-        var self = this;
-        this._rewardBtn.visible = false;
-        QQMiniGameAPI_1.default.showRewardedVideoAd(function (ok) {
-            if (ok) {
-                switch (rewardType) {
-                    case FreeRewardType.Crystal:
-                        User_1.default.addCrystal(rewardNum);
-                        break;
-                    case FreeRewardType.Energy:
-                        User_1.default.addEnergy(rewardNum);
-                        break;
-                }
-            }
-            else {
-            }
-            self._rewardBtn.visible = true;
-        }, function () {
-            self._rewardBtn.visible = true;
-        });
     };
     FreeRewardView.prototype.showTag = function (type) {
         for (var key in this._rewardTags) {
@@ -8546,110 +7944,10 @@ var GameOver = /** @class */ (function (_super) {
         this._banner = this.owner.getChildByName("BannerAD");
         // ALD.aldSendOnlySingleReport(ALDEventDef.EnterGameComplateView);
     };
-    GameOver.prototype.addEvent = function () {
-        this._backBtn.on(Laya.Event.CLICK, this, this.onBackBtn);
-        this._nextBtn.on(Laya.Event.CLICK, this, this.onNextBtn);
-        this._shareBtn.on(Laya.Event.CLICK, this, this.onShareBtn);
-        EventMgr_1.default.instance.regEvemt(EventDef_1.EventDef.Game_OnUserCrystalChange, this, this.onCrystalChange);
-        EventMgr_1.default.instance.regEvemt(EventDef_1.EventDef.Game_OnUserEnergyChange, this, this.onEnergyChange);
-    };
-    GameOver.prototype.removeEvent = function () {
-        this._backBtn.off(Laya.Event.CLICK, this, this.onBackBtn);
-        this._nextBtn.off(Laya.Event.CLICK, this, this.onNextBtn);
-        this._shareBtn.off(Laya.Event.CLICK, this, this.onShareBtn);
-        EventMgr_1.default.instance.removeEvent(EventDef_1.EventDef.Game_OnUserCrystalChange, this, this.onCrystalChange);
-        EventMgr_1.default.instance.removeEvent(EventDef_1.EventDef.Game_OnUserEnergyChange, this, this.onEnergyChange);
-    };
-    GameOver.prototype.onShow = function () {
-        var _this = this;
-        CachedQQBannerAd_1.default.hide();
-        this._levelCompleted.visible = this._data.isWin;
-        this._levelFailed.visible = !this._data.isWin;
-        this._winTag.visible = this._data.isWin;
-        this._loseTag.visible = !this._data.isWin;
-        this._nextBtnWinTag.visible = this._data.isWin;
-        this._nextBtnLoseTag.visible = !this._data.isWin;
-        this._crystalText.text = String(User_1.default.getCrystal());
-        this._energyText.text = String(User_1.default.getEnergy());
-        if (WudianMgr_1.default.AutoBoxFlag) {
-            if (WudianMgr_1.default.WeiYiFlag) {
-                this._buttons.bottom = 0;
-            }
-            QQMiniGameAPI_1.default.showAppBoxAd(function () {
-                if (WudianMgr_1.default.WeiYiFlag) {
-                    _this.InduceClick();
-                }
-                else {
-                    CachedQQBannerAd_1.default.changeShow();
-                }
-            }, function () {
-                if (WudianMgr_1.default.WeiYiFlag) {
-                    _this.InduceClick();
-                }
-                else {
-                    CachedQQBannerAd_1.default.changeShow();
-                }
-            });
-        }
-        else {
-            if (WudianMgr_1.default.WeiYiFlag) {
-                CachedQQBannerAd_1.default.hide();
-                this.InduceClick();
-            }
-            else {
-                CachedQQBannerAd_1.default.changeShow();
-            }
-        }
-        _super.prototype.onShow.call(this);
-    };
-    GameOver.prototype.InduceClick = function () {
-        this._buttons.bottom = 0;
-        this._buttons.mouseEnabled = false;
-        var btnMoveTimer = AppSwitchConfig_1.default.getInstance().getAppSwitchData().btnMoveTimer * 1000;
-        var bannerMoveTimer = AppSwitchConfig_1.default.getInstance().getAppSwitchData().bannerMoveTimer * 1000;
-        Laya.timer.once(bannerMoveTimer, this, this.InduceMethod);
-        Laya.timer.once(btnMoveTimer, this, this.MoveUp);
-    };
-    GameOver.prototype.InduceMethod = function () {
-        CachedQQBannerAd_1.default.changeShow();
-    };
-    GameOver.prototype.MoveUp = function () {
-        this._buttons.mouseEnabled = true;
-        /* if (AdvertisementView.ShowBothAd) {
-            this._buttons.bottom = 500;
-        }
-        else */ {
-            this._buttons.bottom = 250;
-        }
-    };
-    GameOver.prototype.onCrystalChange = function (para) {
-        var curr = para.curr;
-        var last = para.last;
-        this._crystalText.text = String(curr);
-    };
-    GameOver.prototype.onEnergyChange = function (para) {
-        var curr = para.curr;
-        var last = para.last;
-        this._energyText.text = String(curr);
-    };
-    GameOver.prototype.onBackBtn = function () {
-        var self = this;
-        ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.GameMainView, /* {
-            closeFunction: () => {
-                ViewMgr.instance.openView(ViewDef.GameMainView);
-            }
-        } */ null, function () {
-            self.closeView();
-        });
-        //todo:销毁游戏
-    };
-    GameOver.prototype.onNextBtn = function () {
-        var _this = this;
-        var levelNum = this._data.levelNum;
-        if (this._data.isWin) {
-            var levelNum = this._data.levelNum + 1;
-        }
-        var data = LevelConfig_1.default.getInstance().getLevelConfigDataByLevelNum(levelNum);
+    GameOver.prototype.onUpdate = function () {
+        if(sessionStorage.getItem("doneReplay") == 1){
+            sessionStorage.removeItem("doneReplay");
+        var data = LevelConfig_1.default.getInstance().getLevelConfigDataByLevelNum(sessionStorage.getItem("SelectedLevel"));
         if (null != data) {
             if (1 == data.vedioCostNoEnergy) {
                 QQMiniGameAPI_1.default.showRewardedVideoAd(function (ok) {
@@ -8749,6 +8047,97 @@ var GameOver = /** @class */ (function (_super) {
                 this.closeView();
             }
         }
+    }
+    };
+    GameOver.prototype.addEvent = function () {
+        this._backBtn.on(Laya.Event.CLICK, this, this.onBackBtn);
+        this._nextBtn.on(Laya.Event.CLICK, this, this.onNextBtn);
+        this._shareBtn.on(Laya.Event.CLICK, this, this.onShareBtn);
+        EventMgr_1.default.instance.regEvemt(EventDef_1.EventDef.Game_OnUserCrystalChange, this, this.onCrystalChange);
+        EventMgr_1.default.instance.regEvemt(EventDef_1.EventDef.Game_OnUserEnergyChange, this, this.onEnergyChange);
+    };
+    GameOver.prototype.removeEvent = function () {
+        this._backBtn.off(Laya.Event.CLICK, this, this.onBackBtn);
+        this._nextBtn.off(Laya.Event.CLICK, this, this.onNextBtn);
+        this._shareBtn.off(Laya.Event.CLICK, this, this.onShareBtn);
+        EventMgr_1.default.instance.removeEvent(EventDef_1.EventDef.Game_OnUserCrystalChange, this, this.onCrystalChange);
+        EventMgr_1.default.instance.removeEvent(EventDef_1.EventDef.Game_OnUserEnergyChange, this, this.onEnergyChange);
+    };
+    GameOver.prototype.onShow = function () {
+        var _this = this;
+        CachedQQBannerAd_1.default.hide();
+        this._levelCompleted.visible = this._data.isWin;
+        this._levelFailed.visible = !this._data.isWin;
+        this._winTag.visible = this._data.isWin;
+        this._loseTag.visible = !this._data.isWin;
+        this._nextBtnWinTag.visible = this._data.isWin;
+        this._nextBtnLoseTag.visible = !this._data.isWin;
+        this._crystalText.text = String(User_1.default.getCrystal());
+        this._energyText.text = String(User_1.default.getEnergy());
+        if (WudianMgr_1.default.AutoBoxFlag) {
+            if (WudianMgr_1.default.WeiYiFlag) {
+                this._buttons.bottom = 0;
+            }
+            QQMiniGameAPI_1.default.showAppBoxAd(function () {
+                if (WudianMgr_1.default.WeiYiFlag) {
+                    _this.InduceClick();
+                }
+                else {
+                    CachedQQBannerAd_1.default.changeShow();
+                }
+            }, function () {
+                if (WudianMgr_1.default.WeiYiFlag) {
+                    _this.InduceClick();
+                }
+                else {
+                    CachedQQBannerAd_1.default.changeShow();
+                }
+            });
+        }
+        else {
+            if (WudianMgr_1.default.WeiYiFlag) {
+                CachedQQBannerAd_1.default.hide();
+                this.InduceClick();
+            }
+            else {
+                CachedQQBannerAd_1.default.changeShow();
+            }
+        }
+        _super.prototype.onShow.call(this);
+    };
+    GameOver.prototype.InduceClick = function () {
+        this._buttons.bottom = 0;
+        this._buttons.mouseEnabled = false;
+        var btnMoveTimer = AppSwitchConfig_1.default.getInstance().getAppSwitchData().btnMoveTimer * 1000;
+        var bannerMoveTimer = AppSwitchConfig_1.default.getInstance().getAppSwitchData().bannerMoveTimer * 1000;
+        Laya.timer.once(bannerMoveTimer, this, this.InduceMethod);
+        Laya.timer.once(btnMoveTimer, this, this.MoveUp);
+    };
+    GameOver.prototype.InduceMethod = function () {
+        CachedQQBannerAd_1.default.changeShow();
+    };
+    GameOver.prototype.MoveUp = function () {
+        this._buttons.mouseEnabled = true;
+        /* if (AdvertisementView.ShowBothAd) {
+            this._buttons.bottom = 500;
+        }
+        else */ {
+            this._buttons.bottom = 250;
+        }
+    };
+    GameOver.prototype.onCrystalChange = function (para) {
+        var curr = para.curr;
+        var last = para.last;
+        this._crystalText.text = String(curr);
+    };
+    GameOver.prototype.onEnergyChange = function (para) {
+        var curr = para.curr;
+        var last = para.last;
+        this._energyText.text = String(curr);
+    };
+    GameOver.prototype.onBackBtn = function () {
+    };
+    GameOver.prototype.onNextBtn = function () {
     };
     GameOver.prototype.onShareBtn = function () {
         QQMiniGameAPI_1.default.share(function (ok) {
@@ -8770,7 +8159,9 @@ var Utilit_1 = require("../../Utilit");
 var EventMgr_1 = require("../../Event/EventMgr");
 var EventDef_1 = require("../../Event/EventDef");
 var User_1 = require("../../User/User");
+var GameMgr_1 = require("../../Mgr/GameMgr");
 var ViewMgr_1 = require("../../Mgr/ViewMgr");
+var LevelConfig_1 = require("../../Config/LevelConfig");
 var AppSwitchConfig_1 = require("../../Config/AppSwitchConfig");
 var WudianMgr_1 = require("../../Mgr/WudianMgr");
 var QQMiniGameAPI_1 = require("../../QQMiniGameAPI");
@@ -8780,16 +8171,25 @@ var GameRewardView = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     GameRewardView.prototype.onAwake = function () {
+        sessionStorage.setItem("CurrentScreen","GameOver");
         this._topZone = this.owner.getChildByName("TopZone");
         if (Utilit_1.default.isIphoneX()) {
             this._topZone.top = 70;
         }
+        this._levelCompleted = this._topZone.getChildByName("COMP");
+        this._levelFailed = this._topZone.getChildByName("FAIL");
         this._crystalText = this._topZone.getChildByName("Crystal").getChildByName("Text");
         this._energyText = this._topZone.getChildByName("Energy").getChildByName("Text");
         this._centerZone = this.owner.getChildByName("CenterZone");
-        this._rewardBtn = this._centerZone.getChildByName("RewardBtn");
-        this._moreRewardBtn = this._centerZone.getChildByName("MoreRewardBtn");
+        this._bg = this._centerZone.getChildByName("Bg");
+        this._diamond = this._centerZone.getChildByName("Diamond");
         this._rewardText = this._centerZone.getChildByName("RewardText");
+        this._rewardBtn = this._centerZone.getChildByName("RewardBtn");
+        this._backBtn = this._centerZone.getChildByName("BackBtn");
+        this._nextBtn = this._centerZone.getChildByName("NextBtn");
+        this._nextBtnWinTag = this._nextBtn.getChildByName("win");
+        this._nextBtnLoseTag = this._nextBtn.getChildByName("lose");
+        this._moreRewardBtn = this._centerZone.getChildByName("MoreRewardBtn");
     };
     GameRewardView.prototype.onStart = function () {
         var _this = this;
@@ -8806,20 +8206,149 @@ var GameRewardView = /** @class */ (function (_super) {
             }
         }
     };
+    GameRewardView.prototype.onUpdate = function () {
+        if(sessionStorage.getItem("GiveRewardCL",1)){
+            sessionStorage.removeItem("GiveRewardCL");
+            var self = this;
+            this._moreRewardBtn.visible = false;
+            this._rewardBtn.visible = false;
+            User_1.default.addCrystal(self._data.rewardNum * 3);
+        }
+        if(sessionStorage.getItem("CancelRewardCL") == 1){
+            sessionStorage.removeItem("CancelRewardCL");
+        }
+        if(sessionStorage.getItem("doneReplay") == 1){
+            sessionStorage.removeItem("doneReplay");
+        var data = LevelConfig_1.default.getInstance().getLevelConfigDataByLevelNum(sessionStorage.getItem("SelectedLevel"));
+        if (null != data) {
+                if (User_1.default.getEnergy() < data.costEnergy) {
+                    ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.FreeRewardView, {
+                        rewardType: FreeRewardView_1.FreeRewardType.Energy
+                    });
+                    // ViewMgr.instance.showTips("体力不足");
+                    return;
+                }
+                //正常开局
+                EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.Game_StartGame, {
+                    levelNum: data.levelNum,
+                    costEnergy: data.costEnergy,
+                    crystalReward: data.getDiamond,
+                });
+                this.closeView();
+        }
+    }
+    if(sessionStorage.getItem("gotoHomeEvent1") == 1){
+        sessionStorage.removeItem("gotoHomeEvent1");
+        var self = this;
+        let level = parseInt(sessionStorage.getItem("SelectedLevel"));
+        sendCustomAnalyticsEvent('game_end', {level: level,score:0,highScore:0});
+        ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.GameMainView, null, function () {
+            self.closeView();
+        });
+    }
+    if(sessionStorage.getItem("replayGameEvent1") == 1){
+        sessionStorage.removeItem("replayGameEvent1");
+        sendCustomAnalyticsEvent('game_end', {level: parseInt(sessionStorage.getItem("SelectedLevel")),score:0,highScore:0});
+        var data = LevelConfig_1.default.getInstance().getLevelConfigDataByLevelNum(parseInt(sessionStorage.getItem("SelectedLevel")));
+        if (null != data) {
+                if (User_1.default.getEnergy() < data.costEnergy) {
+                    ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.FreeRewardView, {
+                        rewardType: FreeRewardView_1.FreeRewardType.Energy
+                    });
+                    // ViewMgr.instance.showTips("体力不足");
+                    return;
+                }
+                //正常开局
+                EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.Game_StartGame, {
+                    levelNum: data.levelNum,
+                    costEnergy: data.costEnergy,
+                    crystalReward: data.getDiamond,
+                });
+                this.closeView();
+        }
+    }
+    if(sessionStorage.getItem("nextLevelEvent1") == 1){
+        sessionStorage.removeItem("nextLevelEvent1");
+        var levelNum = parseInt(sessionStorage.getItem("SelectedLevel")) + 1;
+            sessionStorage.setItem("SelectedLevel",levelNum);
+            sessionStorage.setItem("ReplayAnalytics",0);
+            if(parseInt(localStorage.getItem("Level")) < levelNum)
+                User_1.default.unLockMaxLevelNum(levelNum);
+            var data = LevelConfig_1.default.getInstance().getLevelConfigDataByLevelNum(levelNum);
+        if (null != data) {
+                if (User_1.default.getEnergy() < data.costEnergy) {
+                    ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.FreeRewardView, {
+                        rewardType: FreeRewardView_1.FreeRewardType.Energy
+                    });
+                    // ViewMgr.instance.showTips("体力不足");
+                    return;
+                }
+                //正常开局
+                EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.Game_StartGame, {
+                    levelNum: data.levelNum,
+                    costEnergy: data.costEnergy,
+                    crystalReward: data.getDiamond,
+                });
+                this.closeView();
+        }
+   }
+   if(sessionStorage.getItem("gotoLevel1") > 0){
+        let LevelNo = sessionStorage.getItem("gotoLevel1");
+        sessionStorage.removeItem("gotoLevel1");
+        sessionStorage.setItem("SelectedLevel",LevelNo);
+        var levelNum = parseInt(sessionStorage.getItem("SelectedLevel"));
+        sendCustomAnalyticsEvent("game_level", {level: levelNum});
+        if(parseInt(localStorage.getItem("Level")) < levelNum)
+            User_1.default.unLockMaxLevelNum(levelNum);
+            var data = LevelConfig_1.default.getInstance().getLevelConfigDataByLevelNum(levelNum);
+        if (null != data) {
+                if (User_1.default.getEnergy() < data.costEnergy) {
+                    ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.FreeRewardView, {
+                        rewardType: FreeRewardView_1.FreeRewardType.Energy
+                    });
+                    // ViewMgr.instance.showTips("体力不足");
+                    return;
+                }
+                //正常开局
+                EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.Game_StartGame, {
+                    levelNum: data.levelNum,
+                    costEnergy: data.costEnergy,
+                    crystalReward: data.getDiamond,
+                });
+                this.closeView();
+        }
+    }
+    }
     GameRewardView.prototype.addEvent = function () {
         this._rewardBtn.on(Laya.Event.CLICK, this, this.onRewardBtn);
+        this._backBtn.on(Laya.Event.CLICK, this, this.onBackBtn);
+        this._nextBtn.on(Laya.Event.CLICK, this, this.onNextBtn);
         this._moreRewardBtn.on(Laya.Event.CLICK, this, this.onMoreRewardBtn);
         EventMgr_1.default.instance.regEvemt(EventDef_1.EventDef.Game_OnUserCrystalChange, this, this.onCrystalChange);
         EventMgr_1.default.instance.regEvemt(EventDef_1.EventDef.Game_OnUserEnergyChange, this, this.onEnergyChange);
     };
     GameRewardView.prototype.removeEvent = function () {
         this._rewardBtn.off(Laya.Event.CLICK, this, this.onRewardBtn);
+        this._backBtn.off(Laya.Event.CLICK, this, this.onBackBtn);
+        this._nextBtn.off(Laya.Event.CLICK, this, this.onNextBtn);
         this._moreRewardBtn.off(Laya.Event.CLICK, this, this.onMoreRewardBtn);
         EventMgr_1.default.instance.removeEvent(EventDef_1.EventDef.Game_OnUserCrystalChange, this, this.onCrystalChange);
         EventMgr_1.default.instance.removeEvent(EventDef_1.EventDef.Game_OnUserEnergyChange, this, this.onEnergyChange);
     };
     GameRewardView.prototype.onShow = function () {
+        this._rewardBtn.visible = false;
+        if(!this._data.isWin){
+            this._bg.visible = false;
+            this._diamond.visible = false;
+            this._rewardText.visible = false;
+            this._moreRewardBtn.visible = false;
+        }
+        User_1.default.addCrystal(this._data.rewardNum);
         this._rewardText.text = "X" + this._data.rewardNum;
+        this._levelCompleted.visible = this._data.isWin;
+        this._levelFailed.visible = !this._data.isWin;
+        this._nextBtnWinTag.visible = this._data.isWin;
+        this._nextBtnLoseTag.visible = !this._data.isWin;
         this._crystalText.text = String(User_1.default.getCrystal());
         this._energyText.text = String(User_1.default.getEnergy());
     };
@@ -8834,47 +8363,89 @@ var GameRewardView = /** @class */ (function (_super) {
         this._energyText.text = String(curr);
     };
     GameRewardView.prototype.onRewardBtn = function () {
-        User_1.default.addCrystal(this._data.rewardNum);
-        this.closeView();
+        //this.closeView();
+    };
+    GameRewardView.prototype.onBackBtn = function () {
+        var self = this;
+        let level = parseInt(sessionStorage.getItem("SelectedLevel"));
+        sendCustomAnalyticsEvent('game_end', {level: level,score:0,highScore:0});
+        if (!is_replay_noFill) {
+            sessionStorage.setItem("reward-type","replay-BK");
+            Laya.SoundManager.muted = true;
+            window.GlanceGamingAdInterface.showRewarededAd(replayInstance);
+        }else{
+            if(replayInstance != undefined)
+            replayInstance.destroyAd();
+            replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(replayObj, GameMgr_1.default.prototype.rewardedCallbacks);
+        }
+        ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.GameMainView, null, function () {
+            self.closeView();
+        });
+        //todo:销毁游戏
+    };
+    GameRewardView.prototype.onNextBtn = function () {
+        var _this = this;
+        sessionStorage.setItem("ReplayAnalytics",0);
+        if (this._data.isWin) {
+            var levelNum = this._data.levelNum + 1;
+            sessionStorage.setItem("SelectedLevel",levelNum);
+            var data = LevelConfig_1.default.getInstance().getLevelConfigDataByLevelNum(levelNum);
+        if (null != data) {
+                if (User_1.default.getEnergy() < data.costEnergy) {
+                    ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.FreeRewardView, {
+                        rewardType: FreeRewardView_1.FreeRewardType.Energy
+                    });
+                    // ViewMgr.instance.showTips("体力不足");
+                    return;
+                }
+                //正常开局
+                EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.Game_StartGame, {
+                    levelNum: data.levelNum,
+                    costEnergy: data.costEnergy,
+                    crystalReward: data.getDiamond,
+                });
+                this.closeView();
+        }
+        }
+        else{
+            var levelNum = this._data.levelNum;
+            sessionStorage.setItem("SelectedLevel",levelNum);
+            if (!is_replay_noFill) {
+                sessionStorage.setItem("reward-type","replay-RP1");
+                Laya.SoundManager.muted = true;
+                window.GlanceGamingAdInterface.showRewarededAd(replayInstance);
+            }else{
+                if(replayInstance != undefined)
+                replayInstance.destroyAd();
+                replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(replayObj, GameMgr_1.default.prototype.rewardedCallbacks);
+                sessionStorage.setItem("doneReplay",1);
+            }
+        }
     };
     GameRewardView.prototype.onMoreRewardBtn = function () {
-        // alert("reward")
-        console.log(is_replay_noFill);
-                if (!is_replay_noFill) {
-                    sessionStorage.setItem("reward-type","replay-RP");
-                    window.GlanceGamingAdInterface.showRewarededAd(replayInstance);
+        sendCustomAnalyticsEvent("rewarded_ad", {successCB : 'giveRewardCL',failureCB: 'cancelRewardCL'});
+                if (!is_rewarded_noFill) {
+                    Laya.SoundManager.muted = true;
+                    sessionStorage.setItem("reward-type","reward-CL");
+                    window.GlanceGamingAdInterface.showRewarededAd(rewardInstance);
                 }else{
-                    if(replayInstance != undefined)
-                    replayInstance.destroyAd();
-                    replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(replayObj, GameRewardView.prototype.rewardedCallbacks);
+                    if(rewardInstance != undefined)
+                    rewardInstance.destroyAd();
+                    rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, GameMgr_1.default.prototype.rewardedCallbacks);
+                    giveRewardCL();
                 } 
-        var self = this;
-        this._moreRewardBtn.visible = false;
-        this._rewardBtn.visible = false;
-        QQMiniGameAPI_1.default.showRewardedVideoAd(function (ok) {
-            if (ok) {
-                User_1.default.addCrystal(self._data.rewardNum * 3);
-            }
-            else {
-                User_1.default.addCrystal(self._data.rewardNum);
-            }
-            self.closeView();
-        }, function () {
-            User_1.default.addCrystal(self._data.rewardNum);
-            self.closeView();
-        });
     };
     GameRewardView.prototype.onClose = function () {
-        ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.GameOverView, {
-            isWin: true,
-            levelNum: this._data.levelNum
-        });
-        _super.prototype.onClose.call(this);
+        // ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.GameOverView, {
+        //     isWin: true,
+        //     levelNum: this._data.levelNum
+        // });
+        // _super.prototype.onClose.call(this);
     };
     return GameRewardView;
 }(ViewBase_1.default));
 exports.default = GameRewardView;
-},{"../../Config/AppSwitchConfig":5,"../../Event/EventDef":9,"../../Event/EventMgr":10,"../../Mgr/ViewMgr":48,"../../Mgr/WudianMgr":50,"../../QQMiniGameAPI":56,"../../User/User":63,"../../Utilit":64,"../ViewBase":110}],74:[function(require,module,exports){
+},{"../../Config/AppSwitchConfig":5,"../../Config/LevelConfig":7,"../../Event/EventDef":9,"../../Event/EventMgr":10,"../../Mgr/GameMgr":46,"../../Mgr/ViewMgr":48,"../../Mgr/WudianMgr":50,"../../QQMiniGameAPI":56,"../../User/User":63,"../../Utilit":64,"../ViewBase":110}],74:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var ViewBase_1 = require("../ViewBase");
@@ -8883,6 +8454,7 @@ var EventMgr_1 = require("../../Event/EventMgr");
 var EventDef_1 = require("../../Event/EventDef");
 var GameMgr_1 = require("../../Mgr/GameMgr");
 var ViewMgr_1 = require("../../Mgr/ViewMgr");
+var LevelConfig_1 = require("../../Config/LevelConfig");
 var TouchCtr_1 = require("../../GameCore/TouchCtr");
 var User_1 = require("../../User/User");
 var WudianMgr_1 = require("../../Mgr/WudianMgr");
@@ -8908,6 +8480,7 @@ var GameView = /** @class */ (function (_super) {
         configurable: true
     });
     GameView.prototype.onAwake = function () {
+        sessionStorage.setItem("CurrentScreen","GameScreen");
         GameView._instance = this;
         this._topZone = this.owner.getChildByName("TopZone");
         if (Utilit_1.default.isIphoneX()) {
@@ -8922,6 +8495,8 @@ var GameView = /** @class */ (function (_super) {
     GameView.prototype.onUpdate = function () {
         if(sessionStorage.getItem("GiveRewardSL") == 1){
             sessionStorage.removeItem("GiveRewardSL");
+            let level = parseInt(sessionStorage.getItem("SelectedLevel"));
+            sendCustomAnalyticsEvent("game_level", {level: level});
             var _this = this;
             this._skipBtn.visible = false;
             QQMiniGameAPI_1.default.showRewardedVideoAd(function (ok) {
@@ -8934,23 +8509,58 @@ var GameView = /** @class */ (function (_super) {
                 _this._skipBtn.visible = true;
             })
        }
+       if(sessionStorage.getItem("CancelRewardSL") == 1){
+        sessionStorage.removeItem("CancelRewardSL");
+       }
+       if(sessionStorage.getItem("gotoHomeEvent") == 1){
+            sessionStorage.removeItem("gotoHomeEvent");
+            let level = parseInt(sessionStorage.getItem("SelectedLevel"));
+            sendCustomAnalyticsEvent('game_end', {level: level,score:0,highScore:0});
+            this.CloseOldScene();
+            EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.Game_ExitGame);
+            ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.GameMainView);
+            this.closeView();
+        }
+        if(sessionStorage.getItem("replayGameEvent") == 1){
+            sessionStorage.removeItem("replayGameEvent");
+            let level = parseInt(sessionStorage.getItem("SelectedLevel"));
+            sendCustomAnalyticsEvent('game_end', {level: level,score:0,highScore:0});
+            sendCustomAnalyticsEvent("game_replay", {level: level,score:0,highScore:0});
+            sendCustomAnalyticsEvent("game_level", {level: level});
+            var _this = this;
+            this._skipBtn.visible = false;
+            QQMiniGameAPI_1.default.showRewardedVideoAd(function (ok) {
+                if (ok) {
+                    _this.LoadGame();
+                }
+                _this._skipBtn.visible = true;
+            }, function () {
+                _this._skipBtn.visible = true;
+            });
+        }
+        if(sessionStorage.getItem("nextLevelEvent") == 1){
+            sessionStorage.removeItem("nextLevelEvent");
+            var _this = this;
+            sessionStorage.setItem("SelectedLevel",parseInt(sessionStorage.getItem("SelectedLevel"))+1);
+            let level = parseInt(sessionStorage.getItem("SelectedLevel"));
+            sendCustomAnalyticsEvent("game_level", {level: level});
+            if(parseInt(localStorage.getItem("Level")) < level)
+            User_1.default.unLockMaxLevelNum(level);
+            _this.LoadGameEvent(parseInt(sessionStorage.getItem("SelectedLevel")));
+            _this._skipBtn.visible = true;
+       }
+       if(sessionStorage.getItem("gotoLevel") > 0){
+            let LevelNo = parseInt(sessionStorage.getItem("gotoLevel"));
+            sendCustomAnalyticsEvent("game_level", {level: LevelNo});
+            sessionStorage.removeItem("gotoLevel");
+            sessionStorage.setItem("SelectedLevel",LevelNo);
+            if(parseInt(localStorage.getItem("Level")) < LevelNo)
+            User_1.default.unLockMaxLevelNum(LevelNo);
+            var _this = this;
+            _this.LoadGameEvent(parseInt(sessionStorage.getItem("SelectedLevel")));
+            _this._skipBtn.visible = true;
+        }
     };
-    // FreeRewardView.prototype.onUpdate = function () {
-    //     if(sessionStorage.getItem("reward-Free") == 1){
-    //         sessionStorage.removeItem("reward-Free");
-    //         var _this = this;
-    //         this._rewardBtn.visible = false;
-    //         QQMiniGameAPI_1.default.showRewardedVideoAd(function (ok) {
-    //             if (ok) {
-    //                 //todo:开始下一关游戏，设置当前关卡进度
-    //                 _this.GameOver(true);
-    //             }
-    //             _this._rewardBtn.visible = true;
-    //         }, function () {
-    //             _this._rewardBtn.visible = true;
-    //         })
-    //    }
-    // };
     GameView.prototype.addEvent = function () {
         this._exitBtn.on(Laya.Event.CLICK, this, this.onExitBtn);
         this._restartBtn.on(Laya.Event.CLICK, this, this.onRestarBtn);
@@ -8961,36 +8571,32 @@ var GameView = /** @class */ (function (_super) {
         this._restartBtn.off(Laya.Event.CLICK, this, this.onRestarBtn);
         this._skipBtn.off(Laya.Event.CLICK, this, this.onSkipBtn);
     };
-    GameView.prototype.onTipClick = function () {
-        var url = "subRes/sound/bg.ogg"
-        Laya.SoundManager.playMusic(url,0);
-        this._tipBtn.visible = false;
-        sessionStorage.setItem("reward-type","reward-HT");
-            if (!is_rewarded_noFill) {
-                this._tipBtn.visible = false;
-                setTimeout(() => {Laya.SoundManager.muted = true;
-                window.GlanceGamingAdInterface.showRewarededAd(rewardInstance);},1000);
-            } 
-            else{
-                var url = "subRes/sound/bg.ogg"
-                Laya.SoundManager.playMusic(url,0);
-                rewardInstance.destroyAd();
-                this._tipBtn.visible = false;
-                rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameMgr_1.prototype.rewardedCallbacks);
-                this.giveRewardHT();
-            }
-    };
     GameView.prototype.onExitBtn = function () {
+        let level = parseInt(sessionStorage.getItem("SelectedLevel"));
+        sendCustomAnalyticsEvent('game_end', {level: level,score:0,highScore:0});
         this.CloseOldScene();
         EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.Game_ExitGame);
         ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.GameMainView);
         this.closeView();
     };
     GameView.prototype.onRestarBtn = function () {
+        if (!is_replay_noFill) {
+            sessionStorage.setItem("reward-type","replay-RP2");
+            Laya.SoundManager.muted = true;
+            window.GlanceGamingAdInterface.showRewarededAd(replayInstance);
+        }else{
+            let level = parseInt(sessionStorage.getItem("SelectedLevel"));
+            sendCustomAnalyticsEvent('game_end', {level: level,score:0,highScore:0});
+            sendCustomAnalyticsEvent("game_replay", {level: level,score:0,highScore:0});
+            sendCustomAnalyticsEvent("game_level", {level: level});
+            if(replayInstance != undefined)
+            replayInstance.destroyAd();
+            replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(replayObj, GameMgr_1.default.prototype.rewardedCallbacks);
+        }
         var _this = this;
         this._skipBtn.visible = false;
         QQMiniGameAPI_1.default.showRewardedVideoAd(function (ok) {
-            if (ok) {
+            if (ok) { 
                 _this.LoadGame();
             }
             _this._skipBtn.visible = true;
@@ -8999,68 +8605,60 @@ var GameView = /** @class */ (function (_super) {
         });
     };
     GameView.prototype.onSkipBtn = function () {
-        // alert("skip")
-        // console.log(is_rewarded_noFill);
-        // if (!is_rewarded_noFill) {
-        //     sessionStorage.setItem("reward-type","replay-RP");
-        //     window.GlanceGamingAdInterface.showRewarededAd(replayInstance);
-        //     replayInstance.destroyAd();
-        // }else{
-        //     if(replayInstance != undefined)
-        //     replayInstance.destroyAd();
-        //     replayInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, GameView.prototype.rewardedCallbacks);
-        // }
-        // alert('skip'
-        //Approach-2
-        // console.log(this._data.levelNum);
-        // let level = parseInt( this._data.levelNum+ 1);
-        //     sendCustomAnalyticsEvent("game level", { level: level });
-        //     var url = "subRes/sound/bgm.ogg";
-        //     Laya.SoundManager.playMusic(url, 0);
-            
-        //     if (rewardInstance && typeof rewardInstance.loadRewardedAd === 'function') {
-        //       rewardInstance.destroyAd();
-        //     }
-            
-        //     this.onSkipBtn.visible = false;
-            
-        //     if (typeof window.GlanceGamingAdInstance === 'object' && typeof window.GlanceGamingAdInstance.loadRewardedAd === 'function') {
-        //       rewardInstance = window.GlanceGamingAdInstance;
-        //       rewardInstance.loadRewardedAd(rewardObj, GameView.prototype.rewardedCallbacks);
-        //     }
-        //     sessionStorage.setItem("GiveRewardsSL", 1);
-            //approach-3
-            sessionStorage.setItem("reward-type","reward-SL");
+        sendCustomAnalyticsEvent("rewarded_ad", {successCB : 'giveRewardSL',failureCB: 'cancelRewardSL'});
             if (!is_rewarded_noFill) {
-                this.onSkipBtn.visible = false;
-                Laya.SoundManager.stopMusic();
-                window.GlanceGamingAdInterface.showRewarededAd(rewardInstance); //This should be showRewarededAd. We are showing the ad here. LoadrewardedAd should only be called at the very start in the onAwake function and then loadRewardedAd function should only be called when we show the ad and need to fetch it for the next time.
+                sessionStorage.setItem("reward-type","reward-SL");
+                Laya.SoundManager.muted = true;
+                window.GlanceGamingAdInterface.showRewarededAd(rewardInstance);
             } 
             else{
-                let level = parseInt(this._data.levelNum+1);
-                sendCustomAnalyticsEvent("game_level", {level: level});
-                var url = "subRes/sound/bgm.ogg"
-                Laya.SoundManager.playMusic(url,0);
+                if(rewardInstance != undefined)
                 rewardInstance.destroyAd();
-                this.onSkipBtn.visible = false;
-                rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameMgr_1.prototype.rewardedCallbacks);
-                sessionStorage.setItem("GiveRewardSL",1);
+                rewardInstance=window.GlanceGamingAdInterface.loadRewardedAd(rewardObj,GameMgr_1.default.prototype.rewardedCallbacks);
+                giveRewardSL();
             }
     };
     GameView.prototype.LoadGame = function () {
         this.CloseOldScene();
         // Laya.timer.frameOnce(2, this, () => {
         this.LoadStep1();
-        this._levelText.text = "LEVEL: " + this._data.levelNum;
+        if(lang == "IND")
+        this._levelText.text = "TINGKAT: " + this._data.levelNum;
+        else this._levelText.text = "LEVEL: " + this._data.levelNum;
         // });
     };
     GameView.prototype.LoadStep1 = function () {
         var _this = this;
         var level = this._data.levelNum;
         if (level > 50) {
-            console.log("关卡超出边界,虚假关卡为:" + level);
+            //console.log("关卡超出边界,虚假关卡为:" + level);
             level = Math.ceil(this.GetRdSeed(level + 12345) * 48) + 2;
-            console.log("关卡超出边界,真实关卡为:" + level);
+            //console.log("关卡超出边界,真实关卡为:" + level);
+        }
+        // Laya.Scene.load("GameScene/CutRope - 副本.json", Laya.Handler.create(this, (scene: Laya.Scene) => {
+        Laya.Scene.load("GameScene/level_" + level + ".json", Laya.Handler.create(this, function (scene) {
+            _this.owner.addChildAt(scene, 0);
+            _this._currentScene = scene;
+            _this._currentScene.addComponent(TouchCtr_1.default);
+        }, null));
+    };
+    GameView.prototype.LoadGameEvent = function (levelNo) {
+        this.CloseOldScene();
+        // Laya.timer.frameOnce(2, this, () => {
+        this.LoadStep1Event(levelNo);
+        if(lang == "IND")
+        this._levelText.text = "TINGKAT: " + levelNo;
+        else this._levelText.text = "LEVEL: " + levelNo;
+        // });
+    };
+    GameView.prototype.LoadStep1Event = function (levelNo) {
+        var _this = this;
+        this._data.levelNum = levelNo;
+        var level = levelNo;
+        if (level > 50) {
+            //console.log("关卡超出边界,虚假关卡为:" + level);
+            level = Math.ceil(this.GetRdSeed(level + 12345) * 48) + 2;
+            //console.log("关卡超出边界,真实关卡为:" + level);
         }
         // Laya.Scene.load("GameScene/CutRope - 副本.json", Laya.Handler.create(this, (scene: Laya.Scene) => {
         Laya.Scene.load("GameScene/level_" + level + ".json", Laya.Handler.create(this, function (scene) {
@@ -9089,7 +8687,7 @@ var GameView = /** @class */ (function (_super) {
         Laya.Physics.I.start();
     };
     GameView.prototype.onShow = function () {
-        EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.Game_StopBgm);
+        //EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.Game_StopBgm);
         ViewMgr_1.default.instance.closeView(ViewMgr_1.ViewDef.GameMainView);
         User_1.default.subEnergy(this._data.costEnergy);
         CachedQQBannerAd_1.default.hide();
@@ -9097,7 +8695,7 @@ var GameView = /** @class */ (function (_super) {
     };
     GameView.prototype.GameOver = function (win) {
         var _this = this;
-        console.log("Game Over, Result :", win);
+        //console.log("Game Over, Result :", win);
         Laya.timer.frameOnce(1, this, function () {
             _this.CloseOldScene();
             _this.closeView();
@@ -9111,7 +8709,7 @@ var GameView = /** @class */ (function (_super) {
                 {
                     EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.Game_onGameComplate, { isWin: win, levelNum: data.levelNum, crystalReward: data.crystalReward });
                 }
-                // console.log("游戏开始狂点停留时间",(Laya.timer.currTimer - currTime) / 1000);
+                // //console.log("游戏开始狂点停留时间",(Laya.timer.currTimer - currTime) / 1000);
                 // ALD.aldSendOnlySingleReport(ALDEventDef.StayComplateClickGetPrizeTime,
                 //     {
                 //         "时间": (Laya.timer.currTimer - currTime) / 1000
@@ -9133,7 +8731,7 @@ var GameView = /** @class */ (function (_super) {
     return GameView;
 }(ViewBase_1.default));
 exports.default = GameView;
-},{"../../CachedQQBannerAd":3,"../../Event/EventDef":9,"../../Event/EventMgr":10,"../../GameCore/TouchCtr":26,"../../Mgr/GameMgr":46,"../../Mgr/ViewMgr":48,"../../Mgr/WudianMgr":50,"../../QQMiniGameAPI":56,"../../User/User":63,"../../Utilit":64,"../ViewBase":110}],75:[function(require,module,exports){
+},{"../../CachedQQBannerAd":3,"../../Config/LevelConfig":7,"../../Event/EventDef":9,"../../Event/EventMgr":10,"../../GameCore/TouchCtr":26,"../../Mgr/GameMgr":46,"../../Mgr/ViewMgr":48,"../../Mgr/WudianMgr":50,"../../QQMiniGameAPI":56,"../../User/User":63,"../../Utilit":64,"../ViewBase":110}],75:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 function isIViewStateListener(element) {
@@ -9159,6 +8757,7 @@ var LevelStateBox = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     LevelStateBox.prototype.onAwake = function () {
+        sessionStorage.setItem("CurrentScreen","LevelSelector");
         this._currentTag = this.owner.getChildByName("Current");
         this._complateTag = this.owner.getChildByName("Complate");
         this._lockTag = this.owner.getChildByName("Lock");
@@ -9191,95 +8790,11 @@ var LevelStateBox = /** @class */ (function (_super) {
     };
     LevelStateBox.prototype.onClick = function () {
         var data = this._data;
+        sessionStorage.setItem("ReplayAnalytics",1);
         if (null != data) {
             var currentLevelNum = User_1.default.getLeveNum();
+            sessionStorage.setItem("SelectedLevel",data.levelNum);
             if (currentLevelNum >= data.levelNum) {
-                if (1 == data.vedioCostNoEnergy) {
-                    LevelStateBox.LockClick = true;
-                    QQMiniGameAPI_1.default.showRewardedVideoAd(function (ok) {
-                        if (ok) {
-                            //不消耗体力开局
-                            EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.Game_StartGame, {
-                                levelNum: data.levelNum,
-                                costEnergy: data.costEnergy * 0,
-                                crystalReward: data.getDiamond,
-                            });
-                            ViewMgr_1.default.instance.closeView(ViewMgr_1.ViewDef.LevelStateView);
-                        }
-                        else {
-                            if (User_1.default.getEnergy() < data.costEnergy) {
-                                ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.FreeRewardView, {
-                                    rewardType: FreeRewardView_1.FreeRewardType.Energy
-                                });
-                                // ViewMgr.instance.showTips("体力不足");
-                                return;
-                            }
-                            EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.Game_StartGame, {
-                                levelNum: data.levelNum,
-                                costEnergy: data.costEnergy,
-                                crystalReward: data.getDiamond,
-                            });
-                            ViewMgr_1.default.instance.closeView(ViewMgr_1.ViewDef.LevelStateView);
-                        }
-                        LevelStateBox.LockClick = false;
-                    }, function () {
-                        if (User_1.default.getEnergy() < data.costEnergy) {
-                            ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.FreeRewardView, {
-                                rewardType: FreeRewardView_1.FreeRewardType.Energy
-                            });
-                            // ViewMgr.instance.showTips("体力不足");
-                            return;
-                        }
-                        //正常开局
-                        LevelStateBox.LockClick = false;
-                        EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.Game_StartGame, {
-                            levelNum: data.levelNum,
-                            costEnergy: data.costEnergy,
-                            crystalReward: data.getDiamond,
-                        });
-                        ViewMgr_1.default.instance.closeView(ViewMgr_1.ViewDef.LevelStateView);
-                    });
-                }
-                else if (1 == data.vedioDoubleDiamond) {
-                    if (User_1.default.getEnergy() < data.costEnergy) {
-                        ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.FreeRewardView, {
-                            rewardType: FreeRewardView_1.FreeRewardType.Energy
-                        });
-                        // ViewMgr.instance.showTips("体力不足");
-                        return;
-                    }
-                    QQMiniGameAPI_1.default.showRewardedVideoAd(function (ok) {
-                        if (ok) {
-                            //双倍奖励开局
-                            EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.Game_StartGame, {
-                                levelNum: data.levelNum,
-                                costEnergy: data.costEnergy,
-                                crystalReward: data.getDiamond * 2,
-                            });
-                            ViewMgr_1.default.instance.closeView(ViewMgr_1.ViewDef.LevelStateView);
-                        }
-                        else {
-                            //正常开局
-                            EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.Game_StartGame, {
-                                levelNum: data.levelNum,
-                                costEnergy: data.costEnergy,
-                                crystalReward: data.getDiamond,
-                            });
-                            ViewMgr_1.default.instance.closeView(ViewMgr_1.ViewDef.LevelStateView);
-                        }
-                        LevelStateBox.LockClick = false;
-                    }, function () {
-                        //正常开局
-                        LevelStateBox.LockClick = false;
-                        EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.Game_StartGame, {
-                            levelNum: data.levelNum,
-                            costEnergy: data.costEnergy,
-                            crystalReward: data.getDiamond,
-                        });
-                        ViewMgr_1.default.instance.closeView(ViewMgr_1.ViewDef.LevelStateView);
-                    });
-                }
-                else {
                     if (User_1.default.getEnergy() < data.costEnergy) {
                         ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.FreeRewardView, {
                             rewardType: FreeRewardView_1.FreeRewardType.Energy
@@ -9294,7 +8809,6 @@ var LevelStateBox = /** @class */ (function (_super) {
                         crystalReward: data.getDiamond,
                     });
                     ViewMgr_1.default.instance.closeView(ViewMgr_1.ViewDef.LevelStateView);
-                }
             }
         }
     };
@@ -9515,6 +9029,7 @@ var MainView = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     MainView.prototype.onAwake = function () {
+        sessionStorage.setItem("CurrentScreen","MainMenu");
         this._topZone = this.owner.getChildByName("TopZone");
         if (Utilit_1.default.isIphoneX()) {
             this._topZone.top = 70;
@@ -9532,8 +9047,8 @@ var MainView = /** @class */ (function (_super) {
         this._moreGameBtn.visible = false;
         //this._LogoAnim = this._autoZone.getChildByName("LogoAni") as Laya.Sprite;
         //this._LogoAnim.visible = false;
-        this._freeCryStalBtn = this._topZone.getChildByName("FreeCrystalBtn");
-        this._freeEnergyBtn = this._topZone.getChildByName("FreeEnergyBtn");
+    //    this._freeCryStalBtn = this._topZone.getChildByName("FreeCrystalBtn");
+    //    this._freeEnergyBtn = this._topZone.getChildByName("FreeEnergyBtn");
         this._skinBtn = this._topZone.getChildByName("SkinBtn");
         // this._shareBtn = this._autoZone.getChildByName("ShareBtn") as Laya.Sprite;
         // ALD.aldSendOnlySingleReport(ALDEventDef.EnterMainView);
@@ -9550,8 +9065,8 @@ var MainView = /** @class */ (function (_super) {
     MainView.prototype.addEvent = function () {
         this._startGameBtn.on(Laya.Event.CLICK, this, this.onStartGameBtn);
         this._moreGameBtn.on(Laya.Event.CLICK, this, this.onMoreGameBtn);
-        this._freeCryStalBtn.on(Laya.Event.CLICK, this, this.onFreeCrystalBtn);
-        this._freeEnergyBtn.on(Laya.Event.CLICK, this, this.onFreeEnergyBtn);
+       // this._freeCryStalBtn.on(Laya.Event.CLICK, this, this.onFreeCrystalBtn);
+       // this._freeEnergyBtn.on(Laya.Event.CLICK, this, this.onFreeEnergyBtn);
         this._skinBtn.on(Laya.Event.CLICK, this, this.onSkinBtn);
         // this._shareBtn.on(Laya.Event.CLICK,this,this.onShareBtn);
         EventMgr_1.default.instance.regEvemt(EventDef_1.EventDef.Game_OnUserCrystalChange, this, this.onCrystalChange);
@@ -9562,8 +9077,8 @@ var MainView = /** @class */ (function (_super) {
     MainView.prototype.removeEvent = function () {
         this._startGameBtn.off(Laya.Event.CLICK, this, this.onStartGameBtn);
         this._moreGameBtn.off(Laya.Event.CLICK, this, this.onMoreGameBtn);
-        this._freeCryStalBtn.off(Laya.Event.CLICK, this, this.onFreeCrystalBtn);
-        this._freeEnergyBtn.off(Laya.Event.CLICK, this, this.onFreeEnergyBtn);
+       // this._freeCryStalBtn.off(Laya.Event.CLICK, this, this.onFreeCrystalBtn);
+        //this._freeEnergyBtn.off(Laya.Event.CLICK, this, this.onFreeEnergyBtn);
         this._skinBtn.off(Laya.Event.CLICK, this, this.onSkinBtn);
         // this._shareBtn.off(Laya.Event.CLICK,this,this.onShareBtn);
         EventMgr_1.default.instance.removeEvent(EventDef_1.EventDef.Game_OnUserCrystalChange, this, this.onCrystalChange);
@@ -9608,11 +9123,13 @@ var MainView = /** @class */ (function (_super) {
         QQMiniGameAPI_1.default.showAppBoxAd(function () { }, function () { });
     };
     MainView.prototype.onStartGameBtn = function () {
+
         // ALD.aldSendOnlySingleReport(ALDEventDef.ClickGameStart);        
         this.closeView();
         ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.LevelStateView);
     };
     MainView.prototype.onShow = function () {
+        if(Laya.SoundManager._bgMusic == null)
         EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.Game_PlayBgm);
     };
     MainView.prototype.changeAdMask = function (visible) {
@@ -10042,8 +9559,8 @@ var QQCrazyClick = /** @class */ (function (_super) {
         Laya.loader.load("ClickGetPrize/quanji.png", Laya.Handler.create(this, function (texture) {
             texture.bitmap.lock = true;
             Laya.loader.load("ClickGetPrize/quanji.sk", Laya.Handler.create(_this, function (bytes) {
-                console.log("texture", texture);
-                console.log("bytes", bytes);
+                //console.log("texture", texture);
+                //console.log("bytes", bytes);
                 var template = new Laya.Templet();
                 template.parseData(texture, bytes);
                 self.drgon = template.buildArmature();
@@ -10054,7 +9571,7 @@ var QQCrazyClick = /** @class */ (function (_super) {
                 self.drgon.scaleY = 2;
                 self.drgon.parent.setChildIndex(self.drgon, 1);
                 self.drgon.play(0, true);
-                console.log("quanji 加载完成!!!!", template);
+                //console.log("quanji 加载完成!!!!", template);
             }), Laya.Handler.create(_this, function () { }), "", 0, false, "", true);
         }), Laya.Handler.create(this, function () { }), "", 0, false, "", true);
     };
@@ -10187,8 +9704,8 @@ var QQCrazyClick2 = /** @class */ (function (_super) {
         Laya.loader.load("ClickGetPrize/quanji.png", Laya.Handler.create(this, function (texture) {
             texture.bitmap.lock = true;
             Laya.loader.load("ClickGetPrize/quanji.sk", Laya.Handler.create(_this, function (bytes) {
-                console.log("texture", texture);
-                console.log("bytes", bytes);
+                //console.log("texture", texture);
+                //console.log("bytes", bytes);
                 var template = new Laya.Templet();
                 template.parseData(texture, bytes);
                 self.drgon = template.buildArmature();
@@ -10199,7 +9716,7 @@ var QQCrazyClick2 = /** @class */ (function (_super) {
                 self.drgon.scaleY = 2;
                 self.drgon.parent.setChildIndex(self.drgon, 1);
                 self.drgon.play(0, true);
-                console.log("quanji 加载完成!!!!", template);
+                //console.log("quanji 加载完成!!!!", template);
             }), Laya.Handler.create(_this, function () { }), "", 0, false, "", true);
         }), Laya.Handler.create(this, function () { }), "", 0, false, "", true);
     };
@@ -10351,8 +9868,8 @@ var ScaleBreathingAni = /** @class */ (function (_super) {
         }
     };
     ScaleBreathingAni.prototype.onFocusChange = function () {
-        this._ownerSprite.scale(this.maxScale, this.maxScale);
-        this._add = false;
+        // this._ownerSprite.scale(this.maxScale, this.maxScale);
+        // this._add = false;
     };
     return ScaleBreathingAni;
 }(Laya.Script));
@@ -10684,8 +10201,8 @@ var TTCrazyClick = /** @class */ (function (_super) {
         Laya.loader.load("ClickGetPrize/quanji.png", Laya.Handler.create(this, function (texture) {
             texture.bitmap.lock = true;
             Laya.loader.load("ClickGetPrize/quanji.sk", Laya.Handler.create(_this, function (bytes) {
-                console.log("texture", texture);
-                console.log("bytes", bytes);
+                //console.log("texture", texture);
+                //console.log("bytes", bytes);
                 var template = new Laya.Templet();
                 template.parseData(texture, bytes);
                 self.drgon = template.buildArmature();
@@ -10696,7 +10213,7 @@ var TTCrazyClick = /** @class */ (function (_super) {
                 self.drgon.scaleY = 2;
                 self.drgon.parent.setChildIndex(self.drgon, 1);
                 self.drgon.play(0, true);
-                console.log("quanji 加载完成!!!!", template);
+                //console.log("quanji 加载完成!!!!", template);
             }), Laya.Handler.create(_this, function () { }), "", 0, false, "", true);
         }), Laya.Handler.create(this, function () { }), "", 0, false, "", true);
     };
@@ -11408,34 +10925,34 @@ var OPPONativeAdViewTemplate = /** @class */ (function (_super) {
             });
             this._nativeAd.load();
             this._nativeAd.onLoad(function (res) {
-                console.log("原生广告加载成功：", res);
+                //console.log("原生广告加载成功：", res);
                 var adlist = res.adList;
                 for (var i = 0; i < adlist.length; ++i) {
                     var ad = adlist[i];
-                    console.log("原生广告数据：", i);
+                    //console.log("原生广告数据：", i);
                     for (var key in ad) {
-                        console.log(key, ad[key]);
+                        //console.log(key, ad[key]);
                     }
                 }
                 self._curAdItem = adlist[Math.floor(Math.random() * adlist.length)];
                 if (null != self._curAdItem) {
                     for (var i = 0; i < self._curAdItem.imgUrlList.length; ++i) {
-                        console.log("imgUrlList : ", i + " ", self._curAdItem.imgUrlList[i]);
+                        //console.log("imgUrlList : ", i + " ", self._curAdItem.imgUrlList[i]);
                     }
                     var imgulr = self._curAdItem.imgUrlList[Math.floor(Math.random() * self._curAdItem.imgUrlList.length)];
                     self._display.loadImage(imgulr);
                     self._nativeAd.reportAdShow({
                         adId: self._curAdItem.adId
                     });
-                    console.log("加载图片", imgulr);
-                    console.log("点击上报！！！");
+                    //console.log("加载图片", imgulr);
+                    //console.log("点击上报！！！");
                 }
                 self._centerZone.visible = true;
             });
             this._nativeAd.onError(function (res) {
-                console.log("原生广告加载失败：", res);
+                //console.log("原生广告加载失败：", res);
                 for (var key in res) {
-                    console.log(key, res[key]);
+                    //console.log(key, res[key]);
                 }
                 self.closeView();
             });
@@ -11447,14 +10964,14 @@ var OPPONativeAdViewTemplate = /** @class */ (function (_super) {
     };
     OPPONativeAdViewTemplate.prototype.onOkBtn = function () {
         if (Math.random() * 100 <= AppSwitchConfig_1.default.getInstance().getAppSwitchData().oppocfg.yuansheng) {
-            console.log("进入变态广告");
+            //console.log("进入变态广告");
             this.onDisplayClick();
         }
         this.closeView();
     };
     OPPONativeAdViewTemplate.prototype.onDisplayClick = function () {
         if (null != this._nativeAd && null != this._curAdItem) {
-            console.log("点击上报！！！");
+            //console.log("点击上报！！！");
             this._nativeAd.reportAdClick({
                 adId: this._curAdItem.adId
             });
@@ -11847,30 +11364,30 @@ var WXAPI = /** @class */ (function () {
                     if (res.code) {
                         var code = res.code;
                         onSuccess(code);
-                        console.log("登陆成功,获取到code : " + code);
+                        //console.log("登陆成功,获取到code : " + code);
                     }
                 }
             });
         }
     };
     WXAPI.onRewardedVideoAdLoad = function () {
-        console.log('激励视频 广告加载完成');
+        //console.log('激励视频 广告加载完成');
     };
     WXAPI.onRewardedVideoAdError = function (err) {
-        console.log('激励视频 广告加载失败' + err);
+        //console.log('激励视频 广告加载失败' + err);
         if (WXAPI._onRewardedVideoAdFailed) {
             WXAPI._onRewardedVideoAdFailed();
         }
     };
     WXAPI.onRewardedVideoAdClose = function (res) {
         if ((res && res.isEnded) || res == null) {
-            console.log('激励视频 已完整观看');
+            //console.log('激励视频 已完整观看');
             if (WXAPI._onRewardedVideoAdClose) {
                 WXAPI._onRewardedVideoAdClose(true);
             }
         }
         else {
-            console.log('激励视频 未完整观看');
+            //console.log('激励视频 未完整观看');
             if (WXAPI._onRewardedVideoAdClose) {
                 WXAPI._onRewardedVideoAdClose(false);
             }
@@ -11900,19 +11417,20 @@ var WXAPI = /** @class */ (function () {
             }
             rewardedVideoAd.load().then(function () {
                 var promise = rewardedVideoAd.show();
-                promise.then(function () { return console.log('激励视频 广告显示成功'); });
+                promise.then(function () { return //console.log('激励视频 广告显示成功');
+             });
                 promise.catch(function (err) {
                     rewardedVideoAd.load()
                         .then(function () { return rewardedVideoAd.show(); })
                         .catch(function (err) {
-                        console.log('激励视频 广告显示失败');
+                        //console.log('激励视频 广告显示失败');
                         if (onFailed) {
                             onFailed();
                         }
                     });
                 });
             }).catch(function (err) {
-                console.log('激励视频 广告加载失败');
+                //console.log('激励视频 广告加载失败');
                 if (onFailed) {
                     onFailed();
                 }
@@ -11926,7 +11444,7 @@ var WXAPI = /** @class */ (function () {
     //-------------------------小游戏跳转---------------------------
     WXAPI.navigateToMiniProgram = function (appId, path, onSuccess, onFail, onComplate) {
         if (Laya.Browser.onMiniGame) {
-            console.log("跳转游戏： " + appId);
+            //console.log("跳转游戏： " + appId);
             Laya.Browser.window["wx"].navigateToMiniProgram({
                 appId: appId,
                 path: path,
@@ -11984,22 +11502,22 @@ var WXAPI = /** @class */ (function () {
                 adUnitId: WXAPI.InsAdUnitId,
             });
             interstitialAd.onLoad(function () {
-                console.log('插屏广告 加载完成');
+                //console.log('插屏广告 加载完成');
                 interstitialAd.show().catch(function (err) {
-                    console.log('插屏广告 显示失败 ：' + err);
+                    //console.log('插屏广告 显示失败 ：' + err);
                     if (onFailed) {
                         onFailed();
                     }
                 });
             });
             interstitialAd.onError(function (err) {
-                console.log('插屏广告 加载失败' + err);
+                //console.log('插屏广告 加载失败' + err);
                 if (onFailed) {
                     onFailed();
                 }
             });
             interstitialAd.onClose(function () {
-                console.log('插屏广告 关闭');
+                //console.log('插屏广告 关闭');
                 if (onAdClose) {
                     onAdClose();
                 }
@@ -12015,7 +11533,6 @@ var WXAPI = /** @class */ (function () {
      * query    Object  启动小游戏的 query 参数
      * shareTicket  string  shareTicket，详见获取更多转发信息
      * referrerInfo object  来源信息。从另一个小程序、公众号或 App 进入小程序时返回。否则返回 {}
-     * https://developers.weixin.qq.com/minigame/dev/api/base/app/life-cycle/wx.getLaunchOptionsSync.html
      * @static
      * @returns {LaunchOptions}
      * @memberof WXAPI
@@ -12024,14 +11541,14 @@ var WXAPI = /** @class */ (function () {
         // let result = { scene: 0, query: null, shareTicket: "", referrerInfo: null };
         if (Laya.Browser.onMiniGame) {
             var obj_1 = Laya.Browser.window["wx"].getLaunchOptionsSync();
-            // console.log("场景值 " + obj.scene);
+            // //console.log("场景值 " + obj.scene);
             var str = JSON.stringify(obj_1.query);
-            // console.log("Query参数 " + str);
+            // //console.log("Query参数 " + str);
             var key = obj_1.query["key"];
-            // console.log("Query参数：key " + key);
-            // console.log("ShareTicket " + obj.shareTicket);
-            // console.log("ReferrerInfo.appId " + obj.referrerInfo.appId);
-            // console.log("ReferrerInfo.extraData " + obj.referrerInfo.extraData);
+            // //console.log("Query参数：key " + key);
+            // //console.log("ShareTicket " + obj.shareTicket);
+            // //console.log("ReferrerInfo.appId " + obj.referrerInfo.appId);
+            // //console.log("ReferrerInfo.extraData " + obj.referrerInfo.extraData);
             return obj_1;
         }
         var obj = { scene: 1001, query: "", shareTicket: "", appId: "", extraData: "" };
@@ -12052,7 +11569,7 @@ var WXAPI = /** @class */ (function () {
      */
     WXAPI.SetShareMenu = function (titel, imageUrl, success, fail, complate) {
         if (Laya.Browser.onMiniGame) {
-            console.log("小游戏设置转发按钮");
+            //console.log("小游戏设置转发按钮");
             Laya.Browser.window["wx"].showShareMenu({
                 withShareTicket: false,
                 success: success,
@@ -12072,7 +11589,7 @@ var WXAPI = /** @class */ (function () {
         if (Laya.Browser.onMiniGame) {
             var updateManager = Laya.Browser.window["wx"].getUpdateManager();
             updateManager.onCheckForUpdate(function (res) {
-                console.log("是否需要更新 : ", res.hasUpdate);
+                //console.log("是否需要更新 : ", res.hasUpdate);
             });
             updateManager.onUpdateReady(function () {
                 Laya.Browser.window["wx"].showModal({
@@ -12086,7 +11603,7 @@ var WXAPI = /** @class */ (function () {
                 });
             });
             updateManager.onUpdateFailed(function () {
-                console.log("新版本下载失败!!!");
+                //console.log("新版本下载失败!!!");
             });
         }
     };
@@ -12138,7 +11655,7 @@ var ui;
                 _super.prototype.createChildren.call(this);
                 this.createView(LoadingUI.uiView);
             };
-            LoadingUI.uiView = { "type": "Scene", "props": { "width": 750, "top": 0, "right": 0, "left": 0, "height": 1334, "bottom": 0 }, "compId": 2, "child": [{ "type": "Image", "props": { "top": 0, "skin": "GameCommon/loding.jpg", "centerX": 0 }, "compId": 24 }, { "type": "Clip", "props": { "y": 0, "x": 1, "width": 750, "name": "Bg", "height": 1334 }, "compId": 6, "child": [{ "type": "Clip", "props": { "skin": "comp/clip_num.png", "right": 0, "name": "BottomZone", "left": 0, "height": 570, "bottom": 100 }, "compId": 23, "child": [{ "type": "Clip", "props": { "y": 326, "x": 376, "width": 615, "skin": "Loading/loading下条.png", "pivotY": 22, "pivotX": 308, "name": "processBarBg", "height": 44, "sizeGrid": "0,25,0,25" }, "compId": 8, "child": [{ "type": "Clip", "props": { "y": 22, "x": 10, "width": 594, "skin": "Loading/loading上条.png", "pivotY": 13, "name": "processBar", "left": 11, "height": 26, "bottom": 9, "sizeGrid": "0,12,0,12" }, "compId": 5, "child": [{ "type": "Sprite", "props": { "y": -24, "x": 292, "width": 143, "visible": true, "texture": "Loading/资源加载中.png", "pivotY": 12, "pivotX": 72, "height": 23 }, "compId": 25, "child": [{ "type": "Sprite", "props": { "y": 15, "x": 149, "width": 6, "texture": "Loading/加载顿号.png", "height": 5 }, "compId": 26 }, { "type": "Sprite", "props": { "y": 15, "x": 159, "width": 6, "texture": "Loading/加载顿号.png", "height": 5 }, "compId": 27 }, { "type": "Sprite", "props": { "y": 15, "x": 168, "width": 6, "texture": "Loading/加载顿号.png", "height": 5 }, "compId": 28 }] }] }] }, { "type": "Clip", "props": { "y": 143, "x": 375, "width": 513, "visible": false, "pivotY": 50, "pivotX": 257, "name": "LogoAni", "height": 100 }, "compId": 14, "child": [{ "type": "Sprite", "props": { "y": 50, "x": 139, "width": 64, "texture": "Loading/任.png", "pivotY": 32, "pivotX": 32, "height": 63 }, "compId": 15 }, { "type": "Sprite", "props": { "y": 50, "x": 209, "width": 70, "texture": "Loading/游.png", "pivotY": 33, "pivotX": 35, "height": 66 }, "compId": 16 }, { "type": "Sprite", "props": { "y": 51, "x": 286, "width": 77, "texture": "Loading/玩.png", "pivotY": 28, "pivotX": 39, "height": 56 }, "compId": 17 }, { "type": "Sprite", "props": { "y": 63, "x": 340, "width": 23, "texture": "Loading/R.png", "pivotY": 16, "pivotX": 12, "height": 32 }, "compId": 18 }, { "type": "Sprite", "props": { "y": 63, "x": 363, "width": 21, "texture": "Loading/Y.png", "pivotY": 16, "pivotX": 11, "height": 31 }, "compId": 19 }, { "type": "Sprite", "props": { "y": 62, "x": 392, "width": 33, "texture": "Loading/W.png", "pivotY": 15, "pivotX": 17, "height": 30 }, "compId": 20 }, { "type": "Script", "props": { "runtime": "View/LoadingView/LogoAni.ts" }, "compId": 21 }] }, { "type": "Sprite", "props": { "y": 501, "x": 1273, "width": 558, "visible": false, "texture": "Loading/健康游戏忠告.png", "pivotY": 53, "pivotX": 279, "height": 105 }, "compId": 22 }] }] }, { "type": "Script", "props": { "y": 0, "x": 0, "runtime": "View/LoadingView/LoadingView.ts" }, "compId": 7 }], "loadList": ["GameCommon/loding.jpg", "comp/clip_num.png", "Loading/loading下条.png", "Loading/loading上条.png", "Loading/资源加载中.png", "Loading/加载顿号.png", "Loading/任.png", "Loading/游.png", "Loading/玩.png", "Loading/R.png", "Loading/Y.png", "Loading/W.png", "Loading/健康游戏忠告.png"], "loadList3D": [] };
+            LoadingUI.uiView = { "type": "Scene", "props": { "width": 750, "top": 0, "right": 0, "left": 0, "height": 1334, "bottom": 0 }, "compId": 2, "child": [], "loadList": [], "loadList3D": [] };
             return LoadingUI;
         }(Scene));
         View.LoadingUI = LoadingUI;
