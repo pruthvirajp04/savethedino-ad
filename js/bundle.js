@@ -1331,6 +1331,7 @@ var PhysicsUtils_1 = require("../PhysicsUtils");
 var ExitPoint_1 = require("./ExitPoint");
 var GameView_1 = require("../../View/GameView/GameView");
 var User_1 = require("../../User/User");
+var ViewMgr_1 = require("../../ViewMgr");
 var SoundMgr_1 = require("../../Mgr/SoundMgr");
 var Player = /** @class */ (function (_super) {
     __extends(Player, _super);
@@ -1562,7 +1563,7 @@ var Player = /** @class */ (function (_super) {
     return Player;
 }(TideObject_1.default));
 exports.default = Player;
-},{"../../Mgr/SoundMgr":47,"../../User/User":63,"../../View/GameView/GameView":74,"../PhysicsUtils":25,"./ExitPoint":16,"./TideObject":23}],20:[function(require,module,exports){
+},{"../../Mgr/SoundMgr":47,"../../ViewMgr":48,"../../User/User":63,"../../View/GameView/GameView":74,"../PhysicsUtils":25,"./ExitPoint":16,"./TideObject":23}],20:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var RopePieces_1 = require("./RopePieces");
@@ -3495,6 +3496,7 @@ exports.default = MaiLiang;
 Object.defineProperty(exports, "__esModule", { value: true });
 var GameConfig_1 = require("./GameConfig");
 var User_1 = require("./User/User");
+var ViewMgr_1 = require("./ViewMgr");
 var layaMaxUI_1 = require("./ui/layaMaxUI");
 var LoadingView_1 = require("./View/LoadingView/LoadingView");
 var HttpUnit_1 = require("./Net/HttpUnit");
@@ -3599,6 +3601,7 @@ var Main = /** @class */ (function () {
         var self = this;
         progressPrec = 100;
         progressBar(100);
+        ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.GameOverView);
         sendCustomAnalyticsEvent("game_load", {});
             User_1.default.testInitUser(); //测试
             GameConfig_1.default.startScene && Laya.Scene.open(GameConfig_1.default.startScene, false, Laya.Handler.create(this, function () {
@@ -3613,7 +3616,7 @@ var Main = /** @class */ (function () {
 }());
 //激活启动类
 new Main();
-},{"./ALD":1,"./AppConfig":2,"./Event/EventDef":9,"./Event/EventMgr":10,"./GameConfig":11,"./Net/HttpUnit":52,"./OPPOAPI":55,"./QQMiniGameAPI":56,"./TTAPI":62,"./User/User":63,"./View/LoadingView/LoadingView":78,"./WXAPI":111,"./ui/layaMaxUI":112}],46:[function(require,module,exports){
+},{"./ALD":1,"./AppConfig":2,"./Event/EventDef":9,"./Event/EventMgr":10,"./GameConfig":11,"./ViewMgr":48,"./Net/HttpUnit":52,"./OPPOAPI":55,"./QQMiniGameAPI":56,"./TTAPI":62,"./User/User":63,"./View/LoadingView/LoadingView":78,"./WXAPI":111,"./ui/layaMaxUI":112}],46:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var ViewMgr_1 = require("./ViewMgr");
@@ -3853,8 +3856,8 @@ var GameMgr = /** @class */ (function (_super) {
         if(sessionStorage.getItem("reward-type") == "replay-RP2"){
             sessionStorage.removeItem("reward-type");
             let level = parseInt(sessionStorage.getItem("SelectedLevel"));
-            sendCustomAnalyticsEvent('game_end', {level: level,score:0,highScore:0});
-            sendCustomAnalyticsEvent("game_replay", {level: level,score:0,highScore:0});
+            sendCustomAnalyticsEvent('game_end', {level: level});
+            sendCustomAnalyticsEvent("game_replay", {level: level});
             sendCustomAnalyticsEvent("game_level", {level: level});
             if(replayInstance != undefined)
             replayInstance.destroyAd();
@@ -3900,6 +3903,7 @@ var GameMgr = /** @class */ (function (_super) {
                     } 
             }
             User_1.default.unLockMaxLevelNum(levelNum + 1); //解锁下一个关卡
+            ViewMgr_1.default.instance.ShowView(ViewMgr_1.ViewDef.GameOverView);
             ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.GameRewardView, {
                 isWin: true,
                 levelNum: levelNum,
@@ -3907,8 +3911,7 @@ var GameMgr = /** @class */ (function (_super) {
             });
         }
         else {
-            let level = parseInt(sessionStorage.getItem("SelectedLevel"));
-            sendCustomAnalyticsEvent('game_end', {level: level,score:0,highScore:0});
+            ViewMgr_1.default.instance.ShowView(ViewMgr_1.ViewDef.GameOverView);
             ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.GameRewardView, {
                 isWin: false,
                 levelNum: levelNum,
@@ -3930,13 +3933,14 @@ var GameMgr = /** @class */ (function (_super) {
         if(sessionStorage.getItem("loadtime") == 123){
            // if(sessionStorage.getItem("SelectedLevel") <= User_1.default.getLeveNum())
             if(sessionStorage.getItem("ReplayAnalytics") == 1)
-            sendCustomAnalyticsEvent("game_replay", {level: level,score:0,highScore:0});
+            sendCustomAnalyticsEvent("game_replay", {level: level});
         }
         else {
             sessionStorage.setItem("loadtime",123);
             sendCustomAnalyticsEvent("game_start", {});
         }
         sendCustomAnalyticsEvent("game_level", {level: level});
+        ViewMgr_1.default.instance.ShowView(ViewMgr_1.ViewDef.GameOverView);
         ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.GameView, date);
     };
     GameMgr.prototype.playBgm = function () {
@@ -7194,6 +7198,7 @@ var Utilit_1 = require("../../Utilit");
 var EventMgr_1 = require("../../Event/EventMgr");
 var EventDef_1 = require("../../Event/EventDef");
 var ActorSkinBox_1 = require("./ActorSkinBox");
+var ViewMgr_1 = require("../../ViewMgr");
 var SkinConfig_1 = require("../../Config/SkinConfig");
 var User_1 = require("../../User/User");
 var CachedQQBannerAd_1 = require("../../CachedQQBannerAd");
@@ -7209,6 +7214,7 @@ var ActorSkinView = /** @class */ (function (_super) {
         }
         this._crystalText = this._topZone.getChildByName("Crystal").getChildByName("Text");
         this._energyText = this._topZone.getChildByName("Energy").getChildByName("Text");
+        this._topZone.getChildByName("Energy").visible = false;
         this._closeBtn = this._topZone.getChildByName("CloseBtn");
         this._centerZone = this.owner.getChildByName("CenterZone");
         this._skinStateList = this._centerZone.getChildByName("List");
@@ -7233,6 +7239,7 @@ var ActorSkinView = /** @class */ (function (_super) {
         _super.prototype.openView.call(this, data);
         this.refreshActorSkinStateList();
         CachedQQBannerAd_1.default.hide();
+        ViewMgr_1.default.instance.hideView(ViewMgr_1.ViewDef.GameOverView);
         var currentSkinIndex = User_1.default.getCurActorSkin();
         for (var i = 0; i < this._skinStateList.array.length; ++i) {
             if (this._skinStateList.array[i].skinIndex == currentSkinIndex) {
@@ -7270,7 +7277,7 @@ var ActorSkinView = /** @class */ (function (_super) {
     return ActorSkinView;
 }(ViewBase_1.default));
 exports.default = ActorSkinView;
-},{"../../CachedQQBannerAd":3,"../../Config/SkinConfig":8,"../../Event/EventDef":9,"../../Event/EventMgr":10,"../../User/User":63,"../../Utilit":64,"../ViewBase":110,"./ActorSkinBox":65}],67:[function(require,module,exports){
+},{"../../CachedQQBannerAd":3,"../../Config/SkinConfig":8,"../../Event/EventDef":9,"../../Event/EventMgr":10,"../../ViewMgr":48,"../../User/User":63,"../../Utilit":64,"../ViewBase":110,"./ActorSkinBox":65}],67:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var SoundMgr_1 = require("../Mgr/SoundMgr");
@@ -7831,6 +7838,7 @@ var FreeRewardView = /** @class */ (function (_super) {
         }
         this._crystalText = this._topZone.getChildByName("Crystal").getChildByName("Text");
         this._energyText = this._topZone.getChildByName("Energy").getChildByName("Text");
+        this._topZone.getChildByName("Energy").visible = false;
         this._centerZone = this.owner.getChildByName("CenterZone");
         this._rewardBtn = this._centerZone.getChildByName("RewardBtn");
         this._rewardText = this._centerZone.getChildByName("RewardText");
@@ -7923,230 +7931,36 @@ var GameOver = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     GameOver.prototype.onAwake = function () {
-        this._topZone = this.owner.getChildByName("TopZone");
-        if (Utilit_1.default.isIphoneX()) {
-            this._topZone.top = 70;
-        }
-        this._crystalText = this._topZone.getChildByName("Crystal").getChildByName("Text");
-        this._energyText = this._topZone.getChildByName("Energy").getChildByName("Text");
-        this._levelCompleted = this._topZone.getChildByName("COMP");
-        this._levelFailed = this._topZone.getChildByName("FAIL");
-        this._buttons = this.owner.getChildByName("Buttons");
-        this._centerZone = this.owner.getChildByName("CenterZone");
-        this._backBtn = this._buttons.getChildByName("BackBtn");
-        this._nextBtn = this._buttons.getChildByName("NextBtn");
-        this._shareBtn = this._buttons.getChildByName("ShareBtn");
-        this._shareBtn.visible = false;
-        this._winTag = this._centerZone.getChildByName("LoopAD").getChildByName("WinTag");
-        this._loseTag = this._centerZone.getChildByName("LoopAD").getChildByName("LoseTag");
-        this._nextBtnWinTag = this._nextBtn.getChildByName("win");
-        this._nextBtnLoseTag = this._nextBtn.getChildByName("lose");
-        this._banner = this.owner.getChildByName("BannerAD");
-        // ALD.aldSendOnlySingleReport(ALDEventDef.EnterGameComplateView);
+        this.owner.getChildByName("TopZone").visible = false;
+        this.owner.getChildByName("Buttons").visible = false;;
+        this.owner.getChildByName("CenterZone").visible = false;;
+        this.owner.getChildByName("BannerAD").visible = false;;
     };
     GameOver.prototype.onUpdate = function () {
-        if(sessionStorage.getItem("doneReplay") == 1){
-            sessionStorage.removeItem("doneReplay");
-        var data = LevelConfig_1.default.getInstance().getLevelConfigDataByLevelNum(sessionStorage.getItem("SelectedLevel"));
-        if (null != data) {
-            if (1 == data.vedioCostNoEnergy) {
-                QQMiniGameAPI_1.default.showRewardedVideoAd(function (ok) {
-                    if (ok) {
-                        //不消耗体力开局
-                        EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.Game_StartGame, {
-                            levelNum: data.levelNum,
-                            costEnergy: data.costEnergy * 0,
-                            crystalReward: data.getDiamond,
-                        });
-                        _this.closeView();
-                    }
-                    else {
-                        if (User_1.default.getEnergy() < data.costEnergy) {
-                            ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.FreeRewardView, {
-                                rewardType: FreeRewardView_1.FreeRewardType.Energy
-                            });
-                            // ViewMgr.instance.showTips("体力不足");
-                            return;
-                        }
-                        //正常开局
-                        EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.Game_StartGame, {
-                            levelNum: data.levelNum,
-                            costEnergy: data.costEnergy,
-                            crystalReward: data.getDiamond,
-                        });
-                        _this.closeView();
-                    }
-                }, function () {
-                    if (User_1.default.getEnergy() < data.costEnergy) {
-                        ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.FreeRewardView, {
-                            rewardType: FreeRewardView_1.FreeRewardType.Energy
-                        });
-                        // ViewMgr.instance.showTips("体力不足");
-                        return;
-                    }
-                    //正常开局
-                    EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.Game_StartGame, {
-                        levelNum: data.levelNum,
-                        costEnergy: data.costEnergy,
-                        crystalReward: data.getDiamond,
-                    });
-                    _this.closeView();
-                });
-            }
-            else if (1 == data.vedioDoubleDiamond) {
-                if (User_1.default.getEnergy() < data.costEnergy) {
-                    ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.FreeRewardView, {
-                        rewardType: FreeRewardView_1.FreeRewardType.Energy
-                    });
-                    // ViewMgr.instance.showTips("体力不足");
-                    return;
-                }
-                QQMiniGameAPI_1.default.showRewardedVideoAd(function (ok) {
-                    if (ok) {
-                        //双倍奖励开局
-                        EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.Game_StartGame, {
-                            levelNum: data.levelNum,
-                            costEnergy: data.costEnergy,
-                            crystalReward: data.getDiamond * 2,
-                        });
-                        _this.closeView();
-                    }
-                    else {
-                        //正常开局
-                        EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.Game_StartGame, {
-                            levelNum: data.levelNum,
-                            costEnergy: data.costEnergy,
-                            crystalReward: data.getDiamond,
-                        });
-                    }
-                    _this.closeView();
-                }, function () {
-                    //正常开局
-                    EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.Game_StartGame, {
-                        levelNum: data.levelNum,
-                        costEnergy: data.costEnergy,
-                        crystalReward: data.getDiamond,
-                    });
-                    _this.closeView();
-                });
-            }
-            else {
-                if (User_1.default.getEnergy() < data.costEnergy) {
-                    ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.FreeRewardView, {
-                        rewardType: FreeRewardView_1.FreeRewardType.Energy
-                    });
-                    // ViewMgr.instance.showTips("体力不足");
-                    return;
-                }
-                //正常开局
-                EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.Game_StartGame, {
-                    levelNum: data.levelNum,
-                    costEnergy: data.costEnergy,
-                    crystalReward: data.getDiamond,
-                });
-                this.closeView();
-            }
-        }
-    }
     };
     GameOver.prototype.addEvent = function () {
-        this._backBtn.on(Laya.Event.CLICK, this, this.onBackBtn);
-        this._nextBtn.on(Laya.Event.CLICK, this, this.onNextBtn);
-        this._shareBtn.on(Laya.Event.CLICK, this, this.onShareBtn);
-        EventMgr_1.default.instance.regEvemt(EventDef_1.EventDef.Game_OnUserCrystalChange, this, this.onCrystalChange);
-        EventMgr_1.default.instance.regEvemt(EventDef_1.EventDef.Game_OnUserEnergyChange, this, this.onEnergyChange);
     };
     GameOver.prototype.removeEvent = function () {
-        this._backBtn.off(Laya.Event.CLICK, this, this.onBackBtn);
-        this._nextBtn.off(Laya.Event.CLICK, this, this.onNextBtn);
-        this._shareBtn.off(Laya.Event.CLICK, this, this.onShareBtn);
-        EventMgr_1.default.instance.removeEvent(EventDef_1.EventDef.Game_OnUserCrystalChange, this, this.onCrystalChange);
-        EventMgr_1.default.instance.removeEvent(EventDef_1.EventDef.Game_OnUserEnergyChange, this, this.onEnergyChange);
     };
     GameOver.prototype.onShow = function () {
-        var _this = this;
-        CachedQQBannerAd_1.default.hide();
-        this._levelCompleted.visible = this._data.isWin;
-        this._levelFailed.visible = !this._data.isWin;
-        this._winTag.visible = this._data.isWin;
-        this._loseTag.visible = !this._data.isWin;
-        this._nextBtnWinTag.visible = this._data.isWin;
-        this._nextBtnLoseTag.visible = !this._data.isWin;
-        this._crystalText.text = String(User_1.default.getCrystal());
-        this._energyText.text = String(User_1.default.getEnergy());
-        if (WudianMgr_1.default.AutoBoxFlag) {
-            if (WudianMgr_1.default.WeiYiFlag) {
-                this._buttons.bottom = 0;
-            }
-            QQMiniGameAPI_1.default.showAppBoxAd(function () {
-                if (WudianMgr_1.default.WeiYiFlag) {
-                    _this.InduceClick();
-                }
-                else {
-                    CachedQQBannerAd_1.default.changeShow();
-                }
-            }, function () {
-                if (WudianMgr_1.default.WeiYiFlag) {
-                    _this.InduceClick();
-                }
-                else {
-                    CachedQQBannerAd_1.default.changeShow();
-                }
-            });
-        }
-        else {
-            if (WudianMgr_1.default.WeiYiFlag) {
-                CachedQQBannerAd_1.default.hide();
-                this.InduceClick();
-            }
-            else {
-                CachedQQBannerAd_1.default.changeShow();
-            }
-        }
-        _super.prototype.onShow.call(this);
     };
     GameOver.prototype.InduceClick = function () {
-        this._buttons.bottom = 0;
-        this._buttons.mouseEnabled = false;
-        var btnMoveTimer = AppSwitchConfig_1.default.getInstance().getAppSwitchData().btnMoveTimer * 1000;
-        var bannerMoveTimer = AppSwitchConfig_1.default.getInstance().getAppSwitchData().bannerMoveTimer * 1000;
-        Laya.timer.once(bannerMoveTimer, this, this.InduceMethod);
-        Laya.timer.once(btnMoveTimer, this, this.MoveUp);
     };
     GameOver.prototype.InduceMethod = function () {
-        CachedQQBannerAd_1.default.changeShow();
     };
     GameOver.prototype.MoveUp = function () {
-        this._buttons.mouseEnabled = true;
-        /* if (AdvertisementView.ShowBothAd) {
-            this._buttons.bottom = 500;
-        }
-        else */ {
-            this._buttons.bottom = 250;
-        }
     };
     GameOver.prototype.onCrystalChange = function (para) {
-        var curr = para.curr;
-        var last = para.last;
-        this._crystalText.text = String(curr);
     };
     GameOver.prototype.onEnergyChange = function (para) {
-        var curr = para.curr;
-        var last = para.last;
-        this._energyText.text = String(curr);
     };
     GameOver.prototype.onBackBtn = function () {
     };
     GameOver.prototype.onNextBtn = function () {
     };
     GameOver.prototype.onShareBtn = function () {
-        QQMiniGameAPI_1.default.share(function (ok) {
-        }, "", "");
     };
     GameOver.prototype.onClose = function () {
-        GameMgr_1.default.getInstance().saveGameData();
-        CachedWXBannerAd_1.default.hide();
-        _super.prototype.onClose.call(this);
     };
     return GameOver;
 }(ViewBase_1.default));
@@ -8171,6 +7985,7 @@ var GameRewardView = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     GameRewardView.prototype.onAwake = function () {
+        
         sessionStorage.setItem("CurrentScreen","GameOver");
         this._topZone = this.owner.getChildByName("TopZone");
         if (Utilit_1.default.isIphoneX()) {
@@ -8180,6 +7995,7 @@ var GameRewardView = /** @class */ (function (_super) {
         this._levelFailed = this._topZone.getChildByName("FAIL");
         this._crystalText = this._topZone.getChildByName("Crystal").getChildByName("Text");
         this._energyText = this._topZone.getChildByName("Energy").getChildByName("Text");
+        this._topZone.getChildByName("Energy").visible = false;
         this._centerZone = this.owner.getChildByName("CenterZone");
         this._bg = this._centerZone.getChildByName("Bg");
         this._diamond = this._centerZone.getChildByName("Diamond");
@@ -8205,6 +8021,7 @@ var GameRewardView = /** @class */ (function (_super) {
                 });
             }
         }
+        ViewMgr_1.default.instance.hideView(ViewMgr_1.ViewDef.GameOverView);
     };
     GameRewardView.prototype.onUpdate = function () {
         if(sessionStorage.getItem("GiveRewardCL",1)){
@@ -8219,6 +8036,9 @@ var GameRewardView = /** @class */ (function (_super) {
         }
         if(sessionStorage.getItem("doneReplay") == 1){
             sessionStorage.removeItem("doneReplay");
+            let level = parseInt(sessionStorage.getItem("SelectedLevel"));
+            sendCustomAnalyticsEvent('game_end', {level: level});
+            sendCustomAnalyticsEvent("game_replay", {level: level});
         var data = LevelConfig_1.default.getInstance().getLevelConfigDataByLevelNum(sessionStorage.getItem("SelectedLevel"));
         if (null != data) {
                 if (User_1.default.getEnergy() < data.costEnergy) {
@@ -8241,14 +8061,14 @@ var GameRewardView = /** @class */ (function (_super) {
         sessionStorage.removeItem("gotoHomeEvent1");
         var self = this;
         let level = parseInt(sessionStorage.getItem("SelectedLevel"));
-        sendCustomAnalyticsEvent('game_end', {level: level,score:0,highScore:0});
+        sendCustomAnalyticsEvent('game_end', {level: level});
         ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.GameMainView, null, function () {
             self.closeView();
         });
     }
     if(sessionStorage.getItem("replayGameEvent1") == 1){
         sessionStorage.removeItem("replayGameEvent1");
-        sendCustomAnalyticsEvent('game_end', {level: parseInt(sessionStorage.getItem("SelectedLevel")),score:0,highScore:0});
+        sendCustomAnalyticsEvent('game_end', {level: parseInt(sessionStorage.getItem("SelectedLevel"))});
         var data = LevelConfig_1.default.getInstance().getLevelConfigDataByLevelNum(parseInt(sessionStorage.getItem("SelectedLevel")));
         if (null != data) {
                 if (User_1.default.getEnergy() < data.costEnergy) {
@@ -8368,7 +8188,7 @@ var GameRewardView = /** @class */ (function (_super) {
     GameRewardView.prototype.onBackBtn = function () {
         var self = this;
         let level = parseInt(sessionStorage.getItem("SelectedLevel"));
-        sendCustomAnalyticsEvent('game_end', {level: level,score:0,highScore:0});
+        sendCustomAnalyticsEvent('game_end', {level: level});
         if (!is_replay_noFill) {
             sessionStorage.setItem("reward-type","replay-BK");
             Laya.SoundManager.muted = true;
@@ -8480,6 +8300,7 @@ var GameView = /** @class */ (function (_super) {
         configurable: true
     });
     GameView.prototype.onAwake = function () {
+        
         sessionStorage.setItem("CurrentScreen","GameScreen");
         GameView._instance = this;
         this._topZone = this.owner.getChildByName("TopZone");
@@ -8491,12 +8312,13 @@ var GameView = /** @class */ (function (_super) {
         this._skipBtn = this._topZone.getChildByName("SkipBtn");
         this._levelText = this._topZone.getChildByName("Level");
         // ALD.aldSendOnlySingleReport(ALDEventDef.EnterBattleView);
+        ViewMgr_1.default.instance.hideView(ViewMgr_1.ViewDef.GameOverView);
     };
     GameView.prototype.onUpdate = function () {
         if(sessionStorage.getItem("GiveRewardSL") == 1){
             sessionStorage.removeItem("GiveRewardSL");
-            let level = parseInt(sessionStorage.getItem("SelectedLevel"));
-            sendCustomAnalyticsEvent("game_level", {level: level});
+            // let level = parseInt(sessionStorage.getItem("SelectedLevel"));
+            // sendCustomAnalyticsEvent("game_level", {level: level});
             var _this = this;
             this._skipBtn.visible = false;
             QQMiniGameAPI_1.default.showRewardedVideoAd(function (ok) {
@@ -8515,7 +8337,7 @@ var GameView = /** @class */ (function (_super) {
        if(sessionStorage.getItem("gotoHomeEvent") == 1){
             sessionStorage.removeItem("gotoHomeEvent");
             let level = parseInt(sessionStorage.getItem("SelectedLevel"));
-            sendCustomAnalyticsEvent('game_end', {level: level,score:0,highScore:0});
+            sendCustomAnalyticsEvent('game_end', {level: level});
             this.CloseOldScene();
             EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.Game_ExitGame);
             ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.GameMainView);
@@ -8524,8 +8346,8 @@ var GameView = /** @class */ (function (_super) {
         if(sessionStorage.getItem("replayGameEvent") == 1){
             sessionStorage.removeItem("replayGameEvent");
             let level = parseInt(sessionStorage.getItem("SelectedLevel"));
-            sendCustomAnalyticsEvent('game_end', {level: level,score:0,highScore:0});
-            sendCustomAnalyticsEvent("game_replay", {level: level,score:0,highScore:0});
+            sendCustomAnalyticsEvent('game_end', {level: level});
+            sendCustomAnalyticsEvent("game_replay", {level: level});
             sendCustomAnalyticsEvent("game_level", {level: level});
             var _this = this;
             this._skipBtn.visible = false;
@@ -8573,7 +8395,7 @@ var GameView = /** @class */ (function (_super) {
     };
     GameView.prototype.onExitBtn = function () {
         let level = parseInt(sessionStorage.getItem("SelectedLevel"));
-        sendCustomAnalyticsEvent('game_end', {level: level,score:0,highScore:0});
+        sendCustomAnalyticsEvent('game_end', {level: level});
         this.CloseOldScene();
         EventMgr_1.default.instance.dispatch(EventDef_1.EventDef.Game_ExitGame);
         ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.GameMainView);
@@ -8586,8 +8408,8 @@ var GameView = /** @class */ (function (_super) {
             window.GlanceGamingAdInterface.showRewarededAd(replayInstance);
         }else{
             let level = parseInt(sessionStorage.getItem("SelectedLevel"));
-            sendCustomAnalyticsEvent('game_end', {level: level,score:0,highScore:0});
-            sendCustomAnalyticsEvent("game_replay", {level: level,score:0,highScore:0});
+            sendCustomAnalyticsEvent('game_end', {level: level});
+            sendCustomAnalyticsEvent("game_replay", {level: level});
             sendCustomAnalyticsEvent("game_level", {level: level});
             if(replayInstance != undefined)
             replayInstance.destroyAd();
@@ -8620,6 +8442,7 @@ var GameView = /** @class */ (function (_super) {
     };
     GameView.prototype.LoadGame = function () {
         this.CloseOldScene();
+        ViewMgr_1.default.instance.ShowView(ViewMgr_1.ViewDef.GameOverView);
         // Laya.timer.frameOnce(2, this, () => {
         this.LoadStep1();
         if(lang == "IND")
@@ -8640,10 +8463,11 @@ var GameView = /** @class */ (function (_super) {
             _this.owner.addChildAt(scene, 0);
             _this._currentScene = scene;
             _this._currentScene.addComponent(TouchCtr_1.default);
-        }, null));
+        }));
     };
     GameView.prototype.LoadGameEvent = function (levelNo) {
         this.CloseOldScene();
+        ViewMgr_1.default.instance.ShowView(ViewMgr_1.ViewDef.GameOverView);
         // Laya.timer.frameOnce(2, this, () => {
         this.LoadStep1Event(levelNo);
         if(lang == "IND")
@@ -8665,7 +8489,7 @@ var GameView = /** @class */ (function (_super) {
             _this.owner.addChildAt(scene, 0);
             _this._currentScene = scene;
             _this._currentScene.addComponent(TouchCtr_1.default);
-        }, null));
+        }));
     };
     GameView.prototype.GetRdSeed = function (seed) {
         seed = (seed * 9301 + 49297) % 233280;
@@ -8840,6 +8664,7 @@ var LevelStateView = /** @class */ (function (_super) {
         }
         this._crystalText = this._topZone.getChildByName("Crystal").getChildByName("Text");
         this._energyText = this._topZone.getChildByName("Energy").getChildByName("Text");
+        this._topZone.getChildByName("Energy").visible = false;
         this._closeBtn = this._topZone.getChildByName("CloseBtn");
         this._centerZone = this.owner.getChildByName("CenterZone");
         this._levelNumText = this._centerZone.getChildByName("LevelNumText");
@@ -8864,6 +8689,7 @@ var LevelStateView = /** @class */ (function (_super) {
     LevelStateView.prototype.openView = function (data) {
         _super.prototype.openView.call(this, data);
         CachedQQBannerAd_1.default.hide();
+        ViewMgr_1.default.instance.hideView(ViewMgr_1.ViewDef.GameOverView);
         this._crystalText.text = String(User_1.default.getCrystal());
         this._energyText.text = String(User_1.default.getEnergy());
         this._levelNumText.text = String(User_1.default.getLeveNum());
@@ -9029,6 +8855,7 @@ var MainView = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     MainView.prototype.onAwake = function () {
+        
         sessionStorage.setItem("CurrentScreen","MainMenu");
         this._topZone = this.owner.getChildByName("TopZone");
         if (Utilit_1.default.isIphoneX()) {
@@ -9039,6 +8866,7 @@ var MainView = /** @class */ (function (_super) {
         }
         this._crystalText = this._topZone.getChildByName("FreeCrystalBtn").getChildByName("Text");
         this._energyText = this._topZone.getChildByName("FreeEnergyBtn").getChildByName("Text");
+        this._topZone.getChildByName("FreeEnergyBtn").visible = false;
         this._centerZone = this.owner.getChildByName("CenterZone");
         this._autoZone = this.owner.getChildByName("BottomZone").getChildByName("AutoZone");
         this._startGameBtn = this._autoZone.getChildByName("StartGameBtn");
@@ -9061,6 +8889,7 @@ var MainView = /** @class */ (function (_super) {
             this._adUIMask.bottom = 265;
         }
         this._adUIMask.visible = false;
+        ViewMgr_1.default.instance.hideView(ViewMgr_1.ViewDef.GameOverView);
     };
     MainView.prototype.addEvent = function () {
         this._startGameBtn.on(Laya.Event.CLICK, this, this.onStartGameBtn);
@@ -9112,6 +8941,7 @@ var MainView = /** @class */ (function (_super) {
     //     });
     // };
     MainView.prototype.onSkinBtn = function () {
+        ViewMgr_1.default.instance.ShowView(ViewMgr_1.ViewDef.GameOverView);
         ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.ActorSkinView);
     };
     MainView.prototype.onShareBtn = function () {
@@ -9126,6 +8956,7 @@ var MainView = /** @class */ (function (_super) {
 
         // ALD.aldSendOnlySingleReport(ALDEventDef.ClickGameStart);        
         this.closeView();
+        ViewMgr_1.default.instance.ShowView(ViewMgr_1.ViewDef.GameOverView);
         ViewMgr_1.default.instance.openView(ViewMgr_1.ViewDef.LevelStateView);
     };
     MainView.prototype.onShow = function () {
